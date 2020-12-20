@@ -1,0 +1,46 @@
+name: gpsLVN
+description: GPS LVN GPS Based Tracking system project.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+ 
+  get:
+  google_fonts: ^1.1.1
+  device_preview: ^0.5.5
+  flutter_slidable: ^0.5.7
+  ionicons: ^0.0.3
+  modal_bottom_sheet: ^1.0.0+1
+  google_maps_flutter: ^1.0.6
+  equatable: ^1.2.3
+  flutter_bloc: ^6.0.1
+  
+  
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/
+
