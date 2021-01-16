@@ -25,6 +25,9 @@ class AppTheme2 {
   static const Color errorColor = Color(0xFFFF4539);
   static const Color addColor = Color(0xFFFEA103);
   static const Color editColor = Color(0xFF0A83FE);
+  static const Color onlineColor = Color(0xFF4CAF4F);
+  static const Color clearColor = Color(0xFF404A69);
+  
 
   static ThemeData themeData() => new ThemeData(
         primaryColor: primaryColor,
@@ -32,7 +35,11 @@ class AppTheme2 {
         splashColor: Colors.transparent,
         highlightColor: primaryColor11,
         cursorColor: territoryColor,
-        unselectedWidgetColor: primaryColor20,
+        unselectedWidgetColor: primaryColor18,
+        cardColor: primaryColor20,
+        
+        
+
         
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
           backgroundColor: primaryColor20,

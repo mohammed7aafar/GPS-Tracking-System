@@ -22,13 +22,27 @@ dependencies:
   flutter_slidable: ^0.5.7
   ionicons: ^0.0.3
   modal_bottom_sheet: ^1.0.0+1
-  google_maps_flutter: ^1.0.6
-  equatable: ^1.2.3
-  flutter_bloc: ^6.0.1
-  
-  
+  equatable: ^1.2.5
+  flutter_bloc: ^6.1.0
+  sliding_up_panel: ^1.0.2
+  data_connection_checker: ^0.3.4
+  dartz: ^0.8.9
+  get_it: ^3.1.0
+  shared_preferences: ^0.5.8
+  http:
+  cached_network_image: ^2.2.0+1   
+  flutter_hooks: ^0.7.0
+  flutter_map: ^0.10.1+1
+  latlong: ^0.6.1
+  location: ^2.5.0
+  flutter_map_marker_popup: ^0.1.4
+  map_elevation:
+  json_annotation: ^3.1.1
+  flutter_polyline_points: ^0.1.0
 
 dev_dependencies:
+  json_serializable: ^3.5.1
+  build_runner: ^1.10.13
   flutter_test:
     sdk: flutter
 

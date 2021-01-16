@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
+import 'package:gpsLVN/features/GpsLvn/presentation/blocs/toggleGeofence/togglegeofence_cubit.dart';
+import 'package:gpsLVN/features/GpsLvn/presentation/blocs/toggleRoute/toggleroute_cubit.dart';
+import 'package:gpsLVN/features/GpsLvn/presentation/blocs/toggleTrack/toggletrack_cubit.dart';
+import 'package:gpsLVN/features/GpsLvn/presentation/pages/track_page.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../blocs/tab/app_tab.dart';
 import 'package:ionicons/ionicons.dart';
 import '../../../../core/utils/size_config.dart';
@@ -16,7 +23,22 @@ class BottomNavigationBarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
         currentIndex: AppTab.values.indexOf(activeTab),
-        onTap: (index) => onTabSelected(AppTab.values[index]),
+        onTap: (index) {
+        if(index == 2){
+        context.read<ToggletrackCubit>().toggleTrackTab();
+        context.read<TogglegeofenceCubit>().toggleGeofenceFromMapTab();
+        context.read<TogglerouteCubit>().toggleRouteFromMapTab();
+        }
+        if(index ==0){
+        context.read<ToggletrackCubit>().toggleTrackTabFromMapTab();
+        context.read<TogglegeofenceCubit>().toggleGeofenceFromMapTab();
+         context.read<TogglerouteCubit>().toggleRouteFromMapTab();
+
+        }
+        //BlocProvider.of<ToggletrackCubit>(context).toggleTrackTab();
+        
+        onTabSelected(AppTab.values[index]);
+        },
         selectedLabelStyle: TextStyle(
             fontFamily: "light",
             height: 2,
@@ -42,9 +64,6 @@ class BottomNavigationBarWidget extends StatelessWidget {
       case AppTab.track:
         return "Track";
         break;
-      case AppTab.monitor:
-        return "Monitor";
-        break;
       case AppTab.notifications:
         return "Notifications";
         break;
@@ -67,10 +86,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
         return Ionicons.locate_outline;
         break;
 
-      case AppTab.monitor:
-        return Ionicons.earth_outline;
-        break;
-
+     
       case AppTab.notifications:
         return Ionicons.notifications_outline;
         break;

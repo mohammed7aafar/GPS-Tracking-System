@@ -1,10 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:gpsLVN/features/GpsLvn/presentation/blocs/animatedIconCubit/animatedicon_cubit.dart';
+import 'package:gpsLVN/features/GpsLvn/presentation/blocs/geofence/geofence_cubit.dart';
+import 'package:gpsLVN/features/GpsLvn/presentation/blocs/groupIcon/groupicon_cubit.dart';
+import 'package:gpsLVN/features/GpsLvn/presentation/blocs/tab/tab_bloc.dart';
+import 'package:gpsLVN/features/GpsLvn/presentation/blocs/unitGroups/unitgroups_cubit.dart';
+import 'package:gpsLVN/features/GpsLvn/presentation/pages/live_page.dart';
+import 'package:ionicons/ionicons.dart';
 
 import '../../../../core/utils/size_config.dart';
 import '../../../../theme.dart';
 import '../controllers/login_controller.dart';
+import 'home_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   final LoginController loginController = Get.put(LoginController());
@@ -25,7 +34,6 @@ class LoginScreen extends StatelessWidget {
               Container(
                 height: SizeConfig.screenWidth / 8,
                 decoration: BoxDecoration(
-                 
                   borderRadius: BorderRadius.circular(8),
                   color: AppTheme2.primaryColor20,
                 ),
@@ -34,11 +42,14 @@ class LoginScreen extends StatelessWidget {
                       fontSize: SizeConfig.screenWidth / 30,
                       color: AppTheme2.whiteColor),
                   decoration: InputDecoration(
+                      prefixIcon: Icon(
+                        Ionicons.person_outline,
+                        color: AppTheme2.primaryColor18,
+                      ),
                       hintText: "UserName",
                       hintStyle: Theme.of(context).textTheme.headline6.copyWith(
-                            fontSize: SizeConfig.screenWidth / 30,
-                            color: AppTheme2.primaryColor18
-                          ),
+                          fontSize: SizeConfig.screenWidth / 30,
+                          color: AppTheme2.primaryColor18),
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.all(15)),
                 ),
@@ -49,7 +60,6 @@ class LoginScreen extends StatelessWidget {
               Container(
                 height: SizeConfig.screenWidth / 8,
                 decoration: BoxDecoration(
-                 
                   borderRadius: BorderRadius.circular(8),
                   color: AppTheme2.primaryColor20,
                 ),
@@ -58,11 +68,14 @@ class LoginScreen extends StatelessWidget {
                       fontSize: SizeConfig.screenWidth / 30,
                       color: AppTheme2.whiteColor),
                   decoration: InputDecoration(
+                      prefixIcon: Icon(
+                        Ionicons.key_outline,
+                        color: AppTheme2.primaryColor18,
+                      ),
                       hintText: "Password",
                       hintStyle: Theme.of(context).textTheme.headline6.copyWith(
-                            fontSize: SizeConfig.screenWidth / 30,
-                            color: AppTheme2.primaryColor18
-                          ),
+                          fontSize: SizeConfig.screenWidth / 30,
+                          color: AppTheme2.primaryColor18),
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.all(15)),
                 ),
@@ -70,38 +83,56 @@ class LoginScreen extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              Container(
-                  height: SizeConfig.screenWidth / 8,
-                  padding: EdgeInsets.all(15),
-                  decoration: BoxDecoration(
-                   
-                    borderRadius: BorderRadius.circular(8),
-                    color: AppTheme2.primaryColor20,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Obx(
-                        () => Text(
-                          loginController.hostServerName.value,
-                          style: Theme.of(context).textTheme.headline6.copyWith(
-                              fontSize: SizeConfig.screenWidth / 30,
-                              color: AppTheme2.primaryColor18
-                              ),
-                        ),
-                      ),
-                      IconButton(
-                          padding: EdgeInsets.symmetric(vertical: 1),
-                          icon: Icon(
-                            Icons.keyboard_arrow_down_outlined,
-                            size: SizeConfig.screenWidth / 15,
-                            color: AppTheme2.primaryColor18,
+              Material(
+                  borderRadius: BorderRadius.circular(8),
+                  color: AppTheme2.primaryColor20,
+                  child: InkWell(
+                      borderRadius: BorderRadius.circular(8.0),
+                      onTap: () => buildBottomSheet(context),
+                      child: Container(
+                          height: SizeConfig.screenWidth / 8,
+                          padding: EdgeInsets.all(13),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
                           ),
-                          onPressed: () {
-                            buildBottomSheet(context);
-                          })
-                    ],
-                  )),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(
+                                    Ionicons.server_outline,
+                                    color: AppTheme2.primaryColor18,
+                                  ),
+                                  SizedBox(
+                                    width: 12,
+                                  ),
+                                  Obx(
+                                    () => Text(
+                                      loginController.hostServerName.value,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline6
+                                          .copyWith(
+                                              fontSize:
+                                                  SizeConfig.screenWidth / 30,
+                                              color: AppTheme2.primaryColor18),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              IconButton(
+                                  padding: EdgeInsets.symmetric(vertical: 1),
+                                  icon: Icon(
+                                    Icons.keyboard_arrow_down_outlined,
+                                    size: SizeConfig.screenWidth / 15,
+                                    color: AppTheme2.primaryColor18,
+                                  ),
+                                  onPressed: () {
+                                    buildBottomSheet(context);
+                                  })
+                            ],
+                          )))),
               SizedBox(
                 height: 20,
               ),
@@ -110,14 +141,11 @@ class LoginScreen extends StatelessWidget {
                   Obx(
                     () => Checkbox(
                       value: loginController.isRemembered.value,
-                      
                       onChanged: (bool value) {
                         loginController.rememberMe(value);
                       },
                       activeColor: AppTheme2.territoryColor,
                       checkColor: AppTheme2.primaryColor,
-
-
                     ),
                   ),
                   SizedBox(
@@ -126,32 +154,40 @@ class LoginScreen extends StatelessWidget {
                   Text(
                     "Remember me",
                     style: Theme.of(context).textTheme.headline3.copyWith(
-                          fontSize: SizeConfig.screenWidth / 30,
-                          color: AppTheme2.primaryColor18
-                        ),
+                        fontSize: SizeConfig.screenWidth / 30,
+                        color: AppTheme2.primaryColor18),
                   ),
                 ],
               ),
               SizedBox(
                 height: 20,
               ),
-              Container(
-                  height: SizeConfig.screenWidth / 7,
-                  width: double.infinity,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: AppTheme2.primaryColor20,
-                  ),
-                  child: Text(
-                    "Log in",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4
-                        .copyWith(fontSize: SizeConfig.screenWidth / 22,
-                        color: AppTheme2.primaryColor18
-                        ),
-                  )),
+              Material(
+                  borderRadius: BorderRadius.circular(8),
+                  color: AppTheme2.primaryColor20,
+                  child: InkWell(
+                      borderRadius: BorderRadius.circular(8.0),
+                      onTap: () => 
+                      // Navigator.pushReplacementNamed(context, LiveLocationPage.route),
+                      
+                       Navigator.of(context).pushNamed('home'),
+                      
+                      child: Container(
+                          height: SizeConfig.screenWidth / 7,
+                          width: double.infinity,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Text(
+                            "Log in",
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline4
+                                .copyWith(
+                                    fontSize: SizeConfig.screenWidth / 22,
+                                    color: AppTheme2.primaryColor18),
+                          )))),
               SizedBox(
                 height: 30,
               ),
@@ -165,12 +201,9 @@ class LoginScreen extends StatelessWidget {
               Spacer(),
               Container(
                   child: Text("Powered by GPS LVN",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline4
-                          .copyWith(fontSize: SizeConfig.screenWidth / 25,
-                          color: AppTheme2.primaryColor18
-                          )))
+                      style: Theme.of(context).textTheme.headline4.copyWith(
+                          fontSize: SizeConfig.screenWidth / 25,
+                          color: AppTheme2.primaryColor18)))
             ],
           ),
         ));
@@ -178,107 +211,73 @@ class LoginScreen extends StatelessWidget {
 
   Future buildBottomSheet(BuildContext context) {
     return Get.bottomSheet(
-                            Container(
-                                height: 400,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: AppTheme2.primaryColor,
-                                ),
-                                padding: EdgeInsets.all(20),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Padding(
-                                        padding: EdgeInsets.only(bottom: 40),
-                                        child: Center(
-                                          child: Container(
-                                            width: 40,
-                                            height: 4,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                                color:
-                                                    AppTheme2.primaryColor11),
-                                          ),
-                                        )),
-                                    Material(
-                                        borderOnForeground: true,
-                                        borderRadius:
-                                            BorderRadius.circular(8),
-                                        color: AppTheme2.primaryColor,
-                                        child: ListTile(
-                                          title: Text("Europe",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .headline5
-                                                  .copyWith(
-                                                      fontSize: SizeConfig
-                                                              .screenWidth /
-                                                          25,
-                                                       color: AppTheme2.primaryColor18   
-                                                          )),
-                                          onTap: () => loginController
-                                              .selectTrackingServer("Europe"),
-                                        )),
-                                    Material(
-                                        borderOnForeground: true,
-                                        borderRadius:
-                                            BorderRadius.circular(8),
-                                        color: AppTheme2.primaryColor,
-                                        child: ListTile(
-                                          title: Text("Asia",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .headline5
-                                                  .copyWith(
-                                                    color: AppTheme2.primaryColor18,
-                                                      fontSize: SizeConfig
-                                                              .screenWidth /
-                                                          25)),
-                                          onTap: () => loginController
-                                              .selectTrackingServer("Asia"),
-                                        )),
-                                    Material(
-                                        borderOnForeground: true,
-                                        borderRadius:
-                                            BorderRadius.circular(8),
-                                        color: AppTheme2.primaryColor,
-                                        child: ListTile(
-                                          title: Text("USA",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .headline5
-                                                  .copyWith(
-                                                    color: AppTheme2.primaryColor18,
-                                                      fontSize: SizeConfig
-                                                              .screenWidth /
-                                                          25)),
-                                          onTap: () => loginController
-                                              .selectTrackingServer("USA"),
-                                        )),
-                                    Material(
-                                      
-                                        borderOnForeground: true,
-                                        borderRadius:
-                                            BorderRadius.circular(8),
-                                        color: AppTheme2.primaryColor,
-                                        child: ListTile(
-                                            title: Text("Custom",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headline5
-                                                    .copyWith(
-                                                      color: AppTheme2.primaryColor18,
-                                                        fontSize: SizeConfig
-                                                                .screenWidth /
-                                                            25)),
-                                            onTap: () =>
-                                                buildGetDefaultDialog(
-                                                    context))),
-                                  ],
-                                )),
-                          );
+      Container(
+          height: 400,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            color: AppTheme2.primaryColor,
+          ),
+          padding: EdgeInsets.all(20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Padding(
+                  padding: EdgeInsets.only(bottom: 40),
+                  child: Center(
+                    child: Container(
+                      width: 40,
+                      height: 4,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: AppTheme2.primaryColor11),
+                    ),
+                  )),
+              Material(
+                  borderOnForeground: true,
+                  borderRadius: BorderRadius.circular(8),
+                  color: AppTheme2.primaryColor,
+                  child: ListTile(
+                    title: Text("Europe",
+                        style: Theme.of(context).textTheme.headline5.copyWith(
+                            fontSize: SizeConfig.screenWidth / 25,
+                            color: AppTheme2.primaryColor18)),
+                    onTap: () => loginController.selectTrackingServer("Europe"),
+                  )),
+              Material(
+                  borderOnForeground: true,
+                  borderRadius: BorderRadius.circular(8),
+                  color: AppTheme2.primaryColor,
+                  child: ListTile(
+                    title: Text("Asia",
+                        style: Theme.of(context).textTheme.headline5.copyWith(
+                            color: AppTheme2.primaryColor18,
+                            fontSize: SizeConfig.screenWidth / 25)),
+                    onTap: () => loginController.selectTrackingServer("Asia"),
+                  )),
+              Material(
+                  borderOnForeground: true,
+                  borderRadius: BorderRadius.circular(8),
+                  color: AppTheme2.primaryColor,
+                  child: ListTile(
+                    title: Text("USA",
+                        style: Theme.of(context).textTheme.headline5.copyWith(
+                            color: AppTheme2.primaryColor18,
+                            fontSize: SizeConfig.screenWidth / 25)),
+                    onTap: () => loginController.selectTrackingServer("USA"),
+                  )),
+              Material(
+                  borderOnForeground: true,
+                  borderRadius: BorderRadius.circular(8),
+                  color: AppTheme2.primaryColor,
+                  child: ListTile(
+                      title: Text("Custom",
+                          style: Theme.of(context).textTheme.headline5.copyWith(
+                              color: AppTheme2.primaryColor18,
+                              fontSize: SizeConfig.screenWidth / 25)),
+                      onTap: () => buildGetDefaultDialog(context))),
+            ],
+          )),
+    );
   }
 
   buildGetDefaultDialog(context) {

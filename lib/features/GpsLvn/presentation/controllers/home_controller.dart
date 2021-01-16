@@ -7,10 +7,19 @@ class HomeModel {
   final String unitName;
   final String image;
   final String location;
+  final String sataliteImage;
   bool isSelected;
+  bool isExpanded;
+  bool isShowed;
 
   HomeModel(
-      {this.isSelected = false, this.unitName, this.image, this.location});
+      {this.isSelected = false,
+      this.isExpanded = false,
+      this.isShowed = false,
+      this.unitName,
+      this.image,
+      this.sataliteImage,
+      this.location});
 }
 
 class GroupModel {
@@ -86,41 +95,44 @@ class HomeList {
   static List<HomeModel> getHomeList() {
     return [
       HomeModel(
-          image: "assets/car.png", unitName: "Unit Name", location: "Address"),
+          image: "assets/car.png", unitName: "Unit Name", location: "Address",sataliteImage: "assets/satalite.png"),
       HomeModel(
-          image: "assets/car2.png", unitName: "Unit Name", location: "Address"),
+          image: "assets/car2.png", unitName: "Unit Name", location: "Address",sataliteImage: "assets/satalite2.png"),
       HomeModel(
-          image: "assets/car3.png", unitName: "Unit Name", location: "Address"),
+          image: "assets/car3.png", unitName: "Unit Name", location: "Address",sataliteImage: "assets/satalite3.png"),
+     HomeModel(
+          image: "assets/car.png", unitName: "Unit Name", location: "Address",sataliteImage: "assets/satalite.png"),
       HomeModel(
-          image: "assets/car.png", unitName: "Unit Name", location: "Address"),
+          image: "assets/car2.png", unitName: "Unit Name", location: "Address",sataliteImage: "assets/satalite2.png"),
       HomeModel(
-          image: "assets/car2.png", unitName: "Unit Name", location: "Address"),
+          image: "assets/car3.png", unitName: "Unit Name", location: "Address",sataliteImage: "assets/satalite3.png"),
+     HomeModel(
+          image: "assets/car.png", unitName: "Unit Name", location: "Address",sataliteImage: "assets/satalite.png"),
       HomeModel(
-          image: "assets/car3.png", unitName: "Unit Name", location: "Address"),
+          image: "assets/car2.png", unitName: "Unit Name", location: "Address",sataliteImage: "assets/satalite2.png"),
       HomeModel(
-          image: "assets/car.png", unitName: "Unit Name", location: "Address"),
+          image: "assets/car3.png", unitName: "Unit Name", location: "Address",sataliteImage: "assets/satalite3.png"),
       HomeModel(
-          image: "assets/car2.png", unitName: "Unit Name", location: "Address"),
+          image: "assets/car.png", unitName: "Unit Name", location: "Address",sataliteImage: "assets/satalite.png"),
       HomeModel(
-          image: "assets/car3.png", unitName: "Unit Name", location: "Address"),
+          image: "assets/car2.png", unitName: "Unit Name", location: "Address",sataliteImage: "assets/satalite2.png"),
       HomeModel(
-          image: "assets/car.png", unitName: "Unit Name", location: "Address"),
+          image: "assets/car3.png", unitName: "Unit Name", location: "Address",sataliteImage: "assets/satalite3.png"),
+     HomeModel(
+          image: "assets/car.png", unitName: "Unit Name", location: "Address",sataliteImage: "assets/satalite.png"),
       HomeModel(
-          image: "assets/car2.png", unitName: "Unit Name", location: "Address"),
+          image: "assets/car2.png", unitName: "Unit Name", location: "Address",sataliteImage: "assets/satalite2.png"),
       HomeModel(
-          image: "assets/car3.png", unitName: "Unit Name", location: "Address"),
+          image: "assets/car3.png", unitName: "Unit Name", location: "Address",sataliteImage: "assets/satalite3.png"),
       HomeModel(
-          image: "assets/car.png", unitName: "Unit Name", location: "Address"),
+          image: "assets/car.png", unitName: "Unit Name", location: "Address",sataliteImage: "assets/satalite.png"),
       HomeModel(
-          image: "assets/car2.png", unitName: "Unit Name", location: "Address"),
+          image: "assets/car2.png", unitName: "Unit Name", location: "Address",sataliteImage: "assets/satalite2.png"),
       HomeModel(
-          image: "assets/car3.png", unitName: "Unit Name", location: "Address"),
-      HomeModel(
-          image: "assets/car.png", unitName: "Unit Name", location: "Address"),
-      HomeModel(
-          image: "assets/car2.png", unitName: "Unit Name", location: "Address"),
-      HomeModel(
-          image: "assets/car3.png", unitName: "Unit Name", location: "Address")
+          image: "assets/car3.png", unitName: "Unit Name", location: "Address",sataliteImage: "assets/satalite3.png"),
+
+
+
     ];
   }
 }
@@ -134,19 +146,43 @@ class HomeController extends GetxController {
   var isSelected = false.obs;
   Set saved = Set().obs;
   var savedIndex = 0.obs;
+  var isOpened = false.obs;
+  var isShowed = false.obs;
 
- 
+  var isGeofenceShowed = false.obs;
+
+  showGeofenceDetails() => isGeofenceShowed.value = ! isGeofenceShowed.value;
+
+  var isRemembered = false.obs;
+  var isUnitShowed = false.obs;
+
+  showUnit(int index,value) {
+    //isUnitShowed.value  = value;
+    homeList.value[index].isShowed = value;
+    update();
+  }
+
+  rememberMe(value) => isRemembered.value = value;
+
+  final GlobalKey<ScaffoldState> drawerKey = GlobalKey();
+
+  openDrawer() => drawerKey.currentState.openDrawer();
+
+  showBottomSheet() => isShowed.value = true;
 
   selectUnitToAddToView(int index) {
-
     homeList.value[index].isSelected = !homeList.value[index].isSelected;
     homeList.refresh();
     savedIndex.value = index;
     isUnitSelected(index) ? saved.add(index) : saved.remove(index);
-    
   }
 
- bool isUnitSelected(int index) => homeList.value[index].isSelected == true;
+  bool isUnitSelected(int index) => homeList.value[index].isSelected == true;
 
- bool showGroupOrListItems() => isGroupOrList.value = !isGroupOrList.value;
+  bool showGroupOrListItems() => isGroupOrList.value = !isGroupOrList.value;
+
+  isUnitExpanded(int index, bool isExpanded) {
+    homeList.value[index].isExpanded = !isExpanded;
+    homeList.refresh();
+  }
 }

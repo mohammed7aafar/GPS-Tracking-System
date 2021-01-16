@@ -1,3 +1,3 @@
 
 
-enum AppTab { map, reports, track, monitor, notifications }
+enum AppTab { map, reports, track, notifications }
