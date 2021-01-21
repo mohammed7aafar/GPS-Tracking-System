@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart'; 
 import '../../../../../core/utils/size_config.dart';
 import '../../../../../theme.dart';
 
@@ -104,7 +103,7 @@ class EditUnitsBottomSheetWidget extends StatelessWidget {
                color: AppTheme2.primaryColor20,
                child: 
             InkWell(
-              onTap: ()=> Get.bottomSheet(Container(),backgroundColor: AppTheme2.primaryColor),
+              onTap: () {},
              borderRadius: BorderRadius.circular(8.0),
               child: Container(
                      height: SizeConfig.screenWidth / 8,
@@ -149,7 +148,7 @@ class EditUnitsBottomSheetWidget extends StatelessWidget {
                child: 
             InkWell(
                 borderRadius: BorderRadius.circular(8.0),
-              onTap: ()=> Get.bottomSheet(Container(),backgroundColor: AppTheme2.primaryColor),
+              onTap: () {},
               child: Container(
                      height: SizeConfig.screenWidth / 8,
                      padding: EdgeInsets.all(15),

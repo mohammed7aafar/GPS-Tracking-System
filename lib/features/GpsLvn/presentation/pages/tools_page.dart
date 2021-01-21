@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:gpsLVN/core/utils/size_config.dart';
 
 import '../../../../theme.dart';
@@ -48,8 +47,7 @@ class ToolsPage extends StatelessWidget {
                   color: AppTheme2.primaryColor20,
                   child: InkWell(
                     borderRadius: BorderRadius.circular(8.0),
-                    onTap: () => Get.bottomSheet(Container(),
-                        backgroundColor: AppTheme2.primaryColor),
+                    onTap: () {}, 
                     child: Container(
                         height: SizeConfig.screenWidth / 8,
                         padding: EdgeInsets.all(15),
@@ -92,8 +90,7 @@ class ToolsPage extends StatelessWidget {
                   color: AppTheme2.primaryColor20,
                   child: InkWell(
                     borderRadius: BorderRadius.circular(8.0),
-                    onTap: () => Get.bottomSheet(Container(),
-                        backgroundColor: AppTheme2.primaryColor),
+                    onTap: () {},
                     child: Container(
                         height: SizeConfig.screenWidth / 8,
                         padding: EdgeInsets.all(15),
@@ -136,8 +133,8 @@ class ToolsPage extends StatelessWidget {
                   color: AppTheme2.primaryColor20,
                   child: InkWell(
                     borderRadius: BorderRadius.circular(8.0),
-                    onTap: () => Get.bottomSheet(Container(),
-                        backgroundColor: AppTheme2.primaryColor),
+                    onTap: () {},
+
                     child: Container(
                         height: SizeConfig.screenWidth / 8,
                         padding: EdgeInsets.all(15),
@@ -181,8 +178,7 @@ class ToolsPage extends StatelessWidget {
                   color: AppTheme2.primaryColor20,
                   child: InkWell(
                     borderRadius: BorderRadius.circular(8.0),
-                    onTap: () => Get.bottomSheet(Container(),
-                        backgroundColor: AppTheme2.primaryColor),
+                    onTap: (){},
                     child: Container(
                         height: SizeConfig.screenWidth / 8,
                         padding: EdgeInsets.all(15),
@@ -226,8 +222,7 @@ class ToolsPage extends StatelessWidget {
                   color: AppTheme2.primaryColor20,
                   child: InkWell(
                     borderRadius: BorderRadius.circular(8.0),
-                    onTap: () => Get.bottomSheet(Container(),
-                        backgroundColor: AppTheme2.primaryColor),
+                    onTap: () {},
                     child: Container(
                         height: SizeConfig.screenWidth / 8,
                         padding: EdgeInsets.all(15),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:get/get.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
@@ -131,21 +130,22 @@ class ListTileItems extends StatelessWidget {
 
   void buildSnackbarDeleteItem(index) {
     homeController.homeList.removeAt(index);
-    return Get.snackbar(
-        "Unit Item deleted", "click on add button to retrieve it",
-        colorText: AppTheme2.primaryColor18,
+    // return
+    //  Get.snackbar(
+    //     "Unit Item deleted", "click on add button to retrieve it",
+    //     colorText: AppTheme2.primaryColor18,
 
-        //duration: Duration(minutes: 34),
-        icon: Icon(
-          Ionicons.trash,
-          color: AppTheme2.errorColor,
-          size: SizeConfig.screenWidth / 15,
-        ),
-        borderRadius: 8.0,
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: AppTheme2.primaryColor20,
-        padding: EdgeInsets.all(18),
-        shouldIconPulse: false);
+    //     //duration: Duration(minutes: 34),
+    //     icon: Icon(
+    //       Ionicons.trash,
+    //       color: AppTheme2.errorColor,
+    //       size: SizeConfig.screenWidth / 15,
+    //     ),
+    //     borderRadius: 8.0,
+    //     snackPosition: SnackPosition.TOP,
+    //     backgroundColor: AppTheme2.primaryColor20,
+    //     padding: EdgeInsets.all(18),
+    //     shouldIconPulse: false);
   }
 }
 

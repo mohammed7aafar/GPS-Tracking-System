@@ -34,11 +34,13 @@ Future<void> init() async {
   sl.registerFactory(() => UnitgroupsCubit());
   sl.registerFactory(() => AnimatediconCubit());
   sl.registerFactory(() => TabBloc());
-  sl.registerFactory(() => SplashBloc());
+  sl.registerFactory(() => SplashBloc(devicesBloc: sl()));
   sl.registerFactory(() => ToggletrackCubit());
   sl.registerFactory(() => ShowtrackCubit());
   sl.registerFactory(() => TogglegeofenceCubit());
-   sl.registerFactory(() => TogglerouteCubit());
+  sl.registerFactory(() => TogglerouteCubit());
+
+  //  sl.registerFactory(() => null)
   
 
 //usecases

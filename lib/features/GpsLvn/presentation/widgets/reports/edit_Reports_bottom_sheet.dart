@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
 import '../../../../../core/utils/size_config.dart';
 import '../../../../../theme.dart';
-import '../../controllers/reports_controller.dart';
-
-
-
-
 class EditReportsBottomSheetWidget extends StatelessWidget {
   EditReportsBottomSheetWidget({Key key}) : super(key: key);
 
-  final ReportsController reportsController = Get.put(ReportsController());
+  
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -106,8 +99,7 @@ class EditReportsBottomSheetWidget extends StatelessWidget {
               color: AppTheme2.primaryColor20,
               child: InkWell(
                 borderRadius: BorderRadius.circular(8.0),
-                onTap: () => Get.bottomSheet(Container(),
-                    backgroundColor: AppTheme2.primaryColor),
+                onTap: () => {},
                 child: Container(
                     height: SizeConfig.screenWidth / 8,
                     padding: EdgeInsets.all(15),
@@ -147,8 +139,7 @@ class EditReportsBottomSheetWidget extends StatelessWidget {
               color: AppTheme2.primaryColor20,
               child: InkWell(
                 borderRadius: BorderRadius.circular(8.0),
-                onTap: () => Get.bottomSheet(Container(),
-                    backgroundColor: AppTheme2.primaryColor),
+                onTap: () => {},
                 child: Container(
                     height: SizeConfig.screenWidth / 8,
                     padding: EdgeInsets.all(15),
@@ -192,8 +183,7 @@ class EditReportsBottomSheetWidget extends StatelessWidget {
                     color: AppTheme2.primaryColor20,
                     child: InkWell(
                       borderRadius: BorderRadius.circular(8.0),
-                      onTap: () => Get.bottomSheet(Container(),
-                          backgroundColor: AppTheme2.primaryColor),
+                      onTap: () {},
                       child: Container(
                           height: SizeConfig.screenWidth / 8,
                           padding: EdgeInsets.all(15),
@@ -237,8 +227,7 @@ class EditReportsBottomSheetWidget extends StatelessWidget {
                     color: AppTheme2.primaryColor20,
                     child: InkWell(
                       borderRadius: BorderRadius.circular(8.0),
-                      onTap: () => Get.bottomSheet(Container(),
-                          backgroundColor: AppTheme2.primaryColor),
+                      onTap: () {},
                       child: Container(
                           height: SizeConfig.screenWidth / 8,
                           padding: EdgeInsets.all(15),
@@ -287,8 +276,7 @@ class EditReportsBottomSheetWidget extends StatelessWidget {
                     color: AppTheme2.primaryColor20,
                     child: InkWell(
                       borderRadius: BorderRadius.circular(8.0),
-                      onTap: () => Get.bottomSheet(Container(),
-                          backgroundColor: AppTheme2.primaryColor),
+                      onTap: () {},
                       child: Container(
                           height: SizeConfig.screenWidth / 8,
                           padding: EdgeInsets.all(15),
@@ -332,8 +320,7 @@ class EditReportsBottomSheetWidget extends StatelessWidget {
                     color: AppTheme2.primaryColor20,
                     child: InkWell(
                       borderRadius: BorderRadius.circular(8.0),
-                      onTap: () => Get.bottomSheet(Container(),
-                          backgroundColor: AppTheme2.primaryColor),
+                      onTap: () {},
                       child: Container(
                           height: SizeConfig.screenWidth / 8,
                           padding: EdgeInsets.all(15),
@@ -380,8 +367,7 @@ class EditReportsBottomSheetWidget extends StatelessWidget {
               color: AppTheme2.primaryColor20,
               child: InkWell(
                 borderRadius: BorderRadius.circular(8.0),
-                onTap: () => Get.bottomSheet(Container(),
-                    backgroundColor: AppTheme2.primaryColor),
+                onTap: () {},
                 child: Container(
                     height: SizeConfig.screenWidth / 8,
                     padding: EdgeInsets.all(15),
@@ -421,8 +407,7 @@ class EditReportsBottomSheetWidget extends StatelessWidget {
               color: AppTheme2.primaryColor20,
               child: InkWell(
                 borderRadius: BorderRadius.circular(8.0),
-                onTap: () => Get.bottomSheet(Container(),
-                    backgroundColor: AppTheme2.primaryColor),
+                onTap: () {},
                 child: Container(
                     height: SizeConfig.screenWidth / 8,
                     padding: EdgeInsets.all(15),
@@ -510,9 +495,9 @@ class EditReportsBottomSheetWidget extends StatelessWidget {
             height: 20,
           ),
 
-          EditReportsCheckBoxWidget(reportsController: reportsController),
+          EditReportsCheckBoxWidget(),
 
-          EditReportsCheckBoxWidget(reportsController: reportsController),
+          EditReportsCheckBoxWidget(),
 
           SizedBox(
             height: 20,
@@ -528,10 +513,10 @@ class EditReportsBottomSheetWidget extends StatelessWidget {
 class EditReportsCheckBoxWidget extends StatelessWidget {
   const EditReportsCheckBoxWidget({
     Key key,
-    @required this.reportsController,
+   
   }) : super(key: key);
 
-  final ReportsController reportsController;
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -540,19 +525,18 @@ class EditReportsCheckBoxWidget extends StatelessWidget {
         Expanded(
           child: Row(
             children: [
-              Obx(
-                () => Material(
+           Material(
                   color: AppTheme2.primaryColor,
                   child: Checkbox(
-                    value: reportsController.isRemembered.value,
+                    value: true,
                     onChanged: (bool value) {
-                      reportsController.rememberMe(value);
+                     // reportsController.rememberMe(value);
                     },
                     activeColor: AppTheme2.territoryColor,
                     checkColor: AppTheme2.primaryColor,
                   ),
                 ),
-              ),
+              
               SizedBox(
                 width: 5,
               ),
@@ -568,19 +552,18 @@ class EditReportsCheckBoxWidget extends StatelessWidget {
         Expanded(
           child: Row(
             children: [
-              Obx(
-                () => Material(
+               Material(
                   color: AppTheme2.primaryColor,
                   child: Checkbox(
-                    value: reportsController.isRemembered.value,
+                    value: true,
                     onChanged: (bool value) {
-                      reportsController.rememberMe(value);
+                     // reportsController.rememberMe(value);
                     },
                     activeColor: AppTheme2.territoryColor,
                     checkColor: AppTheme2.primaryColor,
                   ),
                 ),
-              ),
+              
               SizedBox(
                 width: 5,
               ),

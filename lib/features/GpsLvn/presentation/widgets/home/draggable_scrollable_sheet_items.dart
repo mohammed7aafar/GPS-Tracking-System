@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import '../../../../../core/utils/size_config.dart';
 import '../../../../../theme.dart';
 import '../../controllers/home_controller.dart';
@@ -10,11 +9,11 @@ import 'row_items.dart';
 class DraggableScrollableSheetItems extends StatelessWidget {
   const DraggableScrollableSheetItems({
     Key key,
-    @required this.homeController,
+   
    
   }) : super(key: key);
 
-  final HomeController homeController;
+
  
 
   @override
@@ -54,27 +53,27 @@ class DraggableScrollableSheetItems extends StatelessWidget {
                 height: 20,
               ),
               RowItems(
-                homeController: homeController,
+               
               ),
 
               SizedBox(
                 height: 20,
               ),
 
-              Obx(
-                () => homeController.homeList.length > 0
-                    ? //Placeholder(fallbackHeight: 20,fallbackWidth: 20,)
-                    homeController.isGroupOrList.value
-                        ? GroupListTileItems(homeController: homeController)
-                        : ListTileItems(homeController: homeController)
-                    : Text(
-                        "Nothing to show",
-                        style: Theme.of(context).textTheme.headline6.copyWith(
-                              color: AppTheme2.primaryColor18,
-                              fontSize: SizeConfig.screenWidth / 23,
-                            ),
-                      ),
-              ),
+              // Obx(
+              //   () => homeController.homeList.length > 0
+              //       ? //Placeholder(fallbackHeight: 20,fallbackWidth: 20,)
+              //       homeController.isGroupOrList.value
+              //           ? GroupListTileItems(homeController: homeController)
+              //           : ListTileItems(homeController: homeController)
+              //       : Text(
+              //           "Nothing to show",
+              //           style: Theme.of(context).textTheme.headline6.copyWith(
+              //                 color: AppTheme2.primaryColor18,
+              //                 fontSize: SizeConfig.screenWidth / 23,
+              //               ),
+              //         ),
+              // ),
             ],
           ),
         ));

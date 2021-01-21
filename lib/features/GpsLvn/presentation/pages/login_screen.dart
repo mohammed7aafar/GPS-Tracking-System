@@ -1,23 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
-import 'package:gpsLVN/features/GpsLvn/presentation/blocs/animatedIconCubit/animatedicon_cubit.dart';
-import 'package:gpsLVN/features/GpsLvn/presentation/blocs/geofence/geofence_cubit.dart';
-import 'package:gpsLVN/features/GpsLvn/presentation/blocs/groupIcon/groupicon_cubit.dart';
-import 'package:gpsLVN/features/GpsLvn/presentation/blocs/tab/tab_bloc.dart';
-import 'package:gpsLVN/features/GpsLvn/presentation/blocs/unitGroups/unitgroups_cubit.dart';
-import 'package:gpsLVN/features/GpsLvn/presentation/pages/live_page.dart';
 import 'package:ionicons/ionicons.dart';
-
 import '../../../../core/utils/size_config.dart';
 import '../../../../theme.dart';
-import '../controllers/login_controller.dart';
-import 'home_screen.dart';
 
 class LoginScreen extends StatelessWidget {
-  final LoginController loginController = Get.put(LoginController());
-
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
@@ -107,17 +94,15 @@ class LoginScreen extends StatelessWidget {
                                   SizedBox(
                                     width: 12,
                                   ),
-                                  Obx(
-                                    () => Text(
-                                      loginController.hostServerName.value,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline6
-                                          .copyWith(
-                                              fontSize:
-                                                  SizeConfig.screenWidth / 30,
-                                              color: AppTheme2.primaryColor18),
-                                    ),
+                                  Text(
+                                    "",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline6
+                                        .copyWith(
+                                            fontSize:
+                                                SizeConfig.screenWidth / 30,
+                                            color: AppTheme2.primaryColor18),
                                   ),
                                 ],
                               ),
@@ -138,15 +123,13 @@ class LoginScreen extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Obx(
-                    () => Checkbox(
-                      value: loginController.isRemembered.value,
-                      onChanged: (bool value) {
-                        loginController.rememberMe(value);
-                      },
-                      activeColor: AppTheme2.territoryColor,
-                      checkColor: AppTheme2.primaryColor,
-                    ),
+                  Checkbox(
+                    value: true,
+                    onChanged: (bool value) {
+                      //loginController.rememberMe(value);
+                    },
+                    activeColor: AppTheme2.territoryColor,
+                    checkColor: AppTheme2.primaryColor,
                   ),
                   SizedBox(
                     width: 5,
@@ -167,11 +150,10 @@ class LoginScreen extends StatelessWidget {
                   color: AppTheme2.primaryColor20,
                   child: InkWell(
                       borderRadius: BorderRadius.circular(8.0),
-                      onTap: () => 
-                      // Navigator.pushReplacementNamed(context, LiveLocationPage.route),
-                      
-                       Navigator.of(context).pushNamed('home'),
-                      
+                      onTap: () =>
+                          // Navigator.pushReplacementNamed(context, LiveLocationPage.route),
+
+                          Navigator.of(context).pushNamed('home'),
                       child: Container(
                           height: SizeConfig.screenWidth / 7,
                           width: double.infinity,
@@ -210,157 +192,124 @@ class LoginScreen extends StatelessWidget {
   }
 
   Future buildBottomSheet(BuildContext context) {
-    return Get.bottomSheet(
-      Container(
-          height: 400,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            color: AppTheme2.primaryColor,
-          ),
-          padding: EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Padding(
-                  padding: EdgeInsets.only(bottom: 40),
-                  child: Center(
-                    child: Container(
-                      width: 40,
-                      height: 4,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: AppTheme2.primaryColor11),
-                    ),
-                  )),
-              Material(
-                  borderOnForeground: true,
-                  borderRadius: BorderRadius.circular(8),
-                  color: AppTheme2.primaryColor,
-                  child: ListTile(
-                    title: Text("Europe",
-                        style: Theme.of(context).textTheme.headline5.copyWith(
-                            fontSize: SizeConfig.screenWidth / 25,
-                            color: AppTheme2.primaryColor18)),
-                    onTap: () => loginController.selectTrackingServer("Europe"),
-                  )),
-              Material(
-                  borderOnForeground: true,
-                  borderRadius: BorderRadius.circular(8),
-                  color: AppTheme2.primaryColor,
-                  child: ListTile(
-                    title: Text("Asia",
-                        style: Theme.of(context).textTheme.headline5.copyWith(
-                            color: AppTheme2.primaryColor18,
-                            fontSize: SizeConfig.screenWidth / 25)),
-                    onTap: () => loginController.selectTrackingServer("Asia"),
-                  )),
-              Material(
-                  borderOnForeground: true,
-                  borderRadius: BorderRadius.circular(8),
-                  color: AppTheme2.primaryColor,
-                  child: ListTile(
-                    title: Text("USA",
-                        style: Theme.of(context).textTheme.headline5.copyWith(
-                            color: AppTheme2.primaryColor18,
-                            fontSize: SizeConfig.screenWidth / 25)),
-                    onTap: () => loginController.selectTrackingServer("USA"),
-                  )),
-              Material(
-                  borderOnForeground: true,
-                  borderRadius: BorderRadius.circular(8),
-                  color: AppTheme2.primaryColor,
-                  child: ListTile(
-                      title: Text("Custom",
-                          style: Theme.of(context).textTheme.headline5.copyWith(
-                              color: AppTheme2.primaryColor18,
-                              fontSize: SizeConfig.screenWidth / 25)),
-                      onTap: () => buildGetDefaultDialog(context))),
-            ],
-          )),
-    );
+    return showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+              height: 400,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: AppTheme2.primaryColor,
+              ),
+              padding: EdgeInsets.all(20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Padding(
+                      padding: EdgeInsets.only(bottom: 40),
+                      child: Center(
+                        child: Container(
+                          width: 40,
+                          height: 4,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: AppTheme2.primaryColor11),
+                        ),
+                      )),
+                  Material(
+                      borderOnForeground: true,
+                      borderRadius: BorderRadius.circular(8),
+                      color: AppTheme2.primaryColor,
+                      child: ListTile(
+                        title: Text("Europe",
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline5
+                                .copyWith(
+                                    fontSize: SizeConfig.screenWidth / 25,
+                                    color: AppTheme2.primaryColor18)),
+                        onTap: () {},
+                        // loginController.selectTrackingServer("Europe"),
+                      )),
+                  Material(
+                      borderOnForeground: true,
+                      borderRadius: BorderRadius.circular(8),
+                      color: AppTheme2.primaryColor,
+                      child: ListTile(
+                        title: Text("Asia",
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline5
+                                .copyWith(
+                                    color: AppTheme2.primaryColor18,
+                                    fontSize: SizeConfig.screenWidth / 25)),
+                        onTap: () {},
+                        //loginController.selectTrackingServer("Asia"),
+                      )),
+                  Material(
+                      borderOnForeground: true,
+                      borderRadius: BorderRadius.circular(8),
+                      color: AppTheme2.primaryColor,
+                      child: ListTile(
+                        title: Text("USA",
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline5
+                                .copyWith(
+                                    color: AppTheme2.primaryColor18,
+                                    fontSize: SizeConfig.screenWidth / 25)),
+                        onTap: () {},
+                        // loginController.selectTrackingServer("USA"),
+                      )),
+                  Material(
+                      borderOnForeground: true,
+                      borderRadius: BorderRadius.circular(8),
+                      color: AppTheme2.primaryColor,
+                      child: ListTile(
+                          title: Text("Custom",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline5
+                                  .copyWith(
+                                      color: AppTheme2.primaryColor18,
+                                      fontSize: SizeConfig.screenWidth / 25)),
+                          onTap: () => buildGetDefaultDialog(context))),
+                ],
+              ));
+        });
   }
 
   buildGetDefaultDialog(context) {
-    return Get.defaultDialog(
-      title: "Enter Server",
-      content: Container(
-        height: SizeConfig.screenWidth / 9,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          color: AppTheme2.primaryColor11,
-        ),
-        child: TextFormField(
-          style: Theme.of(context).textTheme.headline5.copyWith(
-              fontSize: SizeConfig.screenWidth / 22,
-              color: AppTheme2.whiteColor),
-          decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: const EdgeInsets.all(10)),
-          cursorColor: AppTheme2.territoryColor,
-        ),
-      ),
-      backgroundColor: AppTheme2.primaryColor,
-      titleStyle: Theme.of(context)
-          .textTheme
-          .headline6
-          .copyWith(fontSize: SizeConfig.screenWidth / 23),
-      confirm: Text(
-        "OK",
-        style: Theme.of(context).textTheme.button.copyWith(
-            fontSize: SizeConfig.screenWidth / 23,
-            color: AppTheme2.territoryColor),
-      ),
-    );
+    //  return
+    // Get.defaultDialog(
+    //   title: "Enter Server",
+    //   content: Container(
+    //     height: SizeConfig.screenWidth / 9,
+    //     decoration: BoxDecoration(
+    //       borderRadius: BorderRadius.circular(8),
+    //       color: AppTheme2.primaryColor11,
+    //     ),
+    //     child: TextFormField(
+    //       style: Theme.of(context).textTheme.headline5.copyWith(
+    //           fontSize: SizeConfig.screenWidth / 22,
+    //           color: AppTheme2.whiteColor),
+    //       decoration: InputDecoration(
+    //           border: InputBorder.none,
+    //           contentPadding: const EdgeInsets.all(10)),
+    //       cursorColor: AppTheme2.territoryColor,
+    //     ),
+    //   ),
+    //   backgroundColor: AppTheme2.primaryColor,
+    //   titleStyle: Theme.of(context)
+    //       .textTheme
+    //       .headline6
+    //       .copyWith(fontSize: SizeConfig.screenWidth / 23),
+    //   confirm: Text(
+    //     "OK",
+    //     style: Theme.of(context).textTheme.button.copyWith(
+    //         fontSize: SizeConfig.screenWidth / 23,
+    //         color: AppTheme2.territoryColor),
+    //   ),
+    // );
   }
-
-  // CupertinoActionSheet buildCupertinoActionSheet(context) {
-  //   return CupertinoActionSheet(
-
-  //     cancelButton:  CupertinoActionSheetAction(
-  //         onPressed: () {},
-  //         child: Text("cancel",
-  //             style: Theme.of(context)
-  //                 .textTheme
-  //                 .headline3
-  //                 .copyWith(fontSize: SizeConfig.screenWidth / 20)),
-  //       ),
-  //     actions: [
-  //       CupertinoActionSheetAction(
-
-  //         onPressed: () {},
-  //         child: Text("Europe",
-  //             style: Theme.of(context)
-  //                 .textTheme
-  //                 .headline3
-  //                 .copyWith(fontSize: SizeConfig.screenWidth / 20)),
-  //       ),
-  //       CupertinoActionSheetAction(
-  //         onPressed: () {},
-  //         child: Text("Asia",
-  //             style: Theme.of(context)
-  //                 .textTheme
-  //                 .headline3
-  //                 .copyWith(fontSize: SizeConfig.screenWidth / 20)),
-  //       ),
-  //        CupertinoActionSheetAction(
-  //         onPressed: () {},
-  //         child: Text("USA",
-  //             style: Theme.of(context)
-  //                 .textTheme
-  //                 .headline3
-  //                 .copyWith(fontSize: SizeConfig.screenWidth / 20)),
-  //       ),
-
-  //        CupertinoActionSheetAction(
-  //         onPressed: () {},
-  //         child: Text("Custom",
-  //             style: Theme.of(context)
-  //                 .textTheme
-  //                 .headline3
-  //                 .copyWith(fontSize: SizeConfig.screenWidth / 20)),
-  //       ),
-
-  //     ],
-  //   );
-  // }
 }

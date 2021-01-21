@@ -22,29 +22,29 @@ class RowUnitsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppTheme2.primaryColor20,
-      child: Column(
-        children: [
-          CustomExpansionTile(
-            handleTap: handleTap,
-            unitName: "${groups[index].items[index2].name}",
-            tilePadding: const EdgeInsets.all(0.0),
-            imageUrl:
-                "${ApiRefrence.publicDomain}${groups[index].items[index2].icon.path}",
-            childrenPadding: const EdgeInsets.all(8.0),
-            children: [
-              UnitRowHeaderDetails(),
-              UnitFooterDetails(),
-            ],
-          ),
-          Divider(
-            color: AppTheme2.clearColor,
-            height: 2,
-          ),
-        ],
-      ),
-    );
+      return Container(
+        color: AppTheme2.primaryColor20,
+        child: Column(
+          children: [
+            CustomExpansionTile(
+              handleTap: handleTap,
+              unitName: "${groups[index].items[index2].name}",
+              tilePadding: const EdgeInsets.all(0.0),
+              imageUrl:
+                  "${ApiRefrence.publicDomain}${groups[index].items[index2].icon.path}",
+              childrenPadding: const EdgeInsets.all(8.0),
+              children: [
+                UnitRowHeaderDetails(),
+                UnitFooterDetails(),
+              ],
+            ),
+            Divider(
+              color: AppTheme2.clearColor,
+              height: 2,
+            ),
+          ],
+        ),
+      );
   }
 
 // Widget showSatellitesImage(List<devices.Sensor> sensors){

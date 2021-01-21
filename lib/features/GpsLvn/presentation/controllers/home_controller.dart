@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:gpsLVN/theme.dart';
 import 'package:ionicons/ionicons.dart';
 
@@ -137,52 +136,34 @@ class HomeList {
   }
 }
 
-class HomeController extends GetxController {
-  var homeList = HomeList.getHomeList().obs;
+class HomeController {
+  var homeList = HomeList.getHomeList();
   final filterList = HomeList.getFilterList();
   final rowItemList = HomeList.getRowItems();
-  final groupListItem = HomeList.getGroupList().obs;
-  var isGroupOrList = false.obs;
-  var isSelected = false.obs;
-  Set saved = Set().obs;
-  var savedIndex = 0.obs;
-  var isOpened = false.obs;
-  var isShowed = false.obs;
+  final groupListItem = HomeList.getGroupList();
 
-  var isGeofenceShowed = false.obs;
 
-  showGeofenceDetails() => isGeofenceShowed.value = ! isGeofenceShowed.value;
-
-  var isRemembered = false.obs;
-  var isUnitShowed = false.obs;
-
-  showUnit(int index,value) {
-    //isUnitShowed.value  = value;
-    homeList.value[index].isShowed = value;
-    update();
-  }
-
-  rememberMe(value) => isRemembered.value = value;
+  
 
   final GlobalKey<ScaffoldState> drawerKey = GlobalKey();
 
   openDrawer() => drawerKey.currentState.openDrawer();
 
-  showBottomSheet() => isShowed.value = true;
+  
 
-  selectUnitToAddToView(int index) {
-    homeList.value[index].isSelected = !homeList.value[index].isSelected;
-    homeList.refresh();
-    savedIndex.value = index;
-    isUnitSelected(index) ? saved.add(index) : saved.remove(index);
-  }
+  // selectUnitToAddToView(int index) {
+  //   homeList.value[index].isSelected = !homeList.value[index].isSelected;
+  //   homeList.refresh();
+  //   savedIndex.value = index;
+  //   isUnitSelected(index) ? saved.add(index) : saved.remove(index);
+  // }
 
-  bool isUnitSelected(int index) => homeList.value[index].isSelected == true;
+  // bool isUnitSelected(int index) => homeList.value[index].isSelected == true;
 
-  bool showGroupOrListItems() => isGroupOrList.value = !isGroupOrList.value;
+  // bool showGroupOrListItems() => isGroupOrList.value = !isGroupOrList.value;
 
-  isUnitExpanded(int index, bool isExpanded) {
-    homeList.value[index].isExpanded = !isExpanded;
-    homeList.refresh();
-  }
+  // isUnitExpanded(int index, bool isExpanded) {
+  //   homeList.value[index].isExpanded = !isExpanded;
+  //   homeList.refresh();
+  // }
 }

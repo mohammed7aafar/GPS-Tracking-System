@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
 import '../../../../../core/utils/size_config.dart';
 import '../../../../../theme.dart';
-import '../../controllers/notifications_controller.dart';
 
 class EditNotificationsBottomSheet extends StatelessWidget {
-  final NotificationsController notificationsController =
-      Get.put(NotificationsController());
 
   @override
   Widget build(BuildContext context) {
@@ -105,8 +100,7 @@ class EditNotificationsBottomSheet extends StatelessWidget {
               color: AppTheme2.primaryColor20,
               child: InkWell(
                 borderRadius: BorderRadius.circular(8.0),
-                onTap: () => Get.bottomSheet(Container(),
-                    backgroundColor: AppTheme2.primaryColor),
+                onTap: () {},
                 child: Container(
                     height: SizeConfig.screenWidth / 8,
                     padding: EdgeInsets.all(15),
@@ -146,8 +140,7 @@ class EditNotificationsBottomSheet extends StatelessWidget {
               color: AppTheme2.primaryColor20,
               child: InkWell(
                 borderRadius: BorderRadius.circular(8.0),
-                onTap: () => Get.bottomSheet(Container(),
-                    backgroundColor: AppTheme2.primaryColor),
+                onTap: (){},
                 child: Container(
                     height: SizeConfig.screenWidth / 8,
                     padding: EdgeInsets.all(15),
@@ -184,27 +177,24 @@ class EditNotificationsBottomSheet extends StatelessWidget {
           ),
 
           EditNotificationsCheckBoxWidget(
-            notificationsController: notificationsController,
+           
             name1: "Zone In",
             name2: "Zone Out",
           ),
 
-           Obx(() => notificationsController.isRemembered.value ||
-                  notificationsController.isRemembered2.value
-              ? SizedBox(
-                  height: 20,
-                )
-              : Container()),
+          //  Obx(() => notificationsController.isRemembered.value ||
+          //         notificationsController.isRemembered2.value
+          //     ? SizedBox(
+          //         height: 20,
+          //       )
+          //     : Container()),
 
-          Obx(() => notificationsController.isRemembered.value ||
-                  notificationsController.isRemembered2.value
-              ? Material(
+          Material(
                   borderRadius: BorderRadius.circular(8),
                   color: AppTheme2.primaryColor20,
                   child: InkWell(
                     borderRadius: BorderRadius.circular(8.0),
-                    onTap: () => Get.bottomSheet(Container(),
-                        backgroundColor: AppTheme2.primaryColor),
+                    onTap: () => {},
                     child: Container(
                         height: SizeConfig.screenWidth / 8,
                         padding: EdgeInsets.all(15),
@@ -237,31 +227,30 @@ class EditNotificationsBottomSheet extends StatelessWidget {
                                 onPressed: () {})
                           ],
                         )),
-                  ))
-              : Container()),
+                  )),
+              // : Container()),
 
-          Obx(() => notificationsController.isRemembered.value ||
-                  notificationsController.isRemembered2.value
-              ? SizedBox(
-                  height: 20,
-                )
-              : Container()),
+          // Obx(() => notificationsController.isRemembered.value ||
+          //         notificationsController.isRemembered2.value
+          //     ? SizedBox(
+          //         height: 20,
+          //       )
+          //     : Container()),
 
           Row(
             children: [
-              Obx(
-                () => Material(
+              Material(
                   color: AppTheme2.primaryColor,
                   child: Checkbox(
-                    value: notificationsController.isRemembered3.value,
+                    value: true,
                     onChanged: (bool value) {
-                      notificationsController.rememberMe3(value);
+                      //notificationsController.rememberMe3(value);
                     },
                     activeColor: AppTheme2.territoryColor,
                     checkColor: AppTheme2.primaryColor,
                   ),
                 ),
-              ),
+            
               SizedBox(
                 width: 5,
               ),
@@ -274,20 +263,18 @@ class EditNotificationsBottomSheet extends StatelessWidget {
             ],
           ),
 
-         Obx(() => notificationsController.isRemembered3.value 
-              ? SizedBox(
-                  height: 20,
-                )
-              : Container()),
+        //  Obx(() => notificationsController.isRemembered3.value 
+        //       ? SizedBox(
+        //           height: 20,
+        //         )
+        //       : Container()),
 
-          Obx(() => notificationsController.isRemembered3.value
-              ? Material(
+        Material(
                   borderRadius: BorderRadius.circular(8),
                   color: AppTheme2.primaryColor20,
                   child: InkWell(
                     borderRadius: BorderRadius.circular(8.0),
-                    onTap: () => Get.bottomSheet(Container(),
-                        backgroundColor: AppTheme2.primaryColor),
+                    onTap: () {},
                     child: Container(
                         height: SizeConfig.screenWidth / 8,
                         padding: EdgeInsets.all(15),
@@ -320,15 +307,15 @@ class EditNotificationsBottomSheet extends StatelessWidget {
                                 onPressed: () {})
                           ],
                         )),
-                  ))
-              : Container()),
+                  )),
+              // : Container()),
 
 
-                Obx(() => notificationsController.isRemembered3.value 
-              ? SizedBox(
-                  height: 20,
-                )
-              : Container()),
+              //   Obx(() => notificationsController.isRemembered3.value 
+              // ? SizedBox(
+              //     height: 20,
+              //   )
+              // : Container()),
            
 
           Row(
@@ -336,19 +323,18 @@ class EditNotificationsBottomSheet extends StatelessWidget {
               Expanded(
                 child: Row(
                   children: [
-                    Obx(
-                      () => Material(
+                     Material(
                         color: AppTheme2.primaryColor,
                         child: Checkbox(
-                          value: notificationsController.isRemembered4.value,
+                          value: true,
                           onChanged: (bool value) {
-                            notificationsController.rememberMe4(value);
+                          //  notificationsController.rememberMe4(value);
                           },
                           activeColor: AppTheme2.territoryColor,
                           checkColor: AppTheme2.primaryColor,
                         ),
                       ),
-                    ),
+                    
                     SizedBox(
                       width: 5,
                     ),
@@ -364,19 +350,20 @@ class EditNotificationsBottomSheet extends StatelessWidget {
               Expanded(
                 child: Row(
                   children: [
-                    Obx(
-                      () => Material(
+                    // Obx(
+                    //   () => 
+                      Material(
                         color: AppTheme2.primaryColor,
                         child: Checkbox(
-                          value: notificationsController.isRemembered5.value,
+                          value: true,
                           onChanged: (bool value) {
-                            notificationsController.rememberMe5(value);
+                            //notificationsController.rememberMe5(value);
                           },
                           activeColor: AppTheme2.territoryColor,
                           checkColor: AppTheme2.primaryColor,
                         ),
                       ),
-                    ),
+                    
                     SizedBox(
                       width: 5,
                     ),
@@ -395,19 +382,18 @@ class EditNotificationsBottomSheet extends StatelessWidget {
 
                Row(
             children: [
-              Obx(
-                () => Material(
+              Material(
                   color: AppTheme2.primaryColor,
                   child: Checkbox(
-                    value: notificationsController.isRemembered6.value,
+                    value: true,
                     onChanged: (bool value) {
-                      notificationsController.rememberMe6(value);
+                    //  notificationsController.rememberMe6(value);
                     },
                     activeColor: AppTheme2.territoryColor,
                     checkColor: AppTheme2.primaryColor,
                   ),
                 ),
-              ),
+             
               SizedBox(
                 width: 5,
               ),
@@ -420,14 +406,13 @@ class EditNotificationsBottomSheet extends StatelessWidget {
             ],
           ),
 
-                Obx(() => notificationsController.isRemembered6.value 
-              ? SizedBox(
-                  height: 20,
-                )
-              : Container()),
+              //   Obx(() => notificationsController.isRemembered6.value 
+              // ? SizedBox(
+              //     height: 20,
+              //   )
+              // : Container()),
 
-          Obx(()=>
-          notificationsController.isRemembered6.value?
+       
           Material(
               borderRadius: BorderRadius.circular(8),
               color: AppTheme2.primaryColor20,
@@ -449,8 +434,9 @@ class EditNotificationsBottomSheet extends StatelessWidget {
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.all(15)),
                 ),
-              )):Container()
-              ),
+              )),
+              // :Container()
+              // ),
 
               SizedBox(
                   height: 50,
@@ -466,12 +452,10 @@ class EditNotificationsBottomSheet extends StatelessWidget {
 class EditNotificationsCheckBoxWidget extends StatelessWidget {
   const EditNotificationsCheckBoxWidget({
     Key key,
-    @required this.notificationsController,
     this.name1,
     this.name2,
   }) : super(key: key);
 
-  final NotificationsController notificationsController;
   final name1;
   final name2;
 
@@ -482,18 +466,17 @@ class EditNotificationsCheckBoxWidget extends StatelessWidget {
         Expanded(
           child: Row(
             children: [
-              Obx(
-                () => Material(
+             Material(
                   color: AppTheme2.primaryColor,
                   child: Checkbox(
-                    value: notificationsController.isRemembered.value,
+                    value: true,
                     onChanged: (bool value) {
-                      notificationsController.rememberMe(value);
+                      //notificationsController.rememberMe(value);
                     },
                     activeColor: AppTheme2.territoryColor,
                     checkColor: AppTheme2.primaryColor,
                   ),
-                ),
+              
               ),
               SizedBox(
                 width: 5,
@@ -510,19 +493,18 @@ class EditNotificationsCheckBoxWidget extends StatelessWidget {
         Expanded(
           child: Row(
             children: [
-              Obx(
-                () => Material(
+               Material(
                   color: AppTheme2.primaryColor,
                   child: Checkbox(
-                    value: notificationsController.isRemembered2.value,
+                    value: true,
                     onChanged: (bool value) {
-                      notificationsController.rememberMe2(value);
+                      //notificationsController.rememberMe2(value);
                     },
                     activeColor: AppTheme2.territoryColor,
                     checkColor: AppTheme2.primaryColor,
                   ),
                 ),
-              ),
+              
               SizedBox(
                 width: 5,
               ),

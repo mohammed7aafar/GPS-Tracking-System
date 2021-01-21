@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 import 'package:gpsLVN/features/GpsLvn/presentation/blocs/toggleGeofence/togglegeofence_cubit.dart';
 import 'package:gpsLVN/features/GpsLvn/presentation/blocs/toggleRoute/toggleroute_cubit.dart';
 import 'package:gpsLVN/features/GpsLvn/presentation/blocs/toggleTrack/toggletrack_cubit.dart';
-import 'package:gpsLVN/features/GpsLvn/presentation/pages/track_page.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../blocs/tab/app_tab.dart';
 import 'package:ionicons/ionicons.dart';
 import '../../../../core/utils/size_config.dart';
-
 class BottomNavigationBarWidget extends StatelessWidget {
   final AppTab activeTab;
   final Function(AppTab) onTabSelected;

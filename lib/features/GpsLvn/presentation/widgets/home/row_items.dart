@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../../core/utils/size_config.dart';
@@ -51,9 +50,9 @@ class RowItems extends StatelessWidget {
           builder: (context) => addUnitsToViewBottomSheet(context),
         );
 
-      case 2:
-        return showGroupOrListItems();
-        break;
+      // case 2:
+      //   return showGroupOrListItems();
+      //   break;
 
       // case 2:
       // return
@@ -61,10 +60,16 @@ class RowItems extends StatelessWidget {
     }
   }
 
-  showGroupOrListItems() => homeController.showGroupOrListItems();
+  // showGroupOrListItems() => homeController.showGroupOrListItems();
 
   buildFilterBottomSheet(BuildContext context) {
-    return Get.bottomSheet(Container(
+    return
+
+    showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+      
+    return   Container(
       height: SizeConfig.screenHeight / 2.5,
       width: double.infinity,
       decoration: BoxDecoration(
@@ -105,7 +110,8 @@ class RowItems extends StatelessWidget {
               ))
         ]
       ]),
-    ));
+    );
+                    });
   }
 
   Widget addUnitsToViewBottomSheet(context) {
@@ -135,16 +141,14 @@ class RowItems extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Obx(
-                () => homeController.saved.isNotEmpty
-                    ? Text(
+             Text(
                         "Cancel",
                         style: Theme.of(context).textTheme.headline5.copyWith(
                               color: AppTheme2.territoryColor,
                               fontSize: SizeConfig.screenWidth / 25,
                             ),
-                      )
-                    : Container(),
+                      
+                  
               ),
               Text(
                 "Add Units To View",
@@ -153,16 +157,13 @@ class RowItems extends StatelessWidget {
                       fontSize: SizeConfig.screenWidth / 23,
                     ),
               ),
-              Obx(
-                () => homeController.saved.isNotEmpty
-                    ? Text(
+              Text(
                         "Add",
                         style: Theme.of(context).textTheme.headline5.copyWith(
                               color: AppTheme2.territoryColor,
                               fontSize: SizeConfig.screenWidth / 25,
                             ),
-                      )
-                    : Container(),
+                     
               ),
             ],
           ),
@@ -217,7 +218,7 @@ class RowItems extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  onTap: () => homeController.selectUnitToAddToView(index),
+                  onTap: () {},
                   leading: Container(
                       width: SizeConfig.screenWidth / 7,
                       height: SizeConfig.screenWidth / 7,
@@ -248,8 +249,7 @@ class RowItems extends StatelessWidget {
                           fontSize: SizeConfig.screenWidth / 28,
                         ),
                   ),
-                  trailing: Obx(
-                    () => Icon(
+                  trailing: Icon(
                       homeController.homeList[index].isSelected
                           ? Ionicons.checkmark_circle_outline
                           : Ionicons.radio_button_off_outline,
@@ -257,7 +257,7 @@ class RowItems extends StatelessWidget {
                           ? AppTheme2.territoryColor
                           : AppTheme2.primaryColor18,
                     ),
-                  )),
+                  ),
             ),
             SizedBox(
               height: 10,

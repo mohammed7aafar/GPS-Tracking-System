@@ -1,9 +1,6 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:get/get.dart';
 import 'package:gpsLVN/features/GpsLvn/presentation/widgets/hooks/scroll_controller_for_animation.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -20,8 +17,7 @@ class NotificationsPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-
-     final hideFabAnimController = useAnimationController(
+    final hideFabAnimController = useAnimationController(
         duration: kThemeAnimationDuration, initialValue: 1);
 
     final scrollController =
@@ -162,50 +158,46 @@ class NotificationsPage extends HookWidget {
               ],
             ),
           )),
-      floatingActionButton: 
-       FadeTransition(
-                        opacity: hideFabAnimController,
-                        child: ScaleTransition(
-                            scale: hideFabAnimController,
-                            child:
-      FloatingActionButton(
-        onPressed: () => showCupertinoModalBottomSheet(
-          expand: true,
-          bounce: true,
-          context: context,
-          backgroundColor: AppTheme2.primaryColor,
-          builder: (context) => EditNotificationsBottomSheet(),
-        ),
-        backgroundColor: AppTheme2.whiteColor,
-        child: Icon(
-          Ionicons.add_outline,
-          color: AppTheme2.primaryColor20,
-        ),
-        
-        tooltip: "Add",
-       ))),
+      floatingActionButton: FadeTransition(
+          opacity: hideFabAnimController,
+          child: ScaleTransition(
+              scale: hideFabAnimController,
+              child: FloatingActionButton(
+                onPressed: () => showCupertinoModalBottomSheet(
+                  expand: true,
+                  bounce: true,
+                  context: context,
+                  backgroundColor: AppTheme2.primaryColor,
+                  builder: (context) => EditNotificationsBottomSheet(),
+                ),
+                backgroundColor: AppTheme2.whiteColor,
+                child: Icon(
+                  Ionicons.add_outline,
+                  color: AppTheme2.primaryColor20,
+                ),
+                tooltip: "Add",
+              ))),
     );
   }
 
   void buildSnackbarDeleteItem(index) {
     homeController.homeList.removeAt(index);
-    return Get.snackbar(
-        "Unit Item deleted", "click on add button to retrieve it",
-        colorText: AppTheme2.primaryColor18,
 
-        //duration: Duration(minutes: 34),
-        icon: Icon(
-          Ionicons.trash,
-          color: AppTheme2.errorColor,
-          size: SizeConfig.screenWidth / 15,
-        ),
-        borderRadius: 8.0,
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: AppTheme2.primaryColor20,
-        padding: EdgeInsets.all(18),
-        shouldIconPulse: false);
+    //    Get.snackbar(
+    //       "Unit Item deleted", "click on add button to retrieve it",
+    //       colorText: AppTheme2.primaryColor18,
+
+    //       //duration: Duration(minutes: 34),
+    //       icon: Icon(
+    //         Ionicons.trash,
+    //         color: AppTheme2.errorColor,
+    //         size: SizeConfig.screenWidth / 15,
+    //       ),
+    //       borderRadius: 8.0,
+    //       snackPosition: SnackPosition.TOP,
+    //       backgroundColor: AppTheme2.primaryColor20,
+    //       padding: EdgeInsets.all(18),
+    //       shouldIconPulse: false);
+    // }
   }
 }
-
-
-

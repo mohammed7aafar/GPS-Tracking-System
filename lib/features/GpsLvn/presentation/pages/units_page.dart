@@ -1,23 +1,18 @@
-
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:get/get.dart';
 import 'package:gpsLVN/features/GpsLvn/presentation/widgets/hooks/scroll_controller_for_animation.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-
 import '../../../../core/utils/size_config.dart';
 import '../../../../theme.dart';
 import '../controllers/home_controller.dart';
 import '../widgets/home/edit_units_bottom_sheet.dart';
 
 class UnitsPage extends HookWidget {
-  const UnitsPage({Key key, this.homeController}) : super(key: key);
+  const UnitsPage({Key key}) : super(key: key);
    
-   final HomeController homeController;
+   
   @override
   Widget build(BuildContext context) {
         final hideFabAnimController = useAnimationController(
@@ -91,7 +86,7 @@ class UnitsPage extends HookWidget {
           ),
          
           for (int index = 0;
-              index < homeController.homeList.length;
+              index < 3;
               index++) ...[
             Material(
               borderRadius: BorderRadius.circular(8),
@@ -126,14 +121,14 @@ class UnitsPage extends HookWidget {
                       //  Image.asset("${homeController.homeList[index].image}", fit: BoxFit.contain,),
                       ),
                   title: Text(
-                    "${homeController.homeList[index].unitName}",
+                    "Name",
                     style: Theme.of(context).textTheme.headline6.copyWith(
                           color: AppTheme2.primaryColor18,
                           fontSize: SizeConfig.screenWidth / 25,
                         ),
                   ),
                   subtitle: Text(
-                    "${homeController.homeList[index].location}",
+                    "location",
                     style: Theme.of(context).textTheme.headline2.copyWith(
                           color: AppTheme2.primaryColor16,
                           fontSize: SizeConfig.screenWidth / 28,
@@ -204,21 +199,21 @@ class UnitsPage extends HookWidget {
   }
 
    void buildSnackbarDeleteItem(index) {
-    homeController.homeList.removeAt(index);
-    return Get.snackbar(
-        "Unit Item deleted", "click on add button to retrieve it",
-        colorText: AppTheme2.primaryColor18,
+    // homeController.homeList.removeAt(index);
+    // return Get.snackbar(
+    //     "Unit Item deleted", "click on add button to retrieve it",
+    //     colorText: AppTheme2.primaryColor18,
 
-        //duration: Duration(minutes: 34),
-        icon: Icon(
-          Ionicons.trash,
-          color: AppTheme2.errorColor,
-          size: SizeConfig.screenWidth / 15,
-        ),
-        borderRadius: 8.0,
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: AppTheme2.primaryColor20,
-        padding: EdgeInsets.all(18),
-        shouldIconPulse: false);
+    //     //duration: Duration(minutes: 34),
+    //     icon: Icon(
+    //       Ionicons.trash,
+    //       color: AppTheme2.errorColor,
+    //       size: SizeConfig.screenWidth / 15,
+    //     ),
+    //     borderRadius: 8.0,
+    //     snackPosition: SnackPosition.TOP,
+    //     backgroundColor: AppTheme2.primaryColor20,
+    //     padding: EdgeInsets.all(18),
+    //     shouldIconPulse: false);
   }
 }

@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../../../../../core/utils/size_config.dart';
 import '../../../../../theme.dart';
-import '../../controllers/notifications_controller.dart';
+
 
 class EditDriversBottomSheet extends StatelessWidget {
-  final NotificationsController notificationsController =
-      Get.put(NotificationsController());
-
+  
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -109,8 +106,8 @@ class EditDriversBottomSheet extends StatelessWidget {
               color: AppTheme2.primaryColor20,
               child: InkWell(
                 borderRadius: BorderRadius.circular(8.0),
-                onTap: () => Get.bottomSheet(Container(),
-                    backgroundColor: AppTheme2.primaryColor),
+                onTap: () {},
+                   
                 child: Container(
                     height: SizeConfig.screenWidth / 8,
                     padding: EdgeInsets.all(15),
@@ -262,12 +259,12 @@ class EditDriversBottomSheet extends StatelessWidget {
 class EditNotificationsCheckBoxWidget extends StatelessWidget {
   const EditNotificationsCheckBoxWidget({
     Key key,
-    @required this.notificationsController,
+   
     this.name1,
     this.name2,
   }) : super(key: key);
 
-  final NotificationsController notificationsController;
+ 
   final name1;
   final name2;
 
@@ -278,19 +275,18 @@ class EditNotificationsCheckBoxWidget extends StatelessWidget {
         Expanded(
           child: Row(
             children: [
-              Obx(
-                () => Material(
+             Material(
                   color: AppTheme2.primaryColor,
                   child: Checkbox(
-                    value: notificationsController.isRemembered.value,
+                    value: true,
                     onChanged: (bool value) {
-                      notificationsController.rememberMe(value);
+                      //notificationsController.rememberMe(value);
                     },
                     activeColor: AppTheme2.territoryColor,
                     checkColor: AppTheme2.primaryColor,
                   ),
                 ),
-              ),
+              
               SizedBox(
                 width: 5,
               ),
@@ -306,19 +302,18 @@ class EditNotificationsCheckBoxWidget extends StatelessWidget {
         Expanded(
           child: Row(
             children: [
-              Obx(
-                () => Material(
+              Material(
                   color: AppTheme2.primaryColor,
                   child: Checkbox(
-                    value: notificationsController.isRemembered2.value,
+                    value: true,
                     onChanged: (bool value) {
-                      notificationsController.rememberMe2(value);
+                     // notificationsController.rememberMe2(value);
                     },
                     activeColor: AppTheme2.territoryColor,
                     checkColor: AppTheme2.primaryColor,
                   ),
                 ),
-              ),
+              
               SizedBox(
                 width: 5,
               ),

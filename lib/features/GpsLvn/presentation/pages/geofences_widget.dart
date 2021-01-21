@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 import 'package:gpsLVN/features/GpsLvn/presentation/blocs/groupIcon/groupicon_cubit.dart';
 import 'package:ionicons/ionicons.dart';
 
@@ -12,10 +11,7 @@ import '../controllers/home_controller.dart';
 class GeoFencesWidget extends StatelessWidget {
   const GeoFencesWidget({
     Key key,
-    @required this.homeController,
   }) : super(key: key);
-
-  final HomeController homeController;
 
   static final bool isShowed = false;
 
@@ -40,13 +36,9 @@ class GeoFencesWidget extends StatelessWidget {
                   color: AppTheme2.primaryColor11),
             ),
           )),
-          Obx(
-            () => homeController.isGeofenceShowed.value
-                ? GeoFencesDetailsWidget(
-                    homeController: homeController,
-                  )
-                : Container(),
-          ),
+          GeoFencesDetailsWidget(),
+          //: Container(),
+
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: Row(
@@ -68,18 +60,16 @@ class GeoFencesWidget extends StatelessWidget {
                 ),
                 InkWell(
                     onTap: () {
-                      homeController.showGeofenceDetails();
+                      // homeController.showGeofenceDetails();
                     },
-                    child: Obx(() => !homeController.isGeofenceShowed.value
-                        ? Text(
-                            "Add",
-                            style:
-                                Theme.of(context).textTheme.headline5.copyWith(
-                                      color: AppTheme2.territoryColor,
-                                      fontSize: SizeConfig.screenWidth / 23,
-                                    ),
-                          )
-                        : Container())),
+                    child: Text(
+                      "Add",
+                      style: Theme.of(context).textTheme.headline5.copyWith(
+                            color: AppTheme2.territoryColor,
+                            fontSize: SizeConfig.screenWidth / 23,
+                          ),
+                    )),
+                //: Container())),
               ],
             ),
           ),
@@ -221,26 +211,24 @@ class GeoFencesWidget extends StatelessWidget {
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  Obx(
-                                                    () => homeController
-                                                            .saved.isNotEmpty
-                                                        ? Text(
-                                                            "Cancel",
-                                                            style:
-                                                                Theme.of(
-                                                                        context)
-                                                                    .textTheme
-                                                                    .headline5
-                                                                    .copyWith(
-                                                                      color: AppTheme2
-                                                                          .territoryColor,
-                                                                      fontSize:
-                                                                          SizeConfig.screenWidth /
-                                                                              25,
-                                                                    ),
-                                                          )
-                                                        : Container(),
+                                                  // Obx(
+                                                  //   () => homeController
+                                                  //           .saved.isNotEmpty
+                                                  //       ?
+                                                  Text(
+                                                    "Cancel",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headline5
+                                                        .copyWith(
+                                                          color: AppTheme2
+                                                              .territoryColor,
+                                                          fontSize: SizeConfig
+                                                                  .screenWidth /
+                                                              25,
+                                                        ),
                                                   ),
+
                                                   Text(
                                                     "Group Name",
                                                     style: Theme.of(context)
@@ -254,26 +242,25 @@ class GeoFencesWidget extends StatelessWidget {
                                                               23,
                                                         ),
                                                   ),
-                                                  Obx(
-                                                    () => homeController
-                                                            .saved.isNotEmpty
-                                                        ? Text(
-                                                            "Add",
-                                                            style:
-                                                                Theme.of(
-                                                                        context)
-                                                                    .textTheme
-                                                                    .headline5
-                                                                    .copyWith(
-                                                                      color: AppTheme2
-                                                                          .territoryColor,
-                                                                      fontSize:
-                                                                          SizeConfig.screenWidth /
-                                                                              25,
-                                                                    ),
-                                                          )
-                                                        : Container(),
-                                                  ),
+                                                  // Obx(
+                                                  //   () => homeController
+                                                  //           .saved.isNotEmpty
+                                                  //       ?
+
+                                                  Text(
+                                                    "Add",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headline5
+                                                        .copyWith(
+                                                          color: AppTheme2
+                                                              .territoryColor,
+                                                          fontSize: SizeConfig
+                                                                  .screenWidth /
+                                                              25,
+                                                        ),
+                                                  )
+                                                  // : Container(),
                                                 ],
                                               ),
                                               SizedBox(
@@ -334,31 +321,28 @@ class GeoFencesWidget extends StatelessWidget {
                                                 height: 30,
                                               ),
                                               for (int index = 0;
-                                                  index <
-                                                      homeController
-                                                          .homeList.length;
+                                                  index < 3;
                                                   index++) ...[
                                                 Material(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                  color:
-                                                      AppTheme2.primaryColor20,
-                                                  child: ListTile(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                    color: AppTheme2
+                                                        .primaryColor20,
+                                                    child: ListTile(
                                                       shape:
                                                           RoundedRectangleBorder(
                                                         borderRadius:
                                                             BorderRadius
                                                                 .circular(8.0),
                                                       ),
-                                                      onTap: () => homeController
-                                                          .selectUnitToAddToView(
-                                                              index),
+                                                      onTap: () => {},
                                                       leading: Padding(
                                                         padding:
                                                             const EdgeInsets
                                                                 .all(8.0),
                                                         child: Image.asset(
-                                                          "${homeController.homeList[index].image}",
+                                                          "assets/car.png",
                                                           fit: BoxFit.contain,
                                                         ),
                                                       ),
@@ -375,27 +359,28 @@ class GeoFencesWidget extends StatelessWidget {
                                                                   25,
                                                             ),
                                                       ),
-                                                      trailing: Obx(
-                                                        () => Icon(
-                                                          homeController
-                                                                  .homeList[
-                                                                      index]
-                                                                  .isSelected
-                                                              ? Ionicons
-                                                                  .checkmark_circle_outline
-                                                              : Ionicons
-                                                                  .radio_button_off_outline,
-                                                          color: homeController
-                                                                  .homeList[
-                                                                      index]
-                                                                  .isSelected
-                                                              ? AppTheme2
-                                                                  .territoryColor
-                                                              : AppTheme2
-                                                                  .primaryColor18,
-                                                        ),
-                                                      )),
-                                                ),
+                                                      trailing: Icon(
+                                                        // homeController
+                                                        //         .homeList[
+                                                        //             index]
+                                                        //         .isSelected
+                                                        //?
+                                                        Ionicons
+                                                            .checkmark_circle_outline,
+                                                        // : Ionicons
+                                                        //     .radio_button_off_outline,
+                                                        color:
+                                                            //  homeController
+                                                            //         .homeList[
+                                                            //             index]
+                                                            //         .isSelected
+                                                            //     ? AppTheme2
+                                                            //         .territoryColor
+                                                            //     :
+                                                            AppTheme2
+                                                                .primaryColor18,
+                                                      ),
+                                                    )),
                                                 SizedBox(
                                                   height: 10,
                                                 )
@@ -535,10 +520,8 @@ class GeoFencesWidget extends StatelessWidget {
 class GeoFencesDetailsWidget extends StatelessWidget {
   const GeoFencesDetailsWidget({
     Key key,
-    this.homeController,
   }) : super(key: key);
 
-  final HomeController homeController;
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -549,7 +532,7 @@ class GeoFencesDetailsWidget extends StatelessWidget {
           children: [
             InkWell(
                 onTap: () {
-                  homeController.showGeofenceDetails();
+                  // homeController.showGeofenceDetails();
                 },
                 child: Text(
                   "Cancel",
@@ -567,7 +550,7 @@ class GeoFencesDetailsWidget extends StatelessWidget {
             ),
             InkWell(
                 onTap: () {
-                  homeController.showGeofenceDetails();
+                  // homeController.showGeofenceDetails();
                 },
                 child: Text(
                   "save",
@@ -617,8 +600,7 @@ class GeoFencesDetailsWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                       color: AppTheme2.primaryColor20,
                       child: InkWell(
-                        onTap: () => Get.bottomSheet(Container(),
-                            backgroundColor: AppTheme2.primaryColor),
+                        onTap: () {},
                         child: Container(
                             height: SizeConfig.screenWidth / 8,
                             padding: EdgeInsets.all(15),
@@ -676,8 +658,7 @@ class GeoFencesDetailsWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
                 color: AppTheme2.primaryColor20,
                 child: InkWell(
-                  onTap: () => Get.bottomSheet(Container(),
-                      backgroundColor: AppTheme2.primaryColor),
+                  onTap: () {},
                   child: Container(
                       height: SizeConfig.screenWidth / 8,
                       padding: EdgeInsets.all(15),

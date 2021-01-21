@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:ionicons/ionicons.dart';
-
 import '../../../../../core/utils/size_config.dart';
 import '../../../../../theme.dart';
 import '../../controllers/home_controller.dart';
@@ -36,30 +34,31 @@ class RowItemWidget extends StatelessWidget {
                   child: Column(
                     children: [
 
-                      Obx(()=>
+                     
                                              
-                       Icon( homeController.isGroupOrList.value &&  index == 2 ?
+                       Icon(
                          
-                        Ionicons.list_outline:
-                        item.icon,
+                         
+                         
+                        Ionicons.list_outline,
+                        //item.icon,
                         color: item.color,
                       ),
-                      ),
+                      
                      
                       SizedBox(
                         height: 8,
                       ),
 
-                      Obx(()=>
-                      homeController.isGroupOrList.value && index == 2 ?
-                      Text(
-                        "List",
-                        style: Theme.of(context).textTheme.headline6.copyWith(
-                              color: item.color,
-                              fontSize: SizeConfig.screenWidth / 25,
-                            ),
+                      
+                      // Text(
+                      //   "List",
+                      //   style: Theme.of(context).textTheme.headline6.copyWith(
+                      //         color: item.color,
+                      //         fontSize: SizeConfig.screenWidth / 25,
+                      //       ),
      
-                      ):
+                      
                       Text(
                         "${item.title}",
                         style: Theme.of(context).textTheme.headline6.copyWith(
@@ -68,7 +67,7 @@ class RowItemWidget extends StatelessWidget {
                             ),
 
                       
-                      )),
+                      )
                     ],
                   ),
                 ))));

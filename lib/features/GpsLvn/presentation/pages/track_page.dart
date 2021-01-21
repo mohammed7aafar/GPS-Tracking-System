@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 import 'package:ionicons/ionicons.dart';
-
 import '../../../../core/utils/size_config.dart';
 import '../../../../injection_container.dart';
 import '../../../../theme.dart';
 import '../blocs/devices/devices_bloc.dart';
 import '../blocs/showTrack/showtrack_cubit.dart';
-import '../controllers/track_controller.dart';
 import '../widgets/home/loading.dart';
-import '../widgets/home/unitsBottomSheet/row_units.dart';
 
 class TrackPage extends StatelessWidget {
-  final TrackController trackController = Get.put(TrackController());
+  
 
   @override
   Widget build(BuildContext context) {
@@ -224,18 +220,17 @@ class TrackPage extends StatelessWidget {
             ),
             Row(
               children: [
-                Obx(
-                  () => Material(
+                Material(
                     color: AppTheme2.primaryColor,
                     child: Checkbox(
-                      value: trackController.isRemembered.value,
+                      value: true,
                       onChanged: (bool value) {
-                        trackController.rememberMe(value);
+                        //trackController.rememberMe(value);
                       },
                       activeColor: AppTheme2.territoryColor,
                       checkColor: AppTheme2.primaryColor,
                     ),
-                  ),
+                
                 ),
                 const SizedBox(
                   width: 5,

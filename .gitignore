@@ -39,3 +39,5 @@ app.*.symbols
 
 # Obfuscation related
 app.*.map.json
+lib/features/GpsLvn/presentation/pages/map_screen.dart
+lib/features/GpsLvn/presentation/blocs/mapBloc/map_bloc.dart

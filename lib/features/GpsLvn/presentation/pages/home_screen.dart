@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 import 'package:gpsLVN/features/GpsLvn/presentation/blocs/toggleGeofence/togglegeofence_cubit.dart';
 import 'package:gpsLVN/features/GpsLvn/presentation/blocs/toggleRoute/toggleroute_cubit.dart';
 import 'package:gpsLVN/features/GpsLvn/presentation/blocs/toggleTrack/toggletrack_cubit.dart';
@@ -18,7 +16,7 @@ import 'map_screen.dart';
 import 'reports_page.dart';
 
 class HomeScreen extends StatelessWidget {
-  final HomeController homeController = Get.find();
+  final HomeController homeController = HomeController();
 
   // GoogleMapController _controller;
 
@@ -71,7 +69,7 @@ class HomeScreen extends StatelessWidget {
         );
         break;
       case AppTab.reports:
-        return ReportsPage(homeController: homeController);
+        return ReportsPage();
         break;
 
       case AppTab.track:
@@ -108,7 +106,7 @@ class DrawerItemsWidget extends StatelessWidget {
               color: AppTheme2.primaryColor,
               child: ListTile(
                 onTap: () {
-                   Navigator.of(context).pushNamed('tools');
+                  Navigator.of(context).pushNamed('tools');
                 },
                 leading: Icon(
                   Ionicons.person_circle_outline,
@@ -129,11 +127,10 @@ class DrawerItemsWidget extends StatelessWidget {
                         fontSize: SizeConfig.screenWidth / 25,
                       ),
                 ),
-                 trailing: Icon(
+                trailing: Icon(
                   Ionicons.chevron_forward_outline,
                   color: AppTheme2.primaryColor18,
                 ),
-              
               )),
           SizedBox(
             height: 20,
@@ -202,8 +199,7 @@ class DrawerItemsWidget extends StatelessWidget {
                 onTap: () {
                   context.read<TogglerouteCubit>().toggleRouteFromMapTab();
                   Navigator.pop(context);
-                 context.read<TogglegeofenceCubit>().toggleGeofence();
-                
+                  context.read<TogglegeofenceCubit>().toggleGeofence();
                 },
                 leading: Icon(
                   Ionicons.locate_outline,
@@ -228,13 +224,12 @@ class DrawerItemsWidget extends StatelessWidget {
               color: AppTheme2.primaryColor,
               child: ListTile(
                 onTap: () {
-                  
                   context.read<ToggletrackCubit>().toggleTrackTabFromMapTab();
-                  context.read<TogglegeofenceCubit>().toggleGeofenceFromMapTab();
+                  context
+                      .read<TogglegeofenceCubit>()
+                      .toggleGeofenceFromMapTab();
                   Navigator.of(context).pop();
                   context.read<TogglerouteCubit>().toggleRoute();
-                  
-        
                 },
                 leading: Icon(
                   Ionicons.navigate_outline,
@@ -284,7 +279,7 @@ class DrawerItemsWidget extends StatelessWidget {
               color: AppTheme2.primaryColor,
               child: ListTile(
                 onTap: () {
-                   Navigator.of(context).pushNamed('drivers');
+                  Navigator.of(context).pushNamed('drivers');
                 },
                 leading: Icon(
                   Ionicons.speedometer_outline,
@@ -309,7 +304,7 @@ class DrawerItemsWidget extends StatelessWidget {
               color: AppTheme2.primaryColor,
               child: ListTile(
                 onTap: () {
-                      Navigator.of(context).pushNamed('setup');
+                  Navigator.of(context).pushNamed('setup');
                 },
                 leading: Icon(
                   Ionicons.settings_outline,
@@ -364,7 +359,6 @@ class DrawerItemsWidget extends StatelessWidget {
           SizedBox(
             height: 20,
           ),
-
           Center(
             child: Container(
                 child: Text("Powered by GPS LVN",
@@ -604,4 +598,3 @@ class RoutesWidget extends StatelessWidget {
             ])));
   }
 }
-

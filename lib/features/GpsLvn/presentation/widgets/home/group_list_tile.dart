@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:get/get.dart';
+
 import 'package:gpsLVN/core/utils/size_config.dart';
 import 'package:gpsLVN/features/GpsLvn/presentation/controllers/home_controller.dart';
 import 'package:ionicons/ionicons.dart';
@@ -12,22 +12,22 @@ import 'edit_units_bottom_sheet.dart';
 class GroupListTileItems extends StatelessWidget {
   const GroupListTileItems({
     Key key,
-    @required this.homeController,
+  
   }) : super(key: key);
 
-  final HomeController homeController;
+  
 
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
         constraints: BoxConstraints(
           maxHeight:
-              SizeConfig.screenHeight * homeController.homeList.length / 7,
+              SizeConfig.screenHeight  / 7,
         ),
         child: Column(
           children: [
             for (int index = 0;
-                index < homeController.groupListItem.length;
+                index < 3;
                 index++) ...[
               Material(
                 borderRadius: BorderRadius.circular(8),
@@ -69,7 +69,7 @@ class GroupListTileItems extends StatelessWidget {
                         //  Image.asset("${homeController.homeList[index].image}", fit: BoxFit.contain,),
                         ),
                     title: Text(
-                      "\n${homeController.groupListItem[index].groupName}",
+                      "\n NAme",
                       style: Theme.of(context).textTheme.headline6.copyWith(
                             color: AppTheme2.primaryColor18,
                             fontSize: SizeConfig.screenWidth / 25,
@@ -206,7 +206,7 @@ class GroupListTileItems extends StatelessWidget {
           ),
          
           for (int index = 0;
-              index < homeController.homeList.length;
+              index < 3;
               index++) ...[
             Material(
               borderRadius: BorderRadius.circular(8),
@@ -241,14 +241,14 @@ class GroupListTileItems extends StatelessWidget {
                       //  Image.asset("${homeController.homeList[index].image}", fit: BoxFit.contain,),
                       ),
                   title: Text(
-                    "${homeController.homeList[index].unitName}",
+                    "name",
                     style: Theme.of(context).textTheme.headline6.copyWith(
                           color: AppTheme2.primaryColor18,
                           fontSize: SizeConfig.screenWidth / 25,
                         ),
                   ),
                   subtitle: Text(
-                    "${homeController.homeList[index].location}",
+                    "location",
                     style: Theme.of(context).textTheme.headline2.copyWith(
                           color: AppTheme2.primaryColor16,
                           fontSize: SizeConfig.screenWidth / 28,
@@ -297,41 +297,41 @@ class GroupListTileItems extends StatelessWidget {
 
 
   void buildSnackbarDeleteItem(index) {
-    homeController.homeList.removeAt(index);
-    return Get.snackbar(
-        "Unit Item deleted", "click on add button to retrieve it",
-        colorText: AppTheme2.primaryColor18,
+   // homeController.homeList.removeAt(index);
+    // return Get.snackbar(
+    //     "Unit Item deleted", "click on add button to retrieve it",
+    //     colorText: AppTheme2.primaryColor18,
 
-        //duration: Duration(minutes: 34),
-        icon: Icon(
-          Ionicons.trash,
-          color: AppTheme2.errorColor,
-          size: SizeConfig.screenWidth / 15,
-        ),
-        borderRadius: 8.0,
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: AppTheme2.primaryColor20,
-        padding: EdgeInsets.all(18),
-        shouldIconPulse: false);
+    //     //duration: Duration(minutes: 34),
+    //     icon: Icon(
+    //       Ionicons.trash,
+    //       color: AppTheme2.errorColor,
+    //       size: SizeConfig.screenWidth / 15,
+    //     ),
+    //     borderRadius: 8.0,
+    //     snackPosition: SnackPosition.TOP,
+    //     backgroundColor: AppTheme2.primaryColor20,
+    //     padding: EdgeInsets.all(18),
+    //     shouldIconPulse: false);
   }
 
   buildSnackbarDeleteGroupItems(index) {
-    homeController.homeList.removeAt(index);
-    return Get.snackbar(
-        "Group Items deleted", "click on add button to retrieve it",
-        colorText: AppTheme2.primaryColor18,
+    // homeController.homeList.removeAt(index);
+    // return Get.snackbar(
+    //     "Group Items deleted", "click on add button to retrieve it",
+    //     colorText: AppTheme2.primaryColor18,
 
-        //duration: Duration(minutes: 34),
-        icon: Icon(
-          Ionicons.trash,
-          color: AppTheme2.errorColor,
-          size: SizeConfig.screenWidth / 15,
-        ),
-        borderRadius: 8.0,
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: AppTheme2.primaryColor20,
-        padding: EdgeInsets.all(18),
-        shouldIconPulse: false);
+    //     //duration: Duration(minutes: 34),
+    //     icon: Icon(
+    //       Ionicons.trash,
+    //       color: AppTheme2.errorColor,
+    //       size: SizeConfig.screenWidth / 15,
+    //     ),
+    //     borderRadius: 8.0,
+    //     snackPosition: SnackPosition.TOP,
+    //     backgroundColor: AppTheme2.primaryColor20,
+    //     padding: EdgeInsets.all(18),
+    //     shouldIconPulse: false);
   }
 
 
@@ -362,16 +362,14 @@ class GroupListTileItems extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Obx(
-                () => homeController.saved.isNotEmpty
-                    ? Text(
+           Text(
                         "Cancel",
                         style: Theme.of(context).textTheme.headline5.copyWith(
                               color: AppTheme2.territoryColor,
                               fontSize: SizeConfig.screenWidth / 25,
                             ),
-                      )
-                    : Container(),
+                      
+                
               ),
               Text(
                 "Group Name",
@@ -380,16 +378,13 @@ class GroupListTileItems extends StatelessWidget {
                       fontSize: SizeConfig.screenWidth / 23,
                     ),
               ),
-              Obx(
-                () => homeController.saved.isNotEmpty
-                    ? Text(
+              Text(
                         "Add",
                         style: Theme.of(context).textTheme.headline5.copyWith(
                               color: AppTheme2.territoryColor,
                               fontSize: SizeConfig.screenWidth / 25,
                             ),
-                      )
-                    : Container(),
+                      
               ),
             ],
           ),
@@ -435,7 +430,7 @@ class GroupListTileItems extends StatelessWidget {
             height: 30,
           ),
           for (int index = 0;
-              index < homeController.homeList.length;
+              index < 3;
               index++) ...[
             Material(
               borderRadius: BorderRadius.circular(8),
@@ -444,7 +439,7 @@ class GroupListTileItems extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  onTap: () => homeController.selectUnitToAddToView(index),
+                  onTap: () {},
                   leading: Container(
                       width: SizeConfig.screenWidth / 7,
                       height: SizeConfig.screenWidth / 7,
@@ -462,28 +457,25 @@ class GroupListTileItems extends StatelessWidget {
                       //  Image.asset("${homeController.homeList[index].image}", fit: BoxFit.contain,),
                       ),
                   title: Text(
-                    "${homeController.homeList[index].unitName}",
+                    "name",
                     style: Theme.of(context).textTheme.headline6.copyWith(
                           color: AppTheme2.primaryColor18,
                           fontSize: SizeConfig.screenWidth / 25,
                         ),
                   ),
                   subtitle: Text(
-                    "${homeController.homeList[index].location}",
+                    "location",
                     style: Theme.of(context).textTheme.headline2.copyWith(
                           color: AppTheme2.primaryColor16,
                           fontSize: SizeConfig.screenWidth / 28,
                         ),
                   ),
-                  trailing: Obx(
-                    () => Icon(
-                      homeController.homeList[index].isSelected
-                          ? Ionicons.checkmark_circle_outline
-                          : Ionicons.radio_button_off_outline,
-                      color: homeController.homeList[index].isSelected
-                          ? AppTheme2.territoryColor
-                          : AppTheme2.primaryColor18,
-                    ),
+                  trailing:Icon(
+                      Ionicons.checkmark_circle_outline,
+                         
+                      color: 
+                          AppTheme2.primaryColor18,
+                    
                   )),
             ),
             SizedBox(
