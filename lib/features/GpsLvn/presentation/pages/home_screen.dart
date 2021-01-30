@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gpsLVN/features/GpsLvn/presentation/blocs/toggleGeofence/togglegeofence_cubit.dart';
 import 'package:gpsLVN/features/GpsLvn/presentation/blocs/toggleRoute/toggleroute_cubit.dart';
 import 'package:gpsLVN/features/GpsLvn/presentation/blocs/toggleTrack/toggletrack_cubit.dart';
 import 'package:ionicons/ionicons.dart';
+import '../../../../injection_container.dart';
 import ' notifications_page.dart';
 import '../../../../core/utils/size_config.dart';
 import '../../../../theme.dart';
@@ -14,9 +16,23 @@ import '../controllers/home_controller.dart';
 import '../widgets/bottom_nav_bar.dart';
 import 'map_screen.dart';
 import 'reports_page.dart';
+import 'package:gpsLVN/features/GpsLvn/presentation/blocs/animatedIconCubit/animatedicon_cubit.dart';
+import 'package:gpsLVN/features/GpsLvn/presentation/blocs/devices/devices_bloc.dart';
+import 'package:gpsLVN/features/GpsLvn/presentation/blocs/groupIcon/groupicon_cubit.dart';
+import 'package:gpsLVN/features/GpsLvn/presentation/blocs/map/map_bloc.dart';
+import 'package:gpsLVN/features/GpsLvn/presentation/blocs/showTrack/showtrack_cubit.dart';
+import 'package:gpsLVN/features/GpsLvn/presentation/blocs/tab/tab_bloc.dart';
+import 'package:gpsLVN/features/GpsLvn/presentation/blocs/unitGroups/unitgroups_cubit.dart';
 
 class HomeScreen extends StatelessWidget {
   final HomeController homeController = HomeController();
+
+  static Route route() {
+    return MaterialPageRoute<void>(builder: (_) => HomeScreen());
+  }
+
+// Create storage
+final storage = new FlutterSecureStorage();
 
   // GoogleMapController _controller;
 
@@ -39,14 +55,58 @@ class HomeScreen extends StatelessWidget {
   //changeMapMode() => getJsonFile("assets/map_theme.json").then(setMapStyle);
 
   // final HideNavbar hiding = HideNavbar();
+  
+ 
+
+
+  Future<String> hasToken() async {
+     return await storage.read(key: "token"); 
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    
+    final token = hasToken();
+  
+    return  MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (context) => sl<DevicesBloc>()..add(GetDevicesData(token.toString(), "en"))),
+              BlocProvider(create: (context) => FlutterMapBloc( devicesBloc: BlocProvider.of<DevicesBloc>(context),)),
+              BlocProvider(create: (context) => sl<GroupiconCubit>()),
+              BlocProvider(create: (context) => sl<UnitgroupsCubit>()),
+              BlocProvider(create: (context) => sl<AnimatediconCubit>()),  
+              BlocProvider(create: (context) => sl<TabBloc>()),
+              BlocProvider(create: (context) => sl<ToggletrackCubit>()),
+              BlocProvider(create: (context) => sl<ShowtrackCubit>()),
+              BlocProvider(create: (context) => sl<TogglegeofenceCubit>()),
+              BlocProvider(create: (context) => sl<TogglerouteCubit>()),
+            ],
+            child: 
+      
+    
+    HomePage(homeController: homeController));
+  }
+
+  
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({
+    Key key,
+    @required this.homeController,
+  }) : super(key: key);
+
+  final HomeController homeController;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         key: homeController.drawerKey,
         backgroundColor: AppTheme2.primaryColor,
         body: BlocBuilder<TabBloc, AppTab>(builder: (context, activeTab) {
-          return selectPageTab(activeTab);
-        }),
+              return selectPageTab(activeTab);
+            }),
         bottomNavigationBar:
             BlocBuilder<TabBloc, AppTab>(builder: (context, activeTab) {
           return BottomNavigationBarWidget(
@@ -58,7 +118,7 @@ class HomeScreen extends StatelessWidget {
         }),
         drawer: DrawerItemsWidget(
           homeController: homeController,
-        ));
+     ) );
   }
 
   selectPageTab(activeTab) {
@@ -72,11 +132,11 @@ class HomeScreen extends StatelessWidget {
         return ReportsPage();
         break;
 
-      case AppTab.track:
-        return MapTabPage(
-          homeController: homeController,
-        );
-        break;
+      // case AppTab.track:
+      //   return MapTabPage(
+      //     homeController: homeController,
+      //   );
+      //   break;
       case AppTab.notifications:
         return NotificationsPage(homeController: homeController);
         break;
@@ -106,7 +166,7 @@ class DrawerItemsWidget extends StatelessWidget {
               color: AppTheme2.primaryColor,
               child: ListTile(
                 onTap: () {
-                  Navigator.of(context).pushNamed('tools');
+                  Navigator.of(context).pushNamed('/tools');
                 },
                 leading: Icon(
                   Ionicons.person_circle_outline,
@@ -147,7 +207,7 @@ class DrawerItemsWidget extends StatelessWidget {
               child: ListTile(
                 onTap: () {
                   context.read<ToggletrackCubit>().toggleTrackTabFromMapTab();
-                  Navigator.of(context).pushNamed('units');
+                  Navigator.of(context).pushNamed('/units');
                 },
                 leading: Icon(
                   Ionicons.car_outline,
@@ -172,7 +232,7 @@ class DrawerItemsWidget extends StatelessWidget {
               color: AppTheme2.primaryColor,
               child: ListTile(
                 onTap: () {
-                  Navigator.of(context).pushNamed('tasks');
+                  Navigator.of(context).pushNamed('/tasks');
                 },
                 leading: Icon(
                   Ionicons.build_outline,
@@ -254,7 +314,7 @@ class DrawerItemsWidget extends StatelessWidget {
               color: AppTheme2.primaryColor,
               child: ListTile(
                 onTap: () {
-                  Navigator.of(context).pushNamed('jobs');
+                  Navigator.of(context).pushNamed('/jobs');
                 },
                 leading: Icon(
                   Ionicons.clipboard_outline,
@@ -279,7 +339,7 @@ class DrawerItemsWidget extends StatelessWidget {
               color: AppTheme2.primaryColor,
               child: ListTile(
                 onTap: () {
-                  Navigator.of(context).pushNamed('drivers');
+                  Navigator.of(context).pushNamed('/drivers');
                 },
                 leading: Icon(
                   Ionicons.speedometer_outline,
@@ -304,7 +364,7 @@ class DrawerItemsWidget extends StatelessWidget {
               color: AppTheme2.primaryColor,
               child: ListTile(
                 onTap: () {
-                  Navigator.of(context).pushNamed('setup');
+                  Navigator.of(context).pushNamed('/setup');
                 },
                 leading: Icon(
                   Ionicons.settings_outline,

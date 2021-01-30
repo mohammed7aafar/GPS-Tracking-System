@@ -1,21 +1,21 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:gpsLVN/features/login/domain/usecases/has_token.dart';
 import 'package:meta/meta.dart';
-
 import '../../../../../core/constants/constants.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../../domain/entities/devices.dart';
 import '../../../domain/usecases/get_devices.dart';
-
 part 'devices_event.dart';
 part 'devices_state.dart';
 
 class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
   final GetDevices devices;
-  DevicesBloc({@required this.devices})
+  final HasToken hasToken;
+ 
+  DevicesBloc({@required this.devices, @required this.hasToken, })
       : assert(devices != null),
         super(DevicesInitial());
 
@@ -24,18 +24,13 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
     DevicesEvent event,
   ) async* {
     if (event is GetDevicesData) {
-      
       yield DevicesDataLoading();
-    
+
       final failureOrDevices =
           await devices(ParamsDevices(token: event.token, lang: event.lang));
       yield* _eitherLoadedOrErrorState(failureOrDevices);
-
     }
-
-    
   }
-
 
   // Stream<DevicesState> _mapTodoUpdatedToState(DevicesUpdated event) async* {
   //   if (state is DevicesDataLoaded) {
@@ -44,7 +39,7 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
   //       return device.id == event ? event.devices : device;
   //     }).toList();
   //     yield DevicesDataLoaded(updatedDevices);
-      
+
   //   }
   // }
 

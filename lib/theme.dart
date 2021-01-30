@@ -7,7 +7,6 @@ class AppTheme2 {
   static const Color territoryColor = Color(0xFF3da9fc);
   static const Color textColor = Color(0xFF425CD8);
   static const Color whiteColor = Color(0xFFFFFFFF);
-
   static const Color primaryColor11 = Color(0xFF272C3A);
   static const Color primaryColor12 = Color(0xFF2F323D);
   static const Color primaryColor13 = Color(0xFF63656D);
@@ -20,14 +19,12 @@ class AppTheme2 {
   static const Color primaryColor20 = Color(0xFF1C2131);
   static const Color primaryColor21 = Color(0xFF262C41);
   static const Color primaryColor22 = Color(0xFF353947);
- 
 
   static const Color errorColor = Color(0xFFFF4539);
   static const Color addColor = Color(0xFFFEA103);
   static const Color editColor = Color(0xFF0A83FE);
   static const Color onlineColor = Color(0xFF4CAF4F);
   static const Color clearColor = Color(0xFF404A69);
-  
 
   static ThemeData themeData() => new ThemeData(
         primaryColor: primaryColor,
@@ -37,16 +34,11 @@ class AppTheme2 {
         cursorColor: territoryColor,
         unselectedWidgetColor: primaryColor18,
         cardColor: primaryColor20,
-        
-        
-
-        
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
           backgroundColor: primaryColor20,
           unselectedItemColor: primaryColor18,
           selectedItemColor: territoryColor,
           elevation: 0,
-          
           type: BottomNavigationBarType.fixed,
         ),
         textTheme: TextTheme(
@@ -56,7 +48,6 @@ class AppTheme2 {
               letterSpacing: -1.5,
               color: primaryColor15),
           headline2: GoogleFonts.openSans(
-              
               fontSize: 51,
               fontWeight: FontWeight.w300,
               letterSpacing: -0.5,

@@ -29,46 +29,6 @@ import '../widgets/home/unitsBottomSheet/row_units.dart';
 import 'home_screen.dart';
 import 'track_page.dart';
 
-// class MovingWithoutRefreshAllMapMarkers extends StatefulWidget {
-//   final  List<Marker> marker;
-//   const MovingWithoutRefreshAllMapMarkers({Key key, this.marker}) : super(key: key);
-//   @override
-//   State<StatefulWidget> createState() =>
-//       _MovingWithoutRefreshAllMapMarkersState();
-// }
-
-// class _MovingWithoutRefreshAllMapMarkersState
-//     extends State<MovingWithoutRefreshAllMapMarkers> {
-//   Marker _marker;
-//   Timer _timer;
-//   int _markerIndex = 0;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _marker = widget.marker[_markerIndex];
-//     _timer = Timer.periodic(Duration(seconds: 1), (_) {
-//       setState(() {
-//         _marker = widget.marker[_markerIndex];
-//         _markerIndex = (_markerIndex + 1) % widget.marker.length;
-//       });
-//     });
-//   }
-
-//   @override
-//   void dispose() {
-//     _timer?.cancel();
-//     super.dispose();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MarkerLayerWidget(
-//       options: MarkerLayerOptions(markers: <Marker>[]..addAll(widget.marker)),
-//     );
-//   }
-// }
-
 class MapTabPage extends StatefulWidget {
   MapTabPage({
     Key key,
@@ -82,7 +42,8 @@ class MapTabPage extends StatefulWidget {
 }
 
 class _MapTabPageState extends State<MapTabPage>
-    with AutomaticKeepAliveClientMixin {
+  //  with AutomaticKeepAliveClientMixin
+     {
   // final PopupController _popupLayerController = PopupController();
 
   // StreamSubscription _loactationSubscrption;
@@ -90,9 +51,9 @@ class _MapTabPageState extends State<MapTabPage>
 
   // MapController mapController;
 
-  @override
-  bool get wantKeepAlive => true;
-  @override
+  // @override
+  // bool get wantKeepAlive => true;
+
   // void initState() {
   //   super.initState();
   //   marker = Marker();
@@ -187,10 +148,10 @@ class _MapTabPageState extends State<MapTabPage>
     MapController controller = MapController();
     final Completer<MapController> _mapController = Completer();
 
-   // final blocMap = bloc.BlocProvider.of<MapBloc>(context);
+    // final blocMap = bloc.BlocProvider.of<MapBloc>(context);
 
     if (!_mapController.isCompleted) {
-      _mapController.complete(controller);  
+      _mapController.complete(controller);
     }
 
     // var markers = tappedPoints.map((latlng) {
@@ -208,7 +169,7 @@ class _MapTabPageState extends State<MapTabPage>
     //   );
     // }).toList();
     //print("rebuilt");
-    
+
     return Stack(children: [
       // BlocBuilder<DevicesBloc, DevicesState>(builder: (context, state) {
       //   if ((state is DevicesDataLoading) || (state is DevicesInitial)) {
@@ -217,127 +178,111 @@ class _MapTabPageState extends State<MapTabPage>
       //     final groups = state.devices.groups;
       //     return
 
-
-
       // BlocBuilder<FlutterMapBloc, MapState>(
       // builder: (context, state) {
-      //   return 
+      //   return
 
-      BlocBuilder<DevicesBloc, DevicesState>(
-        builder: (context, state) {
-         
-          return Container(child:Text("$state"));
+      BlocBuilder<FlutterMapBloc, MapState>(builder: (context, state) {
+        print(state);
+        if (state is ItemsLoadSuccess) {
+          return FlutterMap(
+            mapController: controller,
+            options: MapOptions(
+              center: LatLng(state.items[0].lat, state.items[0].lng),
+              zoom: 13.0,
+              //onTap: _handleTap,
+              //interactive: true,
+              // plugins: <MapPlugin>[PopupMarkerPlugin()],
+              // onTap: (_) => _popupLayerController.hidePopup(),
+            ),
+
+            // children: [
+            //   for (int index = 0; index < groups.length; index++) ...[
+            //     for (int index2 = 0;
+            //         index2 < groups[index].items.length;
+            //         index2++) ...[
+            //    MovingWithoutRefreshAllMapMarkers(marker: [ buildMarker(groups, index, index2),],),
+            //         ]]
+            // ],
+
+            layers: [
+              TileLayerOptions(
+                urlTemplate:
+                    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                subdomains: ['a', 'b', 'c'],
+                // additionalOptions: {
+                //   // 'title': 'copy',
+                //   // 'fresh': 'true',
+                //   'accessToken':'pk.eyJ1IjoibW9oYW1tZWQtamFhZmFyIiwiYSI6ImNranYxcmkzYjA0aTEyb3Fybmh6c21oOGIifQ.y8G1cULMXmR5vAPOmG1_qQ',
+
+                // },
+                // For example purposes. It is recommended to use
+                // TileProvider with a caching and retry strategy, like
+                // NetworkTileProvider or CachedNetworkTileProvider
+                tileProvider: NonCachingNetworkTileProvider(),
+              ),
+              //  TileLayerOptions(
+              //       wmsOptions: WMSTileLayerOptions(
+              //         baseUrl: 'https://{s}.s2maps-tiles.eu/wms/?',
+              //         layers: ['s2cloudless-2018_3857'],
+              //       ),
+              //       subdomains: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
+
+              //     ),
+
+              // for (int index = 0; index < groups.length; index++) ...[
+              //   for (int index2 = 0;
+              //       index2 < groups[index].items.length;
+              //       index2++) ...[
+              // PolylineLayerOptions(
+              //   polylines: [
+              //         buildPolyline(groups, index, index2),
+              //       ] ??
+              //       [],
+              // ),
+              // PolygonLayerOptions(
+              //     polygons: [
+              //           Polygon(
+              //               borderColor: AppTheme2.editColor,
+              //               color: AppTheme2.editColor,
+              //               borderStrokeWidth: 100.0,
+              //               points: [
+              //                 LatLng(39.270908, 43.37498),
+              //               ]),
+              //           Polygon(
+              //               borderColor: AppTheme2.errorColor,
+              //               borderStrokeWidth: 80.0,
+              //               points: [
+              //                 LatLng(43.270908, 43.37498),
+              //               ]),
+              //         ] ??
+              //         []),
+              // MarkerLayerOptions(
+              //     // popupSnap: PopupSnap.top,
+              //     // popupController: _popupLayerController,
+              //     // popupBuilder: (BuildContext _, Marker marker) =>
+
+              //     //     PopupBuilderMarkerWidget(
+              //     //         groups: groups, index: index, index2: index2),
+
+              //     markers: snapshotMarkers.data.length > 0
+              //         ? snapshotMarkers.data
+              //         : []
+
+              //     //buildMarker(groups, index, index2),
+
+              //     //..addAll([marker] ?? [])),
+              //     //   ]
+              //     // ]
+              //     )
+            ],
+          );
+        } else {
+          return Container();
         }
-        
-      ),
+      }),
+      //}),
 
-
-        BlocBuilder<FlutterMapBloc, MapState>(
-      builder: (context, state) {
-
-        if(state is ItemsLoadSuccess)
-        return 
-         FlutterMap(
-                    mapController: controller,
-                    options: MapOptions(
-                      
-                      center: LatLng(state.items[0].lat,
-                                  state.items[0].lng),
-                      zoom: 13.0,
-                      //onTap: _handleTap,
-                      //interactive: true,
-                      // plugins: <MapPlugin>[PopupMarkerPlugin()],
-                      // onTap: (_) => _popupLayerController.hidePopup(),
-                    ), 
-
-                    // children: [
-                    //   for (int index = 0; index < groups.length; index++) ...[
-                    //     for (int index2 = 0;
-                    //         index2 < groups[index].items.length;
-                    //         index2++) ...[
-                    //    MovingWithoutRefreshAllMapMarkers(marker: [ buildMarker(groups, index, index2),],),
-                    //         ]]
-                    // ],
-
-                    layers: [
-                     
-                      TileLayerOptions(
-                        urlTemplate:
-                            'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                        subdomains: ['a', 'b', 'c'],
-                        // additionalOptions: {
-                        //   // 'title': 'copy',
-                        //   // 'fresh': 'true',
-                        //   'accessToken':'pk.eyJ1IjoibW9oYW1tZWQtamFhZmFyIiwiYSI6ImNranYxcmkzYjA0aTEyb3Fybmh6c21oOGIifQ.y8G1cULMXmR5vAPOmG1_qQ',
-
-                        // },
-                        // For example purposes. It is recommended to use
-                        // TileProvider with a caching and retry strategy, like
-                        // NetworkTileProvider or CachedNetworkTileProvider
-                        tileProvider: NonCachingNetworkTileProvider(),
-                      ),
-                      //  TileLayerOptions(
-                      //       wmsOptions: WMSTileLayerOptions(
-                      //         baseUrl: 'https://{s}.s2maps-tiles.eu/wms/?',
-                      //         layers: ['s2cloudless-2018_3857'],
-                      //       ),
-                      //       subdomains: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
-
-                      //     ),
-
-                      // for (int index = 0; index < groups.length; index++) ...[
-                      //   for (int index2 = 0;
-                      //       index2 < groups[index].items.length;
-                      //       index2++) ...[
-                      // PolylineLayerOptions(
-                      //   polylines: [
-                      //         buildPolyline(groups, index, index2),
-                      //       ] ??
-                      //       [],
-                      // ),
-                      // PolygonLayerOptions(
-                      //     polygons: [
-                      //           Polygon(
-                      //               borderColor: AppTheme2.editColor,
-                      //               color: AppTheme2.editColor,
-                      //               borderStrokeWidth: 100.0,
-                      //               points: [
-                      //                 LatLng(39.270908, 43.37498),
-                      //               ]),
-                      //           Polygon(
-                      //               borderColor: AppTheme2.errorColor,
-                      //               borderStrokeWidth: 80.0,
-                      //               points: [
-                      //                 LatLng(43.270908, 43.37498),
-                      //               ]),
-                      //         ] ??
-                      //         []),
-                      // MarkerLayerOptions(
-                      //     // popupSnap: PopupSnap.top,
-                      //     // popupController: _popupLayerController,
-                      //     // popupBuilder: (BuildContext _, Marker marker) =>
-
-                      //     //     PopupBuilderMarkerWidget(
-                      //     //         groups: groups, index: index, index2: index2),
-
-                      //     markers: snapshotMarkers.data.length > 0
-                      //         ? snapshotMarkers.data
-                      //         : []
-
-                      //     //buildMarker(groups, index, index2),
-
-                      //     //..addAll([marker] ?? [])),
-                      //     //   ]
-                      //     // ]
-                      //     )
-                    ],
-                  );
-
-                  else return Container();
-                }
-        ),
-        //}),
-       
       //   }
       // }),
 
@@ -453,10 +398,7 @@ class _MapTabPageState extends State<MapTabPage>
                 return Container();
               else
                 return SingleChildScrollView(
-                    controller: scrollController,
-                    child: GeoFencesWidget(
-                     
-                    ));
+                    controller: scrollController, child: GeoFencesWidget());
             });
       }),
 
@@ -742,7 +684,7 @@ class DraggableBottomSheetWidget extends HookWidget {
                       BlocBuilder<DevicesBloc, DevicesState>(
                           builder: (context, state) {
                     if ((state is DevicesDataLoading) ||
-                        (state is DevicesInitial)) {
+                        (state is DevicesInitial)) { 
                       return LoadingIndicatorWithMessage(label: 'Loading');
                     } else if (state is DevicesDataLoaded) {
                       return ListView.builder(
@@ -1215,17 +1157,13 @@ class GroupListWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              
-              
-                    Text(
-                        "Cancel",
-                        style: Theme.of(context).textTheme.headline5.copyWith(
-                              color: AppTheme2.territoryColor,
-                              fontSize: SizeConfig.screenWidth / 25,
-                            ),
-                      ),
-         
-            
+              Text(
+                "Cancel",
+                style: Theme.of(context).textTheme.headline5.copyWith(
+                      color: AppTheme2.territoryColor,
+                      fontSize: SizeConfig.screenWidth / 25,
+                    ),
+              ),
               Text(
                 "Group Name",
                 style: Theme.of(context).textTheme.headline5.copyWith(
@@ -1233,14 +1171,13 @@ class GroupListWidget extends StatelessWidget {
                       fontSize: SizeConfig.screenWidth / 23,
                     ),
               ),
-             Text(
-                        "Add",
-                        style: Theme.of(context).textTheme.headline5.copyWith(
-                              color: AppTheme2.territoryColor,
-                              fontSize: SizeConfig.screenWidth / 25,
-                            ),
-                      ),
-                 
+              Text(
+                "Add",
+                style: Theme.of(context).textTheme.headline5.copyWith(
+                      color: AppTheme2.territoryColor,
+                      fontSize: SizeConfig.screenWidth / 25,
+                    ),
+              ),
             ],
           ),
           SizedBox(
@@ -1287,43 +1224,43 @@ class GroupListWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
               color: AppTheme2.primaryColor20,
               child: ListTile(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                onTap: () {},
+                leading: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.asset(
+                    "${homeController.homeList[index].image}",
+                    fit: BoxFit.contain,
                   ),
-                  onTap: () {},
-                  leading: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.asset(
-                      "${homeController.homeList[index].image}",
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                  title: Text(
-                    "${homeController.homeList[index].unitName}",
-                    style: Theme.of(context).textTheme.headline6.copyWith(
-                          color: AppTheme2.primaryColor18,
-                          fontSize: SizeConfig.screenWidth / 25,
-                        ),
-                  ),
-                  subtitle: Text(
-                    "${homeController.homeList[index].location}",
-                    style: Theme.of(context).textTheme.headline2.copyWith(
-                          color: AppTheme2.primaryColor16,
-                          fontSize: SizeConfig.screenWidth / 28,
-                        ),
-                  ),
-                  trailing: 
-                  // Obx(
-                  //   () =>
-                     Icon(
-                      homeController.homeList[index].isSelected
-                          ? Ionicons.checkmark_circle_outline
-                          : Ionicons.radio_button_off_outline,
-                      color: homeController.homeList[index].isSelected
-                          ? AppTheme2.territoryColor
-                          : AppTheme2.primaryColor18,
-                    ),
-                  ),
+                ),
+                title: Text(
+                  "${homeController.homeList[index].unitName}",
+                  style: Theme.of(context).textTheme.headline6.copyWith(
+                        color: AppTheme2.primaryColor18,
+                        fontSize: SizeConfig.screenWidth / 25,
+                      ),
+                ),
+                subtitle: Text(
+                  "${homeController.homeList[index].location}",
+                  style: Theme.of(context).textTheme.headline2.copyWith(
+                        color: AppTheme2.primaryColor16,
+                        fontSize: SizeConfig.screenWidth / 28,
+                      ),
+                ),
+                trailing:
+                    // Obx(
+                    //   () =>
+                    Icon(
+                  homeController.homeList[index].isSelected
+                      ? Ionicons.checkmark_circle_outline
+                      : Ionicons.radio_button_off_outline,
+                  color: homeController.homeList[index].isSelected
+                      ? AppTheme2.territoryColor
+                      : AppTheme2.primaryColor18,
+                ),
+              ),
             ),
             SizedBox(
               height: 10,
@@ -1657,13 +1594,12 @@ class UnitsMenueHeader extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-            Text(
-                        "Cancel",
-                        style: Theme.of(context).textTheme.headline5.copyWith(
-                              color: AppTheme2.territoryColor,
-                              fontSize: SizeConfig.screenWidth / 25,
-                            ),
-                     
+              Text(
+                "Cancel",
+                style: Theme.of(context).textTheme.headline5.copyWith(
+                      color: AppTheme2.territoryColor,
+                      fontSize: SizeConfig.screenWidth / 25,
+                    ),
               ),
               Text(
                 "Add Units To View",
@@ -1672,13 +1608,12 @@ class UnitsMenueHeader extends StatelessWidget {
                       fontSize: SizeConfig.screenWidth / 23,
                     ),
               ),
-             Text(
-                        "Add",
-                        style: Theme.of(context).textTheme.headline5.copyWith(
-                              color: AppTheme2.territoryColor,
-                              fontSize: SizeConfig.screenWidth / 25,
-                            ),
-                     
+              Text(
+                "Add",
+                style: Theme.of(context).textTheme.headline5.copyWith(
+                      color: AppTheme2.territoryColor,
+                      fontSize: SizeConfig.screenWidth / 25,
+                    ),
               ),
             ],
           ),
@@ -1726,41 +1661,40 @@ class UnitsMenueHeader extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
               color: AppTheme2.primaryColor20,
               child: ListTile(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                onTap: () {},
+                leading: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.asset(
+                    "${homeController.homeList[index].image}",
+                    fit: BoxFit.contain,
                   ),
-                  onTap: () {},
-                 
-                  leading: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.asset(
-                      "${homeController.homeList[index].image}",
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                  title: Text(
-                    "${homeController.homeList[index].unitName}",
-                    style: Theme.of(context).textTheme.headline6.copyWith(
-                          color: AppTheme2.primaryColor18,
-                          fontSize: SizeConfig.screenWidth / 25,
-                        ),
-                  ),
-                  subtitle: Text(
-                    "${homeController.homeList[index].location}",
-                    style: Theme.of(context).textTheme.headline2.copyWith(
-                          color: AppTheme2.primaryColor16,
-                          fontSize: SizeConfig.screenWidth / 28,
-                        ),
-                  ),
-                  trailing: Icon(
-                      homeController.homeList[index].isSelected
-                          ? Ionicons.checkmark_circle_outline
-                          : Ionicons.radio_button_off_outline,
-                      color: homeController.homeList[index].isSelected
-                          ? AppTheme2.territoryColor
-                          : AppTheme2.primaryColor18,
-                    ),
-                  ),
+                ),
+                title: Text(
+                  "${homeController.homeList[index].unitName}",
+                  style: Theme.of(context).textTheme.headline6.copyWith(
+                        color: AppTheme2.primaryColor18,
+                        fontSize: SizeConfig.screenWidth / 25,
+                      ),
+                ),
+                subtitle: Text(
+                  "${homeController.homeList[index].location}",
+                  style: Theme.of(context).textTheme.headline2.copyWith(
+                        color: AppTheme2.primaryColor16,
+                        fontSize: SizeConfig.screenWidth / 28,
+                      ),
+                ),
+                trailing: Icon(
+                  homeController.homeList[index].isSelected
+                      ? Ionicons.checkmark_circle_outline
+                      : Ionicons.radio_button_off_outline,
+                  color: homeController.homeList[index].isSelected
+                      ? AppTheme2.territoryColor
+                      : AppTheme2.primaryColor18,
+                ),
+              ),
             ),
             SizedBox(
               height: 10,

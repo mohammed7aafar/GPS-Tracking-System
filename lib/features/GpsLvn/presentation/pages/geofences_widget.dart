@@ -6,7 +6,6 @@ import 'package:ionicons/ionicons.dart';
 import '../../../../core/utils/size_config.dart';
 import '../../../../theme.dart';
 
-import '../controllers/home_controller.dart';
 
 class GeoFencesWidget extends StatelessWidget {
   const GeoFencesWidget({

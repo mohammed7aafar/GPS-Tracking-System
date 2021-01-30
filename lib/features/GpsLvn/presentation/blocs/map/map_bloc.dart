@@ -15,11 +15,13 @@ class FlutterMapBloc extends Bloc<MapEvent, MapState> {
 
   FlutterMapBloc({this.devicesBloc}) : super(ItemsLoadInProgress()) {
     devicesSubscription = devicesBloc.listen((state) {
+      print(state);
       if (state is DevicesDataLoaded) {
-        for (var item in (devicesBloc.state as DevicesDataLoaded).devices.groups) {
+        for (var item
+            in (devicesBloc.state as DevicesDataLoaded).devices.groups) {
           items.addAll(item.items);
         }
-        print(items.length);
+        //print(items.length);
         // print(state.devices.groups.length);
         add(ItemsAdded(items));
       }

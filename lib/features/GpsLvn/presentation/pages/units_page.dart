@@ -6,7 +6,6 @@ import 'package:ionicons/ionicons.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../core/utils/size_config.dart';
 import '../../../../theme.dart';
-import '../controllers/home_controller.dart';
 import '../widgets/home/edit_units_bottom_sheet.dart';
 
 class UnitsPage extends HookWidget {
@@ -15,8 +14,9 @@ class UnitsPage extends HookWidget {
    
   @override
   Widget build(BuildContext context) {
-        final hideFabAnimController = useAnimationController(
-        duration: kThemeAnimationDuration, initialValue: 1);
+    
+   final hideFabAnimController = useAnimationController(
+   duration: kThemeAnimationDuration, initialValue: 1);
 
     final scrollController =
         useScrollControllerForAnimation(hideFabAnimController);
@@ -33,16 +33,14 @@ class UnitsPage extends HookWidget {
                 ),
           ),
       ),
-      body: SingleChildScrollView(
+      body: 
+      Container(
+          padding: EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 0),
+          width: double.infinity,
+          child:
+      SingleChildScrollView(
         controller: scrollController,
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: AppTheme2.primaryColor,
-        ),
-        child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+      child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
           SizedBox(
             height: 30,
           ),
@@ -86,7 +84,7 @@ class UnitsPage extends HookWidget {
           ),
          
           for (int index = 0;
-              index < 3;
+              index < 13;
               index++) ...[
             Material(
               borderRadius: BorderRadius.circular(8),

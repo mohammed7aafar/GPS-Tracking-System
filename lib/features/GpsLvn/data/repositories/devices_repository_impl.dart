@@ -28,7 +28,7 @@ class DevicesRepositoryImpl implements DevicesRepository {
         localDataSource.cacheDevices(remoteDevices);
 
         //! Right() means the right side of Future
-
+          
         return Right(remoteDevices);
       } on ServerException {
         return Left(ServerFailure());

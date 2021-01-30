@@ -12,6 +12,6 @@ class ItemsAdded extends MapEvent {
   @override
   List<Object> get props => [items];
 
-  @override
-  String toString() => 'ItemsAdded { todos: $items }';
+  // @override
+  // String toString() => 'ItemsAdded { todos: $items }';
 }

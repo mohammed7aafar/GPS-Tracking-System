@@ -2,7 +2,9 @@
 
 const Duration kExpand = Duration(milliseconds: 200);
 
-const CACHED_DEVICES = 'CACHED_NEWS';
+const CACHED_DEVICES = 'CACHED_DEVICES';
+const CACHED_USER = 'CACHED_USER';
+const CACHED_AUTHENTICATION = 'CACHED_AUTHENTICATION';
 
 
 const String SERVER_FAILURE_MESSAGE = 'Server Failure';

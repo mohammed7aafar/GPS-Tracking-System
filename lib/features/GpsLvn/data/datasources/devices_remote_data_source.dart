@@ -26,7 +26,9 @@ class DevicesRemoteDataSourceImpl implements DevicesRemoteDataSource {
    
       
       return DevicesModel.fromJson(json.decode(utf8.decode(res.bodyBytes)));
-    } else {
+    } 
+   
+    else {
       throw ServerException();
     }
   }

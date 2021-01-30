@@ -1,8 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gpsLVN/features/GpsLvn/presentation/blocs/animatedIconCubit/animatedicon_cubit.dart';
+import 'package:gpsLVN/features/GpsLvn/presentation/blocs/devices/devices_bloc.dart';
+import 'package:gpsLVN/features/GpsLvn/presentation/blocs/groupIcon/groupicon_cubit.dart';
+import 'package:gpsLVN/features/GpsLvn/presentation/blocs/map/map_bloc.dart';
+import 'package:gpsLVN/features/GpsLvn/presentation/blocs/showTrack/showtrack_cubit.dart';
+import 'package:gpsLVN/features/GpsLvn/presentation/blocs/tab/tab_bloc.dart';
+import 'package:gpsLVN/features/GpsLvn/presentation/blocs/toggleGeofence/togglegeofence_cubit.dart';
+import 'package:gpsLVN/features/GpsLvn/presentation/blocs/toggleRoute/toggleroute_cubit.dart';
+import 'package:gpsLVN/features/GpsLvn/presentation/blocs/toggleTrack/toggletrack_cubit.dart';
+import 'package:gpsLVN/features/GpsLvn/presentation/blocs/unitGroups/unitgroups_cubit.dart';
 import 'package:ionicons/ionicons.dart';
 import '../../../../core/utils/size_config.dart';
+import '../../../../injection_container.dart';
 import '../../../../theme.dart';
+import 'home_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -150,10 +163,48 @@ class LoginScreen extends StatelessWidget {
                   color: AppTheme2.primaryColor20,
                   child: InkWell(
                       borderRadius: BorderRadius.circular(8.0),
-                      onTap: () =>
-                          // Navigator.pushReplacementNamed(context, LiveLocationPage.route),
-
-                          Navigator.of(context).pushNamed('home'),
+                      onTap: () {
+                        // Navigator.of(context).push(MaterialPageRoute(
+                        //     builder: (_) => MultiBlocProvider(
+                        //           providers: [
+                        //             BlocProvider.value(
+                        //                 value: sl<DevicesBloc>()),
+                        //             BlocProvider(
+                        //                 create: (context) => FlutterMapBloc(
+                        //                       devicesBloc:
+                        //                           BlocProvider.of<DevicesBloc>(
+                        //                               context),
+                        //                     )),
+                        //             BlocProvider(
+                        //                 create: (context) =>
+                        //                     sl<GroupiconCubit>()),
+                        //             BlocProvider(
+                        //                 create: (context) =>
+                        //                     sl<UnitgroupsCubit>()),
+                        //             BlocProvider(
+                        //                 create: (context) =>
+                        //                     sl<AnimatediconCubit>()),
+                        //             BlocProvider(
+                        //                 create: (context) => sl<TabBloc>()),
+                        //             BlocProvider(
+                        //                 create: (context) =>
+                        //                     sl<ToggletrackCubit>()),
+                        //             BlocProvider(
+                        //                 create: (context) =>
+                        //                     sl<ShowtrackCubit>()),
+                        //             BlocProvider(
+                        //                 create: (context) =>
+                        //                     sl<TogglegeofenceCubit>()),
+                        //             BlocProvider(
+                        //                 create: (context) =>
+                        //                     sl<TogglerouteCubit>()),
+                        //           ],
+                        //           child: TestWidgetBloc()
+                                  
+                        //           //HomeScreen(),
+                        //         ))
+                        //         );
+                      },
                       child: Container(
                           height: SizeConfig.screenWidth / 7,
                           width: double.infinity,
@@ -163,12 +214,12 @@ class LoginScreen extends StatelessWidget {
                           ),
                           child: Text(
                             "Log in",
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline4
-                                .copyWith(
-                                    fontSize: SizeConfig.screenWidth / 22,
-                                    color: AppTheme2.primaryColor18),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline4
+                                  .copyWith(
+                                      fontSize: SizeConfig.screenWidth / 22,
+                                      color: AppTheme2.primaryColor18),
                           )))),
               SizedBox(
                 height: 30,
@@ -311,5 +362,27 @@ class LoginScreen extends StatelessWidget {
     //         color: AppTheme2.territoryColor),
     //   ),
     // );
+  }
+}
+
+
+class TestWidgetBloc extends StatelessWidget {
+  const TestWidgetBloc({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: BlocBuilder<FlutterMapBloc, MapState>(
+        builder: (context, state) {
+          if(state is ItemsLoadInProgress){
+            return Text("loading");
+          }
+            else{
+              return Text("loaded");
+            }
+          }
+        
+      )
+    );
   }
 }
