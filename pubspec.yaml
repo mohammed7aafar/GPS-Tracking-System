@@ -31,11 +31,11 @@ dependencies:
   cached_network_image: ^2.2.0+1   
   flutter_hooks: ^0.7.0
   flutter_map: ^0.10.1+1
-  latlong: ^0.6.1
   location: ^2.5.0
   json_annotation: ^3.1.1
   formz: ^0.2.0
   flutter_secure_storage: ^3.3.5
+  google_maps_flutter: ^1.2.0
  # flutter_polyline_points: ^0.1.0
   
 

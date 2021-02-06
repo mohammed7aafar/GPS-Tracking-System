@@ -31,8 +31,9 @@ class HomeScreen extends StatelessWidget {
     return MaterialPageRoute<void>(builder: (_) => HomeScreen());
   }
 
+  final storage = new FlutterSecureStorage();
+
 // Create storage
-final storage = new FlutterSecureStorage();
 
   // GoogleMapController _controller;
 
@@ -55,58 +56,49 @@ final storage = new FlutterSecureStorage();
   //changeMapMode() => getJsonFile("assets/map_theme.json").then(setMapStyle);
 
   // final HideNavbar hiding = HideNavbar();
-  
- 
-
-
-  Future<String> hasToken() async {
-     return await storage.read(key: "token"); 
-
-  }
 
   @override
   Widget build(BuildContext context) {
-    
-    final token = hasToken();
-  
-    return  MultiBlocProvider(
-            providers: [
-              BlocProvider(create: (context) => sl<DevicesBloc>()..add(GetDevicesData(token.toString(), "en"))),
-              BlocProvider(create: (context) => FlutterMapBloc( devicesBloc: BlocProvider.of<DevicesBloc>(context),)),
-              BlocProvider(create: (context) => sl<GroupiconCubit>()),
-              BlocProvider(create: (context) => sl<UnitgroupsCubit>()),
-              BlocProvider(create: (context) => sl<AnimatediconCubit>()),  
-              BlocProvider(create: (context) => sl<TabBloc>()),
-              BlocProvider(create: (context) => sl<ToggletrackCubit>()),
-              BlocProvider(create: (context) => sl<ShowtrackCubit>()),
-              BlocProvider(create: (context) => sl<TogglegeofenceCubit>()),
-              BlocProvider(create: (context) => sl<TogglerouteCubit>()),
-            ],
-            child: 
-      
-    
-    HomePage(homeController: homeController));
+    return MultiBlocProvider(providers: [
+      BlocProvider(create: (context) => sl<DevicesBloc>()),
+      BlocProvider(
+          create: (context) => FlutterMapBloc(
+                devicesBloc: BlocProvider.of<DevicesBloc>(context),
+              )),
+      BlocProvider(create: (context) => sl<GroupiconCubit>()),
+      BlocProvider(create: (context) => sl<UnitgroupsCubit>()),
+      BlocProvider(create: (context) => sl<AnimatediconCubit>()),
+      BlocProvider(create: (context) => sl<TabBloc>()),
+      BlocProvider(create: (context) => sl<ToggletrackCubit>()),
+      BlocProvider(create: (context) => sl<ShowtrackCubit>()),
+      BlocProvider(create: (context) => sl<TogglegeofenceCubit>()),
+      BlocProvider(create: (context) => sl<TogglerouteCubit>()),
+    ], child: HomePage(homeController: homeController,flutterSecureStorage: storage,));
   }
-
-  
 }
 
 class HomePage extends StatelessWidget {
   const HomePage({
     Key key,
-    @required this.homeController,
+    @required this.homeController, this.flutterSecureStorage,
   }) : super(key: key);
 
   final HomeController homeController;
 
-  @override
+  final FlutterSecureStorage flutterSecureStorage;
+
+  Future<String> getToken() async => await flutterSecureStorage.read(key: "token");
+  
+
+  @override 
   Widget build(BuildContext context) {
+    getToken().then((value) => context.bloc<DevicesBloc>().add(GetDevicesData(value, "en")));
     return Scaffold(
         key: homeController.drawerKey,
         backgroundColor: AppTheme2.primaryColor,
         body: BlocBuilder<TabBloc, AppTab>(builder: (context, activeTab) {
-              return selectPageTab(activeTab);
-            }),
+          return selectPageTab(activeTab);
+        }),
         bottomNavigationBar:
             BlocBuilder<TabBloc, AppTab>(builder: (context, activeTab) {
           return BottomNavigationBarWidget(
@@ -118,7 +110,7 @@ class HomePage extends StatelessWidget {
         }),
         drawer: DrawerItemsWidget(
           homeController: homeController,
-     ) );
+        ));
   }
 
   selectPageTab(activeTab) {

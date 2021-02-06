@@ -26,7 +26,8 @@ class UserRepositoryImpl implements UserRepository {
     @required this.flutterSecureStorage,
   });
 
-  StreamController<AuthenticationStatus> _controller =  StreamController<AuthenticationStatus>();
+  StreamController<AuthenticationStatus> _controller =
+      StreamController<AuthenticationStatus>();
 
   @override
   Future<Either<Failure, User>> getUser(

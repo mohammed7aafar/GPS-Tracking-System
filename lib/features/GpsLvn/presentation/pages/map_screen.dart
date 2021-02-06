@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_map/flutter_map.dart';
+//import 'package:flutter_map/flutter_map.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gpsLVN/features/GpsLvn/presentation/blocs/map/map_bloc.dart';
 import 'package:gpsLVN/features/GpsLvn/presentation/blocs/toggleGeofence/togglegeofence_cubit.dart';
 import 'package:gpsLVN/features/GpsLvn/presentation/blocs/toggleRoute/toggleroute_cubit.dart';
 import 'package:gpsLVN/features/GpsLvn/presentation/pages/geofences_widget.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:latlong/latlong.dart';
+//import 'package:latlong/latlong.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../core/utils/api_refrence.dart';
 import '../../../../core/utils/size_config.dart';
@@ -28,6 +29,7 @@ import '../widgets/home/unitsBottomSheet/header_expanded_units_children.dart';
 import '../widgets/home/unitsBottomSheet/row_units.dart';
 import 'home_screen.dart';
 import 'track_page.dart';
+import 'package:http/http.dart' as http;
 
 class MapTabPage extends StatefulWidget {
   MapTabPage({
@@ -42,8 +44,7 @@ class MapTabPage extends StatefulWidget {
 }
 
 class _MapTabPageState extends State<MapTabPage>
-  //  with AutomaticKeepAliveClientMixin
-     {
+    with AutomaticKeepAliveClientMixin, SingleTickerProviderStateMixin {
   // final PopupController _popupLayerController = PopupController();
 
   // StreamSubscription _loactationSubscrption;
@@ -51,8 +52,8 @@ class _MapTabPageState extends State<MapTabPage>
 
   // MapController mapController;
 
-  // @override
-  // bool get wantKeepAlive => true;
+  @override
+  bool get wantKeepAlive => true;
 
   // void initState() {
   //   super.initState();
@@ -92,20 +93,39 @@ class _MapTabPageState extends State<MapTabPage>
   //   }
   // }
 
-  // void _animatedMapMove(LatLng destLocation, double destZoom) {
-  //   // Create some tweens. These serve to split up the transition from one location to another.
-  //   // In our case, we want to split the transition be<tween> our current map center and the destination.
+  // @override
+  // void dispose() {
+  //   if (_loactationSubscrption != null) {
+  //     _loactationSubscrption.cancel();
+  //   }
+  //   super.dispose();
+  // }
+
+  // void _handleTap(LatLng latlng) {
+  //   setState(() {
+  //     tappedPoints.add(latlng);
+  //   });
+  // }
+
+  //    void showPopupForFirstMarker() {
+  //   _popupLayerController.togglePopup(_markers.first);
+  // }
+
+  // MapController mapController = MapController();
+  // final Completer<MapController> _mapController = Completer();
+
+  // void _moveToLocation(LatLng destLocation, double destZoom) async {
+  //   mapController = await _mapController.future;
+
   //   final _latTween = Tween<double>(
   //       begin: mapController.center.latitude, end: destLocation.latitude);
   //   final _lngTween = Tween<double>(
   //       begin: mapController.center.longitude, end: destLocation.longitude);
   //   final _zoomTween = Tween<double>(begin: mapController.zoom, end: destZoom);
 
-  //   // Create a animation controller that has a duration and a TickerProvider.
   //   var controller = AnimationController(
   //       duration: const Duration(milliseconds: 500), vsync: this);
-  //   // The animation determines what path the animation will take. You can try different Curves values, although I found
-  //   // fastOutSlowIn to be my favorite.
+
   //   Animation<double> animation =
   //       CurvedAnimation(parent: controller, curve: Curves.fastOutSlowIn);
 
@@ -126,33 +146,42 @@ class _MapTabPageState extends State<MapTabPage>
   //   controller.forward();
   // }
 
-  // @override
-  // void dispose() {
-  //   if (_loactationSubscrption != null) {
-  //     _loactationSubscrption.cancel();
-  //   }
-  //   super.dispose();
-  // }
-
-  // void _handleTap(LatLng latlng) {
-  //   setState(() {
-  //     tappedPoints.add(latlng);
-  //   });
-  // }
-
-  //    void showPopupForFirstMarker() {
-  //   _popupLayerController.togglePopup(_markers.first);
-  // }
   @override
   Widget build(BuildContext context) {
-    MapController controller = MapController();
-    final Completer<MapController> _mapController = Completer();
+    final Completer<GoogleMapController> _mapController = Completer();
+    final Map<MarkerId, Marker> markers = {};
+    final Map<PolylineId, Polyline> polylines = {};
+    void _onMapCreated(GoogleMapController controller) {
+      if (!_mapController.isCompleted) {
+        _mapController.complete(controller);
+      }
+    }
+
+    Future<void> _moveToLocation(latitude, longitude) async {
+      GoogleMapController controller = await _mapController.future;
+      CameraPosition _newPos = CameraPosition(
+        target: LatLng(latitude, longitude),
+        zoom: 15.5,
+      );
+
+      controller.animateCamera(CameraUpdate.newCameraPosition(_newPos));
+    }
 
     // final blocMap = bloc.BlocProvider.of<MapBloc>(context);
 
-    if (!_mapController.isCompleted) {
-      _mapController.complete(controller);
-    }
+    // if (!_mapController.isCompleted) {
+    //   _mapController.complete(mapController);
+    // }
+
+    //   Future<void> _moveToLocation(latitude, longitude) async {
+    //    controller = await _mapController.future;
+    //   CameraPosition _newPos = CameraPosition(
+    //     target: LatLng(latitude, longitude),
+    //     zoom: 14.5,
+    //   );
+
+    //   controller.animateCamera(CameraUpdate.newCameraPosition(_newPos));
+    // }
 
     // var markers = tappedPoints.map((latlng) {
     //   return Marker(
@@ -183,102 +212,143 @@ class _MapTabPageState extends State<MapTabPage>
       //   return
 
       BlocBuilder<FlutterMapBloc, MapState>(builder: (context, state) {
-        print(state);
         if (state is ItemsLoadSuccess) {
-          return FlutterMap(
-            mapController: controller,
-            options: MapOptions(
-              center: LatLng(state.items[0].lat, state.items[0].lng),
-              zoom: 13.0,
-              //onTap: _handleTap,
-              //interactive: true,
-              // plugins: <MapPlugin>[PopupMarkerPlugin()],
-              // onTap: (_) => _popupLayerController.hidePopup(),
+          state.items.forEach((el) {
+            final MarkerId _markerId = MarkerId(el.id.toString());
+            final PolylineId _polylineId = PolylineId(el.id.toString());
+
+            Marker _marker = Marker(
+                markerId: _markerId,
+                position: LatLng(el.lat, el.lng),
+                infoWindow: InfoWindow(
+                  title: el.name,
+                  snippet: '${el.address}',
+                ),
+                icon: BitmapDescriptor.defaultMarker,
+                onTap: () => _moveToLocation(el.lat, el.lng));
+
+            Polyline _polyline = Polyline(
+                polylineId: _polylineId,
+                width: 2,
+                points: el.tail
+                    .map(
+                        (e) => LatLng(double.parse(e.lat), double.parse(e.lng)))
+                    .toList());
+
+            markers[_markerId] = _marker;
+            polylines[_polylineId] = _polyline;
+          });
+          return GoogleMap(
+            onMapCreated: _onMapCreated,
+            markers: Set<Marker>.of(state.items != null ? markers.values : []),
+            polylines:
+                Set<Polyline>.of(state.items != null ? polylines.values : []),
+            myLocationEnabled: false,
+            zoomControlsEnabled: false,
+            initialCameraPosition: CameraPosition(
+              target: LatLng(36.270822, 43.374978),
+              zoom: 5.0,
             ),
-
-            // children: [
-            //   for (int index = 0; index < groups.length; index++) ...[
-            //     for (int index2 = 0;
-            //         index2 < groups[index].items.length;
-            //         index2++) ...[
-            //    MovingWithoutRefreshAllMapMarkers(marker: [ buildMarker(groups, index, index2),],),
-            //         ]]
-            // ],
-
-            layers: [
-              TileLayerOptions(
-                urlTemplate:
-                    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                subdomains: ['a', 'b', 'c'],
-                // additionalOptions: {
-                //   // 'title': 'copy',
-                //   // 'fresh': 'true',
-                //   'accessToken':'pk.eyJ1IjoibW9oYW1tZWQtamFhZmFyIiwiYSI6ImNranYxcmkzYjA0aTEyb3Fybmh6c21oOGIifQ.y8G1cULMXmR5vAPOmG1_qQ',
-
-                // },
-                // For example purposes. It is recommended to use
-                // TileProvider with a caching and retry strategy, like
-                // NetworkTileProvider or CachedNetworkTileProvider
-                tileProvider: NonCachingNetworkTileProvider(),
-              ),
-              //  TileLayerOptions(
-              //       wmsOptions: WMSTileLayerOptions(
-              //         baseUrl: 'https://{s}.s2maps-tiles.eu/wms/?',
-              //         layers: ['s2cloudless-2018_3857'],
-              //       ),
-              //       subdomains: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
-
-              //     ),
-
-              // for (int index = 0; index < groups.length; index++) ...[
-              //   for (int index2 = 0;
-              //       index2 < groups[index].items.length;
-              //       index2++) ...[
-              // PolylineLayerOptions(
-              //   polylines: [
-              //         buildPolyline(groups, index, index2),
-              //       ] ??
-              //       [],
-              // ),
-              // PolygonLayerOptions(
-              //     polygons: [
-              //           Polygon(
-              //               borderColor: AppTheme2.editColor,
-              //               color: AppTheme2.editColor,
-              //               borderStrokeWidth: 100.0,
-              //               points: [
-              //                 LatLng(39.270908, 43.37498),
-              //               ]),
-              //           Polygon(
-              //               borderColor: AppTheme2.errorColor,
-              //               borderStrokeWidth: 80.0,
-              //               points: [
-              //                 LatLng(43.270908, 43.37498),
-              //               ]),
-              //         ] ??
-              //         []),
-              // MarkerLayerOptions(
-              //     // popupSnap: PopupSnap.top,
-              //     // popupController: _popupLayerController,
-              //     // popupBuilder: (BuildContext _, Marker marker) =>
-
-              //     //     PopupBuilderMarkerWidget(
-              //     //         groups: groups, index: index, index2: index2),
-
-              //     markers: snapshotMarkers.data.length > 0
-              //         ? snapshotMarkers.data
-              //         : []
-
-              //     //buildMarker(groups, index, index2),
-
-              //     //..addAll([marker] ?? [])),
-              //     //   ]
-              //     // ]
-              //     )
-            ],
           );
+
+          //  FlutterMap(
+          //   mapController: mapController,
+          //   options: MapOptions(
+          //     center: LatLng(36.270822, 43.374978),
+          //     zoom: 5.0,
+          //   ),
+          //   layers: [
+          //     TileLayerOptions(
+          //       urlTemplate:
+          //           'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+          //       subdomains: ['a', 'b', 'c'],
+          //       // additionalOptions: {
+          //       //   // 'title': 'copy',
+          //       //   // 'fresh': 'true',
+          //       //   'accessToken':'pk.eyJ1IjoibW9oYW1tZWQtamFhZmFyIiwiYSI6ImNranYxcmkzYjA0aTEyb3Fybmh6c21oOGIifQ.y8G1cULMXmR5vAPOmG1_qQ',
+
+          //       // },
+          //       // For example purposes. It is recommended to use
+          //       // TileProvider with a caching and retry strategy, like
+          //       // NetworkTileProvider or CachedNetworkTileProvider
+          //       tileProvider: NonCachingNetworkTileProvider(),
+          //     ),
+          //     //  TileLayerOptions(
+          //     //       wmsOptions: WMSTileLayerOptions(
+          //     //         baseUrl: 'https://{s}.s2maps-tiles.eu/wms/?',
+          //     //         layers: ['s2cloudless-2018_3857'],
+          //     //       ),
+          //     //       subdomains: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
+
+          //     //     ),
+
+          //     // for (int index = 0; index < groups.length; index++) ...[
+          //     //   for (int index2 = 0;
+          //     //       index2 < groups[index].items.length;
+          //     //       index2++) ...[
+          //     // PolylineLayerOptions(
+          //     //   polylines: [
+          //     //         buildPolyline(groups, index, index2),
+          //     //       ] ??
+          //     //       [],
+          //     // ),
+          //     // PolygonLayerOptions(
+          //     //     polygons: [
+          //     //           Polygon(
+          //     //               borderColor: AppTheme2.editColor,
+          //     //               color: AppTheme2.editColor,
+          //     //               borderStrokeWidth: 100.0,
+          //     //               points: [
+          //     //                 LatLng(39.270908, 43.37498),
+          //     //               ]),
+          //     //           Polygon(
+          //     //               borderColor: AppTheme2.errorColor,
+          //     //               borderStrokeWidth: 80.0,
+          //     //               points: [
+          //     //                 LatLng(43.270908, 43.37498),
+          //     //               ]),
+          //     //         ] ??
+          //     //         []),
+          //     MarkerLayerOptions(
+          //         //     // popupSnap: PopupSnap.top,
+          //         //     // popupController: _popupLayerController,
+          //         //     // popupBuilder: (BuildContext _, Marker marker) =>
+
+          //         //     //     PopupBuilderMarkerWidget(
+          //         //     //         groups: groups, index: index, index2: index2),
+
+          //         markers: state.items
+          //             .map((e) => Marker(
+          //                   height: 30,
+          //                   width: 30,
+          //                   point: LatLng(e.lat, e.lng),
+          //                   builder: (_) => GestureDetector(
+          //                     onTap: () {},
+          //                     child: RotatedBox(
+          //                         quarterTurns: e.course,
+          //                         child: Container(
+          //                             child: CachedNetworkImage(
+          //                           imageUrl:
+          //                               "${ApiRefrence.publicDomain}${e.icon.path}",
+          //                           fit: BoxFit.contain,
+          //                           //  placeholder: (context, url) => Container(color: Theme.of(context).focusColor,),
+          //                           //               errorWidget: (context, url, error) => Image.asset("assets/car2.png",height: 24,
+          //                           //               width: 24,),
+          //                         ))),
+          //                   ),
+          //                 ))
+          //             .toList()
+
+          //         //     //buildMarker(groups, index, index2),
+
+          //         //     //..addAll([marker] ?? [])),
+          //         //     //   ]
+          //         //     // ]
+          //         )
+          //   ],
+          // );
         } else {
-          return Container();
+          return Center(child: const CircularProgressIndicator());
         }
       }),
       //}),
@@ -424,130 +494,7 @@ class _MapTabPageState extends State<MapTabPage>
         else
           return Container();
       }),
-
-      // Positioned(
-      //     bottom: 0,
-      //     left: 0,
-      //     right: 0,
-      //     height: 120,
-      //     child: Container(
-      //       color: Colors.white.withOpacity(0.6),
-      //       child: NotificationListener<ElevationHoverNotification>(
-      //           onNotification: (ElevationHoverNotification notification) {
-      //             setState(() {
-      //               hoverPoint = notification.position;
-      //             });
-
-      //             return true;
-      //           },
-      //           child: Elevation(
-      //             getPoints(),
-      //             color: Colors.grey,
-      //             elevationGradientColors: ElevationGradientColors(
-      //                 gt10: Colors.green,
-      //                 gt20: Colors.orangeAccent,
-      //                 gt30: Colors.redAccent),
-      //           )),
-      //     ))
     ]);
-  }
-
-  Polyline buildPolyline(List<devices.Group> groups, int index, int index2) {
-    return Polyline(
-        points: groups[index]
-                .items[index2]
-                .tail
-                .map(
-                  (e) => LatLng(double.parse(e.lat), double.parse(e.lng)),
-                )
-                .toList() ??
-            [],
-        strokeWidth: 4.0,
-        // isDotted: true,
-        color: AppTheme2.primaryColor);
-  }
-
-  Marker buildMarker(List<devices.Group> groups, int index, int index2) {
-    return Marker(
-      height: 50,
-      width: 50,
-      point: LatLng(groups[index].items[index2].lat,
-              groups[index].items[index2].lng) ??
-          [],
-      builder: (_) => GestureDetector(
-        onTap: () {},
-        // _animatedMapMove(
-        // LatLng(groups[index].items[index2].lat,
-        //     groups[index].items[index2].lng),
-        // 18.0),
-        child: RotatedBox(
-            quarterTurns: groups[index].items[index2].course,
-            child: Container(
-                child: CachedNetworkImage(
-              imageUrl:
-                  "${ApiRefrence.publicDomain}${groups[index].items[index2].icon.path}",
-              fit: BoxFit.contain,
-              //  placeholder: (context, url) => Container(color: Theme.of(context).focusColor,),
-              //               errorWidget: (context, url, error) => Image.asset("assets/car2.png",height: 24,
-              //               width: 24,),
-            ))),
-      ),
-      anchorPos: AnchorPos.align(AnchorAlign.top),
-    );
-  }
-}
-
-class PopupBuilderMarkerWidget extends StatelessWidget {
-  const PopupBuilderMarkerWidget({
-    Key key,
-    @required this.groups,
-    @required this.index,
-    @required this.index2,
-  }) : super(key: key);
-
-  final List<devices.Group> groups;
-  final int index;
-  final int index2;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        height: 30,
-        color: AppTheme2.whiteColor,
-        child: Row(
-          children: [
-            Container(
-              width: 10,
-              color: AppTheme2.errorColor,
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Icon(
-              Ionicons.speedometer_outline,
-              color: AppTheme2.primaryColor,
-              size: SizeConfig.screenWidth / 25,
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Text(
-              '${groups[index].items[index2].speed}',
-              style: Theme.of(context).textTheme.headline5.copyWith(
-                  fontSize: SizeConfig.screenWidth / 25,
-                  color: AppTheme2.primaryColor),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Text(
-              '${groups[index].items[index2].name}',
-              style: Theme.of(context).textTheme.headline5.copyWith(
-                  fontSize: SizeConfig.screenWidth / 25,
-                  color: AppTheme2.primaryColor19),
-            )
-          ],
-        ));
   }
 }
 
@@ -569,219 +516,193 @@ class DraggableBottomSheetWidget extends HookWidget {
     return DraggableScrollableSheet(
         initialChildSize: 0.07,
         minChildSize: 0.07,
-        expand: true,
+
+       
         builder: (BuildContext context, ScrollController scrollController) {
-          return
-              //  NotificationListener<DraggableScrollableNotification>(
-              //     onNotification: (notification) {
-              //       print(notification.extent);
+          return Container(
+              color: AppTheme2.primaryColor20,
+              child: BlocBuilder<FlutterMapBloc, MapState>(
+                  builder: (context, state) {
+                if (state is ItemsLoadSuccess) {
+                  return BlocBuilder<UnitgroupsCubit, bool>(
+                      builder: (context, state2) {
+                    return ListView.builder(
+                      padding: const EdgeInsets.all(0.0),
+                      // shrinkWrap: true,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Column(
+                          children: [
+                            index == 0
+                                ? const SizedBox(
+                                    height: 10,
+                                  )
+                                : Container(),
 
-              //       if (notification.extent > 0.07) {
-              //         hideFabAnimController.reverse();
-              //       } else {
-              //         hideFabAnimController.forward();
-              //       }
-              //       return false;
-              //     },
-              //     child:
+                            index == 0
+                                ? Center(
+                                    child: Container(
+                                      height: 5.5,
+                                      width: 45,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                          color: AppTheme2.primaryColor22),
+                                    ),
+                                  )
+                                : Container(),
+                            index == 0
+                                ? const SizedBox(
+                                    height: 10,
+                                  )
+                                : Container(),
 
-              //     CustomScrollView(
-              //       controller: scrollController,
-              //   slivers: [
-              //     SliverAppBar(
-              //       expandedHeight: 100.0,
-              //       floating: true,
-              //       pinned: true,
-              //       snap: true,
-              //       elevation: 50,
-              //       backgroundColor: AppTheme2.primaryColor20,
-              //       // title: UnitsMenueHeader(
-              //       //   homeController: homeController,
-              //       // ),
-              //     ),
-              //     SliverList(
-              //         delegate: SliverChildListDelegate(
-              //       [
-
-              //         Container(
-              //           height: SizeConfig.screenHeight,
-              //           color: AppTheme2.primaryColor20,
-              //           child: Text("hi"))
-              //         // BlocBuilder<DevicesBloc, DevicesState>(
-              //         //     builder: (context, state) {
-              //         //   if ((state is DevicesDataLoading) ||
-              //         //       (state is DevicesInitial)) {
-              //         //     return LoadingIndicatorWithMessage(label: 'Loading');
-              //         //   } else if (state is DevicesDataLoaded) {
-              //         //     state.devices.groups[0].items.map((e) => Container(
-              //         //               color: AppTheme2.primaryColor20,
-              //         //               child: Column(
-              //         //                 children: [
-              //         //                   CustomExpansionTile(
-              //         //                     handleTap: handleTap,
-              //         //                     unitName: "${e.name}",
-              //         //                     tilePadding: const EdgeInsets.all(0.0),
-              //         //                     imageUrl:
-              //         //                         "${ApiRefrence.publicDomain}${e.icon.path}",
-              //         //                     childrenPadding:
-              //         //                         const EdgeInsets.all(8.0),
-              //         //                     children: [
-              //         //                       UnitRowHeaderDetails(),
-              //         //                       UnitFooterDetails(),
-              //         //                     ],
-              //         //                   ),
-              //         //                   Divider(
-              //         //                     color: AppTheme2.clearColor,
-              //         //                     height: 2,
-              //         //                   ),
-              //         //                 ],
-              //         //               ),
-              //         //             )
-              //         //         //  RowUnitsWidget(
-              //         //         //   groups: state.devices.groups,
-              //         //         //   handleTap: handleTap,
-              //         //         //   index2: index,
-              //         //         //   index: 0,
-              //         //         // )
-              //         //         );
-              //         //   } else if (state is DevicesDataError) return Container();
-              //         // })
-              //       ],
-              //     ))
-              //   ],
-              // );
-
-              Container(
-                  color: AppTheme2.primaryColor20,
-                  child:
-                      // const SizedBox(
-                      //   height: 10,
-                      // ),
-                      // Center(
-                      //   child: Container(
-                      //     height: 5.5,
-                      //     width: 45,
-                      //     decoration: BoxDecoration(
-                      //         borderRadius: BorderRadius.circular(50),
-                      //         color: AppTheme2.primaryColor22),
-                      //   ),
-                      // ),
-                      // const SizedBox(
-                      //   height: 20,
-                      // ),
-                      // Text(
-                      //   "Units Menue",
-                      //   style: Theme.of(context).textTheme.headline5.copyWith(
-                      //         color: AppTheme2.primaryColor18,
-                      //         fontSize: SizeConfig.screenWidth / 23,
-                      //       ),
-                      // ),
-
-                      // const Divider(
-                      //   color: AppTheme2.clearColor,
-                      //   height: 2,
-                      // ),
-                      BlocBuilder<DevicesBloc, DevicesState>(
-                          builder: (context, state) {
-                    if ((state is DevicesDataLoading) ||
-                        (state is DevicesInitial)) { 
-                      return LoadingIndicatorWithMessage(label: 'Loading');
-                    } else if (state is DevicesDataLoaded) {
-                      return ListView.builder(
-                        padding: const EdgeInsets.all(0.0),
-                        // shrinkWrap: true,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Column(
-                            children: [
-                              index == 0
-                                  ? const SizedBox(
-                                      height: 10,
-                                    )
-                                  : Container(),
-
-                              index == 0
-                                  ? Center(
-                                      child: Container(
-                                        height: 5.5,
-                                        width: 45,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(50),
-                                            color: AppTheme2.primaryColor22),
-                                      ),
-                                    )
-                                  : Container(),
-                              index == 0
-                                  ? const SizedBox(
-                                      height: 10,
-                                    )
-                                  : Container(),
-
-                              index == 0
-                                  ? Text("Units Menue",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline5
-                                          .copyWith(
-                                            color: AppTheme2.primaryColor18,
-                                            fontSize:
-                                                SizeConfig.screenWidth / 23,
-                                          ))
-                                  : Container(),
-                              // ),
-                              index == 0
-                                  ? UnitsMenueHeader(
-                                      homeController: homeController,
-                                    )
-                                  : Container(),
-
-                              index == 0
-                                  ? const Divider(
-                                      color: AppTheme2.clearColor,
-                                      height: 2,
-                                    )
-                                  : Container(),
-
-                              // RowUnitsWidget(
-                              //   groups: state.devices.groups,
-                              //   handleTap: handleTap,
-                              //   index2: index,
-                              //   index: 0,
-                              // ),
-
-                              BlocBuilder<UnitgroupsCubit, bool>(
-                                  builder: (context, state2) {
-                                if (!state2)
-                                  return Column(children: [
-                                    for (int i = 0;
-                                        i <
-                                            state.devices.groups[index].items
-                                                .length;
-                                        i++) ...[
-                                      RowUnitsWidget(
-                                        groups: state.devices.groups,
-                                        handleTap: handleTap,
-                                        index2: index,
-                                        index: 0,
-                                      )
-                                    ]
-                                  ]);
-                                else
-                                  return GroupListWidget(
+                            index == 0
+                                ? Text("Units Menue",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline5
+                                        .copyWith(
+                                          color: AppTheme2.primaryColor18,
+                                          fontSize: SizeConfig.screenWidth / 23,
+                                        ))
+                                : Container(),
+                            // ),
+                            index == 0
+                                ? UnitsMenueHeader(
                                     homeController: homeController,
-                                    groups: state.devices.groups,
-                                    index: 0,
-                                    index2: index,
-                                  );
-                              }),
-                            ],
-                          );
-                        },
-                        itemCount: state.devices.groups.length,
-                        controller: scrollController,
-                      );
-                    } else if (state is DevicesDataError) return Container();
-                  }));
+                                  )
+                                : Container(),
+
+                            index == 0
+                                ? const Divider(
+                                    color: AppTheme2.clearColor,
+                                    height: 2,
+                                  )
+                                : Container(),
+
+                            if (!state2)
+                              RowUnitsWidget(
+                                item: state.items[index],
+                                handleTap: handleTap,
+                              )
+                            else
+                              GroupListWidget(
+                                homeController: homeController,
+                                group: state.groups[index],
+                              )
+                          ],
+                        );
+                      },
+                      itemCount:
+                          !state2 ? state.items.length : state.groups.length,
+                      controller: scrollController,
+                    );
+                  });
+                } else {
+                  return Center(child: const CircularProgressIndicator());
+                }
+              }));
+          //     BlocBuilder<DevicesBloc, DevicesState>(
+          //         builder: (context, state) {
+          //   if ((state is DevicesDataLoading) ||
+          //       (state is DevicesInitial)) {
+          //     return LoadingIndicatorWithMessage(label: 'Loading');
+          //   } else if (state is DevicesDataLoaded) {
+          //     return ListView.builder(
+          //       padding: const EdgeInsets.all(0.0),
+          //       // shrinkWrap: true,
+          //       itemBuilder: (BuildContext context, int index) {
+          //         return Column(
+          //           children: [
+          //             index == 0
+          //                 ? const SizedBox(
+          //                     height: 10,
+          //                   )
+          //                 : Container(),
+
+          //             index == 0
+          //                 ? Center(
+          //                     child: Container(
+          //                       height: 5.5,
+          //                       width: 45,
+          //                       decoration: BoxDecoration(
+          //                           borderRadius:
+          //                               BorderRadius.circular(50),
+          //                           color: AppTheme2.primaryColor22),
+          //                     ),
+          //                   )
+          //                 : Container(),
+          //             index == 0
+          //                 ? const SizedBox(
+          //                     height: 10,
+          //                   )
+          //                 : Container(),
+
+          //             index == 0
+          //                 ? Text("Units Menue",
+          //                     style: Theme.of(context)
+          //                         .textTheme
+          //                         .headline5
+          //                         .copyWith(
+          //                           color: AppTheme2.primaryColor18,
+          //                           fontSize:
+          //                               SizeConfig.screenWidth / 23,
+          //                         ))
+          //                 : Container(),
+          //             // ),
+          //             index == 0
+          //                 ? UnitsMenueHeader(
+          //                     homeController: homeController,
+          //                   )
+          //                 : Container(),
+
+          //             index == 0
+          //                 ? const Divider(
+          //                     color: AppTheme2.clearColor,
+          //                     height: 2,
+          //                   )
+          //                 : Container(),
+
+          //             // RowUnitsWidget(
+          //             //   groups: state.devices.groups,
+          //             //   handleTap: handleTap,
+          //             //   index2: index,
+          //             //   index: 0,
+          //             // ),
+
+          //             BlocBuilder<UnitgroupsCubit, bool>(
+          //                 builder: (context, state2) {
+          //               if (!state2)
+          //                 return Column(children: [
+          //                   for (int i = 0;
+          //                       i <
+          //                           state.devices.groups[index].items
+          //                               .length;
+          //                       i++) ...[
+          //                     RowUnitsWidget(
+          //                       groups: state.devices.groups,
+          //                       handleTap: handleTap,
+          //                       index2: index,
+          //                       index: 0,
+          //                     )
+          //                   ]
+          //                 ]);
+          //               else
+          //                 return GroupListWidget(
+          //                   homeController: homeController,
+          //                   groups: state.devices.groups,
+          //                   index: 0,
+          //                   index2: index,
+          //                 );
+          //             }),
+          //           ],
+          //         );
+          //       },
+          //       itemCount: state.devices.groups.length,
+          //       controller: scrollController,
+          //     );
+          //   } else if (state is DevicesDataError) return Container();
+          // }));
 
           // SingleChildScrollView(
           //     controller: scrollController,
@@ -984,15 +905,12 @@ class DraggableBottomSheetWidget extends HookWidget {
 class GroupListWidget extends StatelessWidget {
   const GroupListWidget({
     Key key,
-    this.groups,
+    this.group,
     this.homeController,
-    this.index,
-    this.index2,
   }) : super(key: key);
 
-  final List<devices.Group> groups;
+  final devices.Group group;
   final HomeController homeController;
-  final int index, index2;
 
   @override
   Widget build(BuildContext context) {
@@ -1030,7 +948,7 @@ class GroupListWidget extends StatelessWidget {
             child: FractionallySizedBox(
                 widthFactor: 3,
                 child: Text(
-                  "${groups[index].title}",
+                  "${group.title}",
                   style: Theme.of(context).textTheme.headline6.copyWith(
                       fontSize: SizeConfig.screenWidth / 35,
                       color: AppTheme2.primaryColor18),
@@ -1100,33 +1018,33 @@ class GroupListWidget extends StatelessWidget {
           ),
         ],
       ),
-      BlocBuilder<GroupiconCubit, bool>(builder: (context, state) {
-        return Column(children: [
-          state
-              ? Column(children: [
-                  for (int i = 0; i < groups[index].items.length; i++) ...[
-                    CustomExpansionTile(
-                      unitName: "${groups[index].items[i].name}",
-                      tilePadding: const EdgeInsets.all(0.0),
-                      imageUrl:
-                          "${ApiRefrence.publicDomain}${groups[index].items[i].icon.path}",
-                      childrenPadding: const EdgeInsets.all(8.0),
-                      children: [
-                        UnitRowHeaderDetails(),
-                        UnitFooterDetails(),
-                      ],
-                    )
-                  ]
-                ])
-              : Container(),
-          state
-              ? Divider(
-                  color: AppTheme2.clearColor,
-                  height: 2,
-                )
-              : Container()
-        ]);
-      }),
+      // BlocBuilder<GroupiconCubit, bool>(builder: (context, state) {
+      //   return Column(children: [
+      //     state
+      //         ? Column(children: [
+      //             for (int i = 0; i < group.items.length; i++) ...[
+      //               CustomExpansionTile(
+      //                 unitName: "${groups[index].items[i].name}",
+      //                 tilePadding: const EdgeInsets.all(0.0),
+      //                 imageUrl:
+      //                     "${ApiRefrence.publicDomain}${groups[index].items[i].icon.path}",
+      //                 childrenPadding: const EdgeInsets.all(8.0),
+      //                 children: [
+      //                   UnitRowHeaderDetails(),
+      //                   UnitFooterDetails(),
+      //                 ],
+      //               )
+      //             ]
+      //           ])
+      //         : Container(),
+      //     state
+      //         ? Divider(
+      //             color: AppTheme2.clearColor,
+      //             height: 2,
+      //           )
+      //         : Container()
+      //   ]);
+      // }),
     ]);
   }
 
@@ -1272,107 +1190,107 @@ class GroupListWidget extends StatelessWidget {
   }
 }
 
-class UnitsMenueBottomSheet extends StatelessWidget {
-  const UnitsMenueBottomSheet({
-    Key key,
-    @required this.homeController,
-    this.handleTap,
-    this.state,
-    this.index,
-    this.index2,
-  }) : super(key: key);
+// class UnitsMenueBottomSheet extends StatelessWidget {
+//   const UnitsMenueBottomSheet({
+//     Key key,
+//     @required this.homeController,
+//     this.handleTap,
+//     this.state,
+//     this.index,
+//     this.index2,
+//   }) : super(key: key);
 
-  final HomeController homeController;
-  final GestureTapCallback handleTap;
-  final DevicesDataLoaded state;
-  final int index, index2;
+//   final HomeController homeController;
+//   final GestureTapCallback handleTap;
+//   final DevicesDataLoaded state;
+//   final int index, index2;
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(left: 0, top: 0, right: 0, bottom: 0),
-      width: double.infinity,
-      height: SizeConfig.screenHeight,
-      decoration: BoxDecoration(color: AppTheme2.primaryColor20),
-      child: SingleChildScrollView(
-        child: Column(
-          //mainAxisSize: MainAxisSize.min,
-          children: [
-            Center(
-              child: Container(
-                height: 5.5,
-                width: 45,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    color: AppTheme2.primaryColor22),
-              ),
-            ),
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       padding: EdgeInsets.only(left: 0, top: 0, right: 0, bottom: 0),
+//       width: double.infinity,
+//       height: SizeConfig.screenHeight,
+//       decoration: BoxDecoration(color: AppTheme2.primaryColor20),
+//       child: SingleChildScrollView(
+//         child: Column(
+//           //mainAxisSize: MainAxisSize.min,
+//           children: [
+//             Center(
+//               child: Container(
+//                 height: 5.5,
+//                 width: 45,
+//                 decoration: BoxDecoration(
+//                     borderRadius: BorderRadius.circular(50),
+//                     color: AppTheme2.primaryColor22),
+//               ),
+//             ),
 
-            Text(
-              "Units Menue",
-              style: Theme.of(context).textTheme.headline5.copyWith(
-                    color: AppTheme2.primaryColor18,
-                    fontSize: SizeConfig.screenWidth / 23,
-                  ),
-            ),
-            UnitsMenueHeader(
-              homeController: homeController,
-            ),
-            const Divider(
-              color: AppTheme2.clearColor,
-              height: 2,
-            ),
+//             Text(
+//               "Units Menue",
+//               style: Theme.of(context).textTheme.headline5.copyWith(
+//                     color: AppTheme2.primaryColor18,
+//                     fontSize: SizeConfig.screenWidth / 23,
+//                   ),
+//             ),
+//             UnitsMenueHeader(
+//               homeController: homeController,
+//             ),
+//             const Divider(
+//               color: AppTheme2.clearColor,
+//               height: 2,
+//             ),
 
-            // return Container();
+//             // return Container();
 
-            BlocBuilder<UnitgroupsCubit, bool>(builder: (context, state2) {
-              if (!state2)
-                return RowUnitsWidget(
-                  groups: state.devices.groups,
-                  handleTap: handleTap,
-                  index2: index2,
-                  index: index,
-                );
-              else
-                return GroupListWidget(
-                  homeController: homeController,
-                  groups: state.devices.groups,
-                  index: index,
-                  index2: index2,
-                );
-            }),
+//             BlocBuilder<UnitgroupsCubit, bool>(builder: (context, state2) {
+//               if (!state2)
+//                 return RowUnitsWidget(
+//                   groups: state.devices.groups,
+//                   handleTap: handleTap,
+//                   index2: index2,
+//                   index: index,
+//                 );
+//               else
+//                 return GroupListWidget(
+//                   homeController: homeController,
+//                   groups: state.devices.groups,
+//                   index: index,
+//                   index2: index2,
+//                 );
+//             }),
 
-            //else return GroupListWidget(homeController: homeController,);
+//             //else return GroupListWidget(homeController: homeController,);
 
-            // BlocBuilder<AnimatediconCubit, bool>(builder: (context, state) {
-            //   if (!state)
-            //     return const SizedBox();
-            //   else
-            //     return Padding(
-            //       padding: const EdgeInsets.all(18.0),
-            //       child: Column(
-            //         children: [
-            //           const UnitRowHeaderDetails(),
-            //           const SizedBox(
-            //             height: 10,
-            //           ),
-            //           const UnitFooterDetails()
-            //         ],
-            //       ),
-            //     );
-            // }),
+//             // BlocBuilder<AnimatediconCubit, bool>(builder: (context, state) {
+//             //   if (!state)
+//             //     return const SizedBox();
+//             //   else
+//             //     return Padding(
+//             //       padding: const EdgeInsets.all(18.0),
+//             //       child: Column(
+//             //         children: [
+//             //           const UnitRowHeaderDetails(),
+//             //           const SizedBox(
+//             //             height: 10,
+//             //           ),
+//             //           const UnitFooterDetails()
+//             //         ],
+//             //       ),
+//             //     );
+//             // }),
 
-            const SizedBox(
-              height: 10,
-            ),
-          ],
-        ),
-      ),
-    );
-    //   ],
-    // );
-  }
-}
+//             const SizedBox(
+//               height: 10,
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//     //   ],
+//     // );
+//   }
+// }
 
 class UnitsMenueHeader extends StatelessWidget {
   const UnitsMenueHeader({

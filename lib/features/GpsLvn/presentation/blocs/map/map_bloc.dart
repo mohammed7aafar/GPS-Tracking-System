@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gpsLVN/features/GpsLvn/domain/entities/devices.dart';
 import 'package:gpsLVN/features/GpsLvn/presentation/blocs/devices/devices_bloc.dart';
 
@@ -21,8 +22,7 @@ class FlutterMapBloc extends Bloc<MapEvent, MapState> {
             in (devicesBloc.state as DevicesDataLoaded).devices.groups) {
           items.addAll(item.items);
         }
-        //print(items.length);
-        // print(state.devices.groups.length);
+       
         add(ItemsAdded(items));
       }
     });
@@ -34,7 +34,11 @@ class FlutterMapBloc extends Bloc<MapEvent, MapState> {
   ) async* {
     if (event is ItemsAdded) {
       if (devicesBloc.state is DevicesDataLoaded) {
-        yield ItemsLoadSuccess(items);
+        yield ItemsLoadSuccess(items,(devicesBloc.state as DevicesDataLoaded).devices.groups);
+
+        // print(markers.length);
+
+        // yield MarkersLoadSuccess(markers);
       }
     }
   }

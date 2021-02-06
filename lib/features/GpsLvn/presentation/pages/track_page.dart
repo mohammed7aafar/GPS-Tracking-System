@@ -331,7 +331,7 @@ class DropDownUnitsForTrack extends StatelessWidget {
         // cubit: devicesBloc,
         builder: (context, state) {
       if ((state is DevicesDataLoading) || (state is DevicesInitial)) {
-        return LoadingIndicatorWithMessage(label: 'Loading');
+        return Center(child: const CircularProgressIndicator());
       } else if (state is DevicesDataLoaded) {
         return Container(
             color: AppTheme2.primaryColor,

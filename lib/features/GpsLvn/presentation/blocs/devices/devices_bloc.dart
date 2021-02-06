@@ -13,9 +13,8 @@ part 'devices_state.dart';
 
 class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
   final GetDevices devices;
-  final HasToken hasToken;
- 
-  DevicesBloc({@required this.devices, @required this.hasToken, })
+
+  DevicesBloc({@required this.devices})
       : assert(devices != null),
         super(DevicesInitial());
 

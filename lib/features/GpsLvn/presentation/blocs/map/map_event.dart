@@ -15,3 +15,16 @@ class ItemsAdded extends MapEvent {
   // @override
   // String toString() => 'ItemsAdded { todos: $items }';
 }
+
+
+class GroupsAdded extends MapEvent {
+  final List<Group> groups;
+
+  const GroupsAdded(this.groups);
+
+  @override
+  List<Object> get props => [groups];
+
+  // @override
+  // String toString() => 'ItemsAdded { todos: $items }';
+}
