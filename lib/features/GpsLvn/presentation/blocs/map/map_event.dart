@@ -17,14 +17,14 @@ class ItemsAdded extends MapEvent {
 }
 
 
-class GroupsAdded extends MapEvent {
-  final List<Group> groups;
-
-  const GroupsAdded(this.groups);
+class ItemsUpdated extends MapEvent {
+  final Item item;
+  const ItemsUpdated(this.item);
 
   @override
-  List<Object> get props => [groups];
+  List<Object> get props => [item];
 
-  // @override
-  // String toString() => 'ItemsAdded { todos: $items }';
+  @override
+  String toString() => 'ItemsUpdated { ItemsUpdated: ${item.deviceData.id} }';
 }
+

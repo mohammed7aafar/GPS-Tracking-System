@@ -7,13 +7,11 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../../../core/utils/size_config.dart';
 import '../../../../theme.dart';
-import '../controllers/home_controller.dart';
-import '../widgets/home/edit_units_bottom_sheet.dart';
 
 class TaskPage extends HookWidget {
-  const TaskPage({Key key, this.homeController}) : super(key: key);
+  const TaskPage({Key key,}) : super(key: key);
 
-  final HomeController homeController;
+  
   @override
   Widget build(BuildContext context) {
     final hideFabAnimController = useAnimationController(
@@ -86,7 +84,7 @@ class TaskPage extends HookWidget {
               height: 30,
             ),
             for (int index = 0;
-                index < homeController.homeList.length;
+                index < 5;
                 index++) ...[
               Material(
                 borderRadius: BorderRadius.circular(8),
@@ -194,7 +192,7 @@ class TaskPage extends HookWidget {
   }
 
   void buildSnackbarDeleteItem(index) {
-    homeController.homeList.removeAt(index);
+    // homeController.homeList.removeAt(index);
     // return Get.snackbar(
     //     "Unit Item deleted", "click on add button to retrieve it",
     //     colorText: AppTheme2.primaryColor18,

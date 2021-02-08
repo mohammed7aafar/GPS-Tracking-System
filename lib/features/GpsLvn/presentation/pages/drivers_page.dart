@@ -8,12 +8,11 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../../../core/utils/size_config.dart';
 import '../../../../theme.dart';
-import '../controllers/home_controller.dart';
+
 
 class DriversPage extends HookWidget {
-  const DriversPage({Key key, this.homeController}) : super(key: key);
+  const DriversPage({Key key}) : super(key: key);
 
-  final HomeController homeController;
 
   @override
   Widget build(BuildContext context) {
@@ -191,7 +190,7 @@ class DriversPage extends HookWidget {
   }
 
   void buildSnackbarDeleteItem(index) {
-    homeController.homeList.removeAt(index);
+    // homeController.homeList.removeAt(index);
     // return
     //  Get.snackbar(
     //     "Unit Item deleted", "click on add button to retrieve it",

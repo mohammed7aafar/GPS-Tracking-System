@@ -13,7 +13,6 @@ import 'package:gpsLVN/features/GpsLvn/presentation/pages/geofences_widget.dart'
 import 'package:ionicons/ionicons.dart';
 //import 'package:latlong/latlong.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import '../../../../core/utils/api_refrence.dart';
 import '../../../../core/utils/size_config.dart';
 import '../../../../theme.dart';
 import '../../domain/entities/devices.dart' as devices;
@@ -21,11 +20,6 @@ import '../blocs/devices/devices_bloc.dart';
 import '../blocs/groupIcon/groupicon_cubit.dart';
 import '../blocs/toggleTrack/toggletrack_cubit.dart';
 import '../blocs/unitGroups/unitgroups_cubit.dart';
-import '../controllers/home_controller.dart';
-import '../widgets/home/loading.dart';
-import '../widgets/home/unitsBottomSheet/custom_expansion_tile.dart';
-import '../widgets/home/unitsBottomSheet/footer_expanded_unit_children.dart';
-import '../widgets/home/unitsBottomSheet/header_expanded_units_children.dart';
 import '../widgets/home/unitsBottomSheet/row_units.dart';
 import 'home_screen.dart';
 import 'track_page.dart';
@@ -34,10 +28,9 @@ import 'package:http/http.dart' as http;
 class MapTabPage extends StatefulWidget {
   MapTabPage({
     Key key,
-    this.homeController,
   }) : super(key: key);
 
-  final HomeController homeController;
+
 
   @override
   _MapTabPageState createState() => _MapTabPageState();
@@ -234,7 +227,6 @@ class _MapTabPageState extends State<MapTabPage>
                     .map(
                         (e) => LatLng(double.parse(e.lat), double.parse(e.lng)))
                     .toList());
-
             markers[_markerId] = _marker;
             polylines[_polylineId] = _polyline;
           });
@@ -387,7 +379,7 @@ class _MapTabPageState extends State<MapTabPage>
                             Ionicons.menu_outline,
                             color: AppTheme2.primaryColor,
                           ),
-                          onPressed: () => widget.homeController.openDrawer(),
+                           onPressed: () {}
                         ),
                       ),
                       SizedBox(width: 10),
@@ -454,7 +446,7 @@ class _MapTabPageState extends State<MapTabPage>
               else
                 return SingleChildScrollView(
                     controller: scrollController,
-                    child: RoutesWidget(homeController: widget.homeController));
+                    child: RoutesWidget());
             });
       }),
 
@@ -487,7 +479,8 @@ class _MapTabPageState extends State<MapTabPage>
       }),
       BlocBuilder<ToggletrackCubit, bool>(builder: (context, state) {
         if (!state)
-          return DraggableBottomSheetWidget(widget.homeController, () {}
+          return DraggableBottomSheetWidget(
+            handleTap: (latlng) => _moveToLocation(latlng.latitude, latlng.longitude)
 
               // _animatedMapMove(LatLng(36.270908, 43.37498), 18.0),
               );
@@ -498,17 +491,19 @@ class _MapTabPageState extends State<MapTabPage>
   }
 }
 
-class DraggableBottomSheetWidget extends HookWidget {
-  const DraggableBottomSheetWidget(this.homeController, this.handleTap,
-      {Key key})
+class DraggableBottomSheetWidget extends StatelessWidget {
+  const DraggableBottomSheetWidget({this.handleTap,
+      Key key})
       : super(key: key);
-  final HomeController homeController;
-  final GestureTapCallback handleTap;
+  final dynamic handleTap;
+
+  // _onChange(LatLng latLng) {
+  //   handleTap(latLng);
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final hideFabAnimController = useAnimationController(
-        duration: kThemeAnimationDuration, initialValue: 1);
+   
 
     // final scrollController2 =
     //     useScrollControllerForAnimation(hideFabAnimController);
@@ -516,8 +511,6 @@ class DraggableBottomSheetWidget extends HookWidget {
     return DraggableScrollableSheet(
         initialChildSize: 0.07,
         minChildSize: 0.07,
-
-       
         builder: (BuildContext context, ScrollController scrollController) {
           return Container(
               color: AppTheme2.primaryColor20,
@@ -528,7 +521,6 @@ class DraggableBottomSheetWidget extends HookWidget {
                       builder: (context, state2) {
                     return ListView.builder(
                       padding: const EdgeInsets.all(0.0),
-                      // shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
                         return Column(
                           children: [
@@ -569,7 +561,7 @@ class DraggableBottomSheetWidget extends HookWidget {
                             // ),
                             index == 0
                                 ? UnitsMenueHeader(
-                                    homeController: homeController,
+                                   
                                   )
                                 : Container(),
 
@@ -587,7 +579,7 @@ class DraggableBottomSheetWidget extends HookWidget {
                               )
                             else
                               GroupListWidget(
-                                homeController: homeController,
+                            
                                 group: state.groups[index],
                               )
                           ],
@@ -906,11 +898,11 @@ class GroupListWidget extends StatelessWidget {
   const GroupListWidget({
     Key key,
     this.group,
-    this.homeController,
+  
   }) : super(key: key);
 
   final devices.Group group;
-  final HomeController homeController;
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -1136,7 +1128,7 @@ class GroupListWidget extends StatelessWidget {
             height: 30,
           ),
           for (int index = 0;
-              index < homeController.homeList.length;
+              index < 3;
               index++) ...[
             Material(
               borderRadius: BorderRadius.circular(8),
@@ -1148,36 +1140,36 @@ class GroupListWidget extends StatelessWidget {
                 onTap: () {},
                 leading: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Image.asset(
-                    "${homeController.homeList[index].image}",
-                    fit: BoxFit.contain,
-                  ),
+                  // child: Image.asset(
+                  //   "${homeController.homeList[index].image}",
+                  //   fit: BoxFit.contain,
+                  // ),
                 ),
                 title: Text(
-                  "${homeController.homeList[index].unitName}",
+                  "unit",
                   style: Theme.of(context).textTheme.headline6.copyWith(
                         color: AppTheme2.primaryColor18,
                         fontSize: SizeConfig.screenWidth / 25,
                       ),
                 ),
                 subtitle: Text(
-                  "${homeController.homeList[index].location}",
+                  "sub",
                   style: Theme.of(context).textTheme.headline2.copyWith(
                         color: AppTheme2.primaryColor16,
                         fontSize: SizeConfig.screenWidth / 28,
                       ),
                 ),
-                trailing:
+                // trailing:
                     // Obx(
                     //   () =>
-                    Icon(
-                  homeController.homeList[index].isSelected
-                      ? Ionicons.checkmark_circle_outline
-                      : Ionicons.radio_button_off_outline,
-                  color: homeController.homeList[index].isSelected
-                      ? AppTheme2.territoryColor
-                      : AppTheme2.primaryColor18,
-                ),
+                //     Icon(
+                //   homeController.homeList[index].isSelected
+                //       ? Ionicons.checkmark_circle_outline
+                //       : Ionicons.radio_button_off_outline,
+                //   color: homeController.homeList[index].isSelected
+                //       ? AppTheme2.territoryColor
+                //       : AppTheme2.primaryColor18,
+                // ),
               ),
             ),
             SizedBox(
@@ -1295,10 +1287,10 @@ class GroupListWidget extends StatelessWidget {
 class UnitsMenueHeader extends StatelessWidget {
   const UnitsMenueHeader({
     Key key,
-    this.homeController,
+    
   }) : super(key: key);
 
-  final HomeController homeController;
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -1573,7 +1565,7 @@ class UnitsMenueHeader extends StatelessWidget {
             height: 30,
           ),
           for (int index = 0;
-              index < homeController.homeList.length;
+              index < 3;
               index++) ...[
             Material(
               borderRadius: BorderRadius.circular(8),
@@ -1585,33 +1577,33 @@ class UnitsMenueHeader extends StatelessWidget {
                 onTap: () {},
                 leading: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Image.asset(
-                    "${homeController.homeList[index].image}",
-                    fit: BoxFit.contain,
-                  ),
+                  // child: Image.asset(
+                  //   "${homeController.homeList[index].image}",
+                  //   fit: BoxFit.contain,
+                  // ),
                 ),
                 title: Text(
-                  "${homeController.homeList[index].unitName}",
+                  "unitname",
                   style: Theme.of(context).textTheme.headline6.copyWith(
                         color: AppTheme2.primaryColor18,
                         fontSize: SizeConfig.screenWidth / 25,
                       ),
                 ),
                 subtitle: Text(
-                  "${homeController.homeList[index].location}",
+                  "subtitle",
                   style: Theme.of(context).textTheme.headline2.copyWith(
                         color: AppTheme2.primaryColor16,
                         fontSize: SizeConfig.screenWidth / 28,
                       ),
                 ),
-                trailing: Icon(
-                  homeController.homeList[index].isSelected
-                      ? Ionicons.checkmark_circle_outline
-                      : Ionicons.radio_button_off_outline,
-                  color: homeController.homeList[index].isSelected
-                      ? AppTheme2.territoryColor
-                      : AppTheme2.primaryColor18,
-                ),
+                // trailing: Icon(
+                //   homeController.homeList[index].isSelected
+                //       ? Ionicons.checkmark_circle_outline
+                //       : Ionicons.radio_button_off_outline,
+                //   color: homeController.homeList[index].isSelected
+                //       ? AppTheme2.territoryColor
+                //       : AppTheme2.primaryColor18,
+                // ),
               ),
             ),
             SizedBox(

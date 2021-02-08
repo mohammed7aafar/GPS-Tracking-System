@@ -12,7 +12,6 @@ import '../../../../theme.dart';
 import '../blocs/tab/app_tab.dart';
 import '../blocs/tab/tab.dart';
 import '../blocs/tab/tab_bloc.dart';
-import '../controllers/home_controller.dart';
 import '../widgets/bottom_nav_bar.dart';
 import 'map_screen.dart';
 import 'reports_page.dart';
@@ -25,38 +24,13 @@ import 'package:gpsLVN/features/GpsLvn/presentation/blocs/tab/tab_bloc.dart';
 import 'package:gpsLVN/features/GpsLvn/presentation/blocs/unitGroups/unitgroups_cubit.dart';
 
 class HomeScreen extends StatelessWidget {
-  final HomeController homeController = HomeController();
+
 
   static Route route() {
     return MaterialPageRoute<void>(builder: (_) => HomeScreen());
   }
 
   final storage = new FlutterSecureStorage();
-
-// Create storage
-
-  // GoogleMapController _controller;
-
-  // CameraPosition _kGooglePlex = CameraPosition(
-  //   target: LatLng(37.42796133580664, -100.085749655962),
-  //   zoom: 15.4746,
-  // );
-
-  // CameraPosition _kLake = CameraPosition(
-  //     bearing: 192.8334901395799,
-  //     target: LatLng(37.43296265331129, -122.08832357078792),
-  //     tilt: 59.440717697143555,
-  //     zoom: 19.151926040649414);
-
-  //setMapStyle(String mapStyle) => _controller.setMapStyle(mapStyle);
-
-  // Future<String> getJsonFile(String path) async =>
-  //     await rootBundle.loadString(path);
-
-  //changeMapMode() => getJsonFile("assets/map_theme.json").then(setMapStyle);
-
-  // final HideNavbar hiding = HideNavbar();
-
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(providers: [
@@ -73,17 +47,17 @@ class HomeScreen extends StatelessWidget {
       BlocProvider(create: (context) => sl<ShowtrackCubit>()),
       BlocProvider(create: (context) => sl<TogglegeofenceCubit>()),
       BlocProvider(create: (context) => sl<TogglerouteCubit>()),
-    ], child: HomePage(homeController: homeController,flutterSecureStorage: storage,));
+    ], child: HomePage(flutterSecureStorage: storage,));
   }
 }
 
 class HomePage extends StatelessWidget {
   const HomePage({
     Key key,
-    @required this.homeController, this.flutterSecureStorage,
+    this.flutterSecureStorage,
   }) : super(key: key);
 
-  final HomeController homeController;
+
 
   final FlutterSecureStorage flutterSecureStorage;
 
@@ -94,7 +68,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     getToken().then((value) => context.bloc<DevicesBloc>().add(GetDevicesData(value, "en")));
     return Scaffold(
-        key: homeController.drawerKey,
+        
         backgroundColor: AppTheme2.primaryColor,
         body: BlocBuilder<TabBloc, AppTab>(builder: (context, activeTab) {
           return selectPageTab(activeTab);
@@ -104,33 +78,27 @@ class HomePage extends StatelessWidget {
           return BottomNavigationBarWidget(
             activeTab: activeTab,
             //! (tab) => value of appTab
-            onTabSelected: (tab) =>
-                BlocProvider.of<TabBloc>(context).add(TabUpdated(tab)),
+            onTabSelected: (tab) => BlocProvider.of<TabBloc>(context).add(TabUpdated(tab)),
           );
         }),
-        drawer: DrawerItemsWidget(
-          homeController: homeController,
-        ));
+        drawer: DrawerItemsWidget());
   }
 
   selectPageTab(activeTab) {
     switch (activeTab) {
       case AppTab.map:
-        return MapTabPage(
-          homeController: homeController,
-        );
+        return MapTabPage();
         break;
       case AppTab.reports:
         return ReportsPage();
         break;
-
       // case AppTab.track:
       //   return MapTabPage(
       //     homeController: homeController,
       //   );
       //   break;
       case AppTab.notifications:
-        return NotificationsPage(homeController: homeController);
+        return NotificationsPage();
         break;
 
       default:
@@ -142,10 +110,10 @@ class HomePage extends StatelessWidget {
 class DrawerItemsWidget extends StatelessWidget {
   const DrawerItemsWidget({
     Key key,
-    this.homeController,
+   
   }) : super(key: key);
 
-  final HomeController homeController;
+
 
   @override
   Widget build(BuildContext context) {
@@ -427,10 +395,10 @@ class DrawerItemsWidget extends StatelessWidget {
 class RoutesWidget extends StatelessWidget {
   const RoutesWidget({
     Key key,
-    @required this.homeController,
+ 
   }) : super(key: key);
 
-  final HomeController homeController;
+ 
 
   @override
   Widget build(BuildContext context) {

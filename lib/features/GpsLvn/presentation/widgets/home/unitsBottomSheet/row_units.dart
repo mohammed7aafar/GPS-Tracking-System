@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gpsLVN/features/GpsLvn/domain/entities/devices.dart';
 import '../../../../../../core/utils/api_refrence.dart';
 import '../../../../../../theme.dart';
@@ -14,7 +15,11 @@ class RowUnitsWidget extends StatelessWidget {
   }) : super(key: key);
 
   final Item item;
-  final GestureTapCallback handleTap;
+  final dynamic handleTap;
+
+ _onChange(LatLng latLng) {
+    handleTap(latLng);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +28,7 @@ class RowUnitsWidget extends StatelessWidget {
       child: Column(
         children: [
           CustomExpansionTile(
-            handleTap: handleTap,
+            handleTap: _onChange,
             unitName: "${item.name}",
             tilePadding: const EdgeInsets.all(0.0),
             imageUrl: "${ApiRefrence.publicDomain}${item.icon.path}",
@@ -32,6 +37,7 @@ class RowUnitsWidget extends StatelessWidget {
               UnitRowHeaderDetails(),
               UnitFooterDetails(),
             ],
+            item: item,
           ),
           Divider(
             color: AppTheme2.clearColor,

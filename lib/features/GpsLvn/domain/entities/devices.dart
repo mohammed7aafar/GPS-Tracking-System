@@ -14,8 +14,6 @@ class Devices extends Equatable {
   final User user;
   final int status;
 
- 
-
   @override
   List<Object> get props => [groups, user, status];
 }
@@ -38,7 +36,7 @@ class Group extends Equatable {
   final String expand;
   final List<Item> items;
 
-  factory Group.fromJson(Map<String, dynamic> json) =>_$GroupFromJson(json);
+  factory Group.fromJson(Map<String, dynamic> json) => _$GroupFromJson(json);
   Map<String, dynamic> toJson() => _$GroupToJson(this);
 
   @override
@@ -57,6 +55,7 @@ class Group extends Equatable {
 @JsonSerializable()
 class Item extends Equatable {
   Item({
+    this.complete = false,
     this.id,
     this.alarm,
     this.name,
@@ -93,7 +92,7 @@ class Item extends Equatable {
     this.totalDistance,
     this.deviceData,
   });
-
+  final bool complete;
   final int id;
   final int alarm;
   final String name;
@@ -130,7 +129,7 @@ class Item extends Equatable {
   final double totalDistance;
   final DeviceData deviceData;
 
-  factory Item.fromJson(Map<String, dynamic> json) =>_$ItemFromJson(json);
+  factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);
   Map<String, dynamic> toJson() => _$ItemToJson(this);
 
   @override
@@ -173,6 +172,87 @@ class Item extends Equatable {
       deviceData,
     ];
   }
+
+ 
+
+  Item copyWith({
+    
+    int id,
+    int alarm,
+    String name,
+    String online,
+    String time,
+    int timestamp,
+    int acktimestamp,
+    double lat,
+    double lng,
+    int course,
+    int speed,
+    int altitude,
+    String iconType,
+    String iconColor,
+    IconColors iconColors,
+    Icon icon,
+    String power,
+    String address,
+    String protocol,
+    String driver,
+    DriverData driverData,
+    List<Sensor> sensors,
+    List<dynamic> services,
+    List<Tail> tail,
+    String distanceUnitHour,
+    String unitOfDistance,
+    String unitOfAltitude,
+    String unitOfCapacity,
+    String stopDuration,
+    int movedTimestamp,
+    bool engineStatus,
+    String detectEngine,
+    String engineHours,
+    double totalDistance,
+    DeviceData deviceData,
+    bool complete, 
+  }) {
+    return Item(
+      complete: complete ?? this.complete,
+      id: id ?? this.id,
+      alarm: alarm ?? this.alarm,
+      name: name ?? this.name,
+      online: online ?? this.online,
+      time: time ?? this.time,
+      timestamp: timestamp ?? this.timestamp,
+      acktimestamp: acktimestamp ?? this.acktimestamp,
+      lat: lat ?? this.lat,
+      lng: lng ?? this.lng,
+      course: course ?? this.course,
+      speed: speed ?? this.speed,
+      altitude: altitude ?? this.altitude,
+      iconType: iconType ?? this.iconType,
+      iconColor: iconColor ?? this.iconColor,
+      iconColors: iconColors ?? this.iconColors,
+      icon: icon ?? this.icon,
+      power: power ?? this.power,
+      address: address ?? this.address,
+      protocol: protocol ?? this.protocol,
+      driver: driver ?? this.driver,
+      driverData: driverData ?? this.driverData,
+      sensors: sensors ?? this.sensors,
+      services: services ?? this.services,
+      tail: tail ?? this.tail,
+      distanceUnitHour: distanceUnitHour ?? this.distanceUnitHour,
+      unitOfDistance: unitOfDistance ?? this.unitOfDistance,
+      unitOfAltitude: unitOfAltitude ?? this.unitOfAltitude,
+      unitOfCapacity: unitOfCapacity ?? this.unitOfCapacity,
+      stopDuration: stopDuration ?? this.stopDuration,
+      movedTimestamp: movedTimestamp ?? this.movedTimestamp,
+      engineStatus: engineStatus ?? this.engineStatus,
+      detectEngine: detectEngine ?? this.detectEngine,
+      engineHours: engineHours ?? this.engineHours,
+      totalDistance: totalDistance ?? this.totalDistance,
+      deviceData: deviceData ?? this.deviceData,
+    );
+  }
 }
 
 @JsonSerializable()
@@ -189,7 +269,8 @@ class IconColors extends Equatable {
   final String offline;
   final String engine;
 
-  factory IconColors.fromJson(Map<String, dynamic> json) =>_$IconColorsFromJson(json);
+  factory IconColors.fromJson(Map<String, dynamic> json) =>
+      _$IconColorsFromJson(json);
   Map<String, dynamic> toJson() => _$IconColorsToJson(this);
 
   @override
@@ -218,7 +299,7 @@ class Icon extends Equatable {
   final String path;
   final String byStatus;
 
-  factory Icon.fromJson(Map<String, dynamic> json) =>_$IconFromJson(json);
+  factory Icon.fromJson(Map<String, dynamic> json) => _$IconFromJson(json);
   Map<String, dynamic> toJson() => _$IconToJson(this);
 
   @override
@@ -262,7 +343,8 @@ class DriverData extends Equatable {
   final dynamic createdAt;
   final dynamic updatedAt;
 
-  factory DriverData.fromJson(Map<String, dynamic> json) =>_$DriverDataFromJson(json);
+  factory DriverData.fromJson(Map<String, dynamic> json) =>
+      _$DriverDataFromJson(json);
   Map<String, dynamic> toJson() => _$DriverDataToJson(this);
 
   @override
@@ -302,7 +384,7 @@ class Sensor extends Equatable {
   final dynamic val;
   final int scaleValue;
 
-  factory Sensor.fromJson(Map<String, dynamic> json) =>_$SensorFromJson(json);
+  factory Sensor.fromJson(Map<String, dynamic> json) => _$SensorFromJson(json);
   Map<String, dynamic> toJson() => _$SensorToJson(this);
 
   @override
@@ -329,7 +411,7 @@ class Tail extends Equatable {
   final String lat;
   final String lng;
 
-  factory Tail.fromJson(Map<String, dynamic> json) =>_$TailFromJson(json);
+  factory Tail.fromJson(Map<String, dynamic> json) => _$TailFromJson(json);
   Map<String, dynamic> toJson() => _$TailToJson(this);
 
   @override
@@ -462,8 +544,8 @@ class DeviceData extends Equatable {
   final int course;
   final int speed;
 
-
-  factory DeviceData.fromJson(Map<String, dynamic> json) =>_$DeviceDataFromJson(json);
+  factory DeviceData.fromJson(Map<String, dynamic> json) =>
+      _$DeviceDataFromJson(json);
   Map<String, dynamic> toJson() => _$DeviceDataToJson(this);
 
   @override
@@ -531,6 +613,134 @@ class DeviceData extends Equatable {
       speed,
     ];
   }
+
+
+
+  DeviceData copyWith({
+    int id,
+    String hide,
+    String checked,
+    int userId,
+    dynamic currentDriverId,
+    dynamic timezoneId,
+    int traccarDeviceId,
+    int iconId,
+    IconColors iconColors,
+    int active,
+    int deleted,
+    String name,
+    String imei,
+    int fuelMeasurementId,
+    String fuelQuantity,
+    String fuelPrice,
+    String fuelPerKm,
+    String simNumber,
+    String deviceModel,
+    String plateNumber,
+    String vin,
+    String registrationNumber,
+    String objectOwner,
+    String additionalNotes,
+    dynamic expirationDate,
+    String simExpirationDate,
+    String simActivationDate,
+    String installationDate,
+    String tailColor,
+    int tailLength,
+    String engineHours,
+    String detectEngine,
+    int minMovingSpeed,
+    int minFuelFillings,
+    int minFuelThefts,
+    int snapToRoad,
+    int gprsTemplatesOnly,
+    String validByAvgSpeed,
+    String parameters,
+    dynamic currents,
+    DateTime createdAt,
+    DateTime updatedAt,
+    dynamic forward,
+    String stopDuration,
+    Pivot pivot,
+    Traccar traccar,
+    Icon icon,
+    List<Sensors> sensors,
+    List<dynamic> services,
+    dynamic driver,
+    List<Users> users,
+    double lastValidLatitude,
+    double lastValidLongitude,
+    String latestPositions,
+    String iconType,
+    int groupId,
+    dynamic userTimezoneId,
+    DateTime time,
+    int course,
+    int speed,
+  }) {
+    return DeviceData(
+      id: id ?? this.id,
+      hide: hide ?? this.hide,
+      checked: checked ?? this.checked,
+      userId: userId ?? this.userId,
+      currentDriverId: currentDriverId ?? this.currentDriverId,
+      timezoneId: timezoneId ?? this.timezoneId,
+      traccarDeviceId: traccarDeviceId ?? this.traccarDeviceId,
+      iconId: iconId ?? this.iconId,
+      iconColors: iconColors ?? this.iconColors,
+      active: active ?? this.active,
+      deleted: deleted ?? this.deleted,
+      name: name ?? this.name,
+      imei: imei ?? this.imei,
+      fuelMeasurementId: fuelMeasurementId ?? this.fuelMeasurementId,
+      fuelQuantity: fuelQuantity ?? this.fuelQuantity,
+      fuelPrice: fuelPrice ?? this.fuelPrice,
+      fuelPerKm: fuelPerKm ?? this.fuelPerKm,
+      simNumber: simNumber ?? this.simNumber,
+      deviceModel: deviceModel ?? this.deviceModel,
+      plateNumber: plateNumber ?? this.plateNumber,
+      vin: vin ?? this.vin,
+      registrationNumber: registrationNumber ?? this.registrationNumber,
+      objectOwner: objectOwner ?? this.objectOwner,
+      additionalNotes: additionalNotes ?? this.additionalNotes,
+      expirationDate: expirationDate ?? this.expirationDate,
+      simExpirationDate: simExpirationDate ?? this.simExpirationDate,
+      simActivationDate: simActivationDate ?? this.simActivationDate,
+      installationDate: installationDate ?? this.installationDate,
+      tailColor: tailColor ?? this.tailColor,
+      tailLength: tailLength ?? this.tailLength,
+      engineHours: engineHours ?? this.engineHours,
+      detectEngine: detectEngine ?? this.detectEngine,
+      minMovingSpeed: minMovingSpeed ?? this.minMovingSpeed,
+      minFuelFillings: minFuelFillings ?? this.minFuelFillings,
+      minFuelThefts: minFuelThefts ?? this.minFuelThefts,
+      snapToRoad: snapToRoad ?? this.snapToRoad,
+      gprsTemplatesOnly: gprsTemplatesOnly ?? this.gprsTemplatesOnly,
+      validByAvgSpeed: validByAvgSpeed ?? this.validByAvgSpeed,
+      parameters: parameters ?? this.parameters,
+      currents: currents ?? this.currents,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      forward: forward ?? this.forward,
+      stopDuration: stopDuration ?? this.stopDuration,
+      pivot: pivot ?? this.pivot,
+      traccar: traccar ?? this.traccar,
+      icon: icon ?? this.icon,
+      sensors: sensors ?? this.sensors,
+      services: services ?? this.services,
+      driver: driver ?? this.driver,
+      users: users ?? this.users,
+      lastValidLatitude: lastValidLatitude ?? this.lastValidLatitude,
+      lastValidLongitude: lastValidLongitude ?? this.lastValidLongitude,
+      latestPositions: latestPositions ?? this.latestPositions,
+      iconType: iconType ?? this.iconType,
+      groupId: groupId ?? this.groupId,
+      userTimezoneId: userTimezoneId ?? this.userTimezoneId,
+      time: time ?? this.time,
+      course: course ?? this.course,
+      speed: speed ?? this.speed,
+    );
+  }
 }
 
 @JsonSerializable()
@@ -551,7 +761,7 @@ class Pivot extends Equatable {
   final int active;
   final dynamic timezoneId;
 
-  factory Pivot.fromJson(Map<String, dynamic> json) =>_$PivotFromJson(json);
+  factory Pivot.fromJson(Map<String, dynamic> json) => _$PivotFromJson(json);
   Map<String, dynamic> toJson() => _$PivotToJson(this);
 
   @override
@@ -569,8 +779,6 @@ class Pivot extends Equatable {
 
 @JsonSerializable()
 class Traccar extends Equatable {
-
-
   String id;
   String name;
   String uniqueId;
@@ -594,7 +802,7 @@ class Traccar extends Equatable {
   String engineOnAt;
   String engineOffAt;
 
-    Traccar(
+  Traccar(
       {this.id,
       this.name,
       this.uniqueId,
@@ -618,8 +826,8 @@ class Traccar extends Equatable {
       this.engineOnAt,
       this.engineOffAt});
 
-
-  factory Traccar.fromJson(Map<String, dynamic> json) =>_$TraccarFromJson(json);
+  factory Traccar.fromJson(Map<String, dynamic> json) =>
+      _$TraccarFromJson(json);
   Map<String, dynamic> toJson() => _$TraccarToJson(this);
 
   @override
@@ -653,7 +861,6 @@ class Traccar extends Equatable {
 
 @JsonSerializable()
 class Sensors extends Equatable {
-  
   String id;
   String userId;
   String deviceId;
@@ -723,9 +930,9 @@ class Sensors extends Equatable {
       this.calibrations,
       this.skipCalibration});
 
-
-      factory Sensors.fromJson(Map<String, dynamic> json) =>_$SensorsFromJson(json);
-      Map<String, dynamic> toJson() => _$SensorsToJson(this);
+  factory Sensors.fromJson(Map<String, dynamic> json) =>
+      _$SensorsFromJson(json);
+  Map<String, dynamic> toJson() => _$SensorsToJson(this);
 
   @override
   List<Object> get props {
@@ -774,7 +981,7 @@ class Users extends Equatable {
 
   Users({this.id, this.email});
 
-  factory Users.fromJson(Map<String, dynamic> json) =>_$UsersFromJson(json);
+  factory Users.fromJson(Map<String, dynamic> json) => _$UsersFromJson(json);
   Map<String, dynamic> toJson() => _$UsersToJson(this);
 
   @override
@@ -783,47 +990,84 @@ class Users extends Equatable {
 
 @JsonSerializable()
 class User extends Equatable {
-	int id;
-	String deviceMainCheckbox;
-	String mainExpand;
-	String mainHide;
-	String checkedDeviceGroups;
-	String parent;
-	int active;
-	int groupId;
-	dynamic managerId;
-	dynamic billingPlanId;
-	int mapId;
-	dynamic devicesLimit;
-	String email;
-	String subscriptionExpiration;
-	String logedAt;
-	dynamic apiHashExpire;
-	List<String> availableMaps;
-	String smsGatewayAppDate;
-	bool smsGatewayParams;
-	String openGeofenceGroups;
-	String openDeviceGroups;
-	String hideDeviceGroups;
-	String weekStartDay;
-	String topToolbarOpen;
-	MapControls mapControls;
-	String createdAt;
-	String updatedAt;
-	String unitOfAltitude;
-	String lang;
-	String unitOfDistance;
-	String unitOfCapacity;
-	int timezoneId;
-	String smsGateway;
-	dynamic smsGatewayUrl;
-	Settings settings;
-	String personalPhone;
-	dynamic country;
+  int id;
+  String deviceMainCheckbox;
+  String mainExpand;
+  String mainHide;
+  String checkedDeviceGroups;
+  String parent;
+  int active;
+  int groupId;
+  dynamic managerId;
+  dynamic billingPlanId;
+  int mapId;
+  dynamic devicesLimit;
+  String email;
+  String subscriptionExpiration;
+  String logedAt;
+  dynamic apiHashExpire;
+  List<String> availableMaps;
+  String smsGatewayAppDate;
+  bool smsGatewayParams;
+  String openGeofenceGroups;
+  String openDeviceGroups;
+  String hideDeviceGroups;
+  String weekStartDay;
+  String topToolbarOpen;
+  MapControls mapControls;
+  String createdAt;
+  String updatedAt;
+  String unitOfAltitude;
+  String lang;
+  String unitOfDistance;
+  String unitOfCapacity;
+  int timezoneId;
+  String smsGateway;
+  dynamic smsGatewayUrl;
+  Settings settings;
+  String personalPhone;
+  dynamic country;
 
-	User({this.id, this.deviceMainCheckbox, this.mainExpand, this.mainHide, this.checkedDeviceGroups, this.parent, this.active, this.groupId, this.managerId, this.billingPlanId, this.mapId, this.devicesLimit, this.email, this.subscriptionExpiration, this.logedAt, this.apiHashExpire, this.availableMaps, this.smsGatewayAppDate, this.smsGatewayParams, this.openGeofenceGroups, this.openDeviceGroups, this.hideDeviceGroups, this.weekStartDay, this.topToolbarOpen, this.mapControls, this.createdAt, this.updatedAt, this.unitOfAltitude, this.lang, this.unitOfDistance, this.unitOfCapacity, this.timezoneId, this.smsGateway, this.smsGatewayUrl, this.settings, this.personalPhone, this.country});
-  
-  factory User.fromJson(Map<String, dynamic> json) =>_$UserFromJson(json);
+  User(
+      {this.id,
+      this.deviceMainCheckbox,
+      this.mainExpand,
+      this.mainHide,
+      this.checkedDeviceGroups,
+      this.parent,
+      this.active,
+      this.groupId,
+      this.managerId,
+      this.billingPlanId,
+      this.mapId,
+      this.devicesLimit,
+      this.email,
+      this.subscriptionExpiration,
+      this.logedAt,
+      this.apiHashExpire,
+      this.availableMaps,
+      this.smsGatewayAppDate,
+      this.smsGatewayParams,
+      this.openGeofenceGroups,
+      this.openDeviceGroups,
+      this.hideDeviceGroups,
+      this.weekStartDay,
+      this.topToolbarOpen,
+      this.mapControls,
+      this.createdAt,
+      this.updatedAt,
+      this.unitOfAltitude,
+      this.lang,
+      this.unitOfDistance,
+      this.unitOfCapacity,
+      this.timezoneId,
+      this.smsGateway,
+      this.smsGatewayUrl,
+      this.settings,
+      this.personalPhone,
+      this.country});
+
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
   Map<String, dynamic> toJson() => _$UserToJson(this);
 
   @override
@@ -870,27 +1114,25 @@ class User extends Equatable {
   }
 }
 
-
 class MapControls {
+  MapControls();
 
+  MapControls.fromJson(Map<String, dynamic> json) {}
 
-	MapControls();
-
-	MapControls.fromJson(Map<String, dynamic> json) {
-	}
-
-	Map<String, dynamic> toJson() {
-		final Map<String, dynamic> data = new Map<String, dynamic>();
-		return data;
-	}
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    return data;
+  }
 }
+
 @JsonSerializable()
 class Settings extends Equatable {
-	Listview listview;
+  Listview listview;
 
-	Settings({this.listview});
+  Settings({this.listview});
 
-  factory Settings.fromJson(Map<String, dynamic> json) =>_$SettingsFromJson(json);
+  factory Settings.fromJson(Map<String, dynamic> json) =>
+      _$SettingsFromJson(json);
   Map<String, dynamic> toJson() => _$SettingsToJson(this);
 
   @override
@@ -899,12 +1141,13 @@ class Settings extends Equatable {
 
 @JsonSerializable()
 class Listview extends Equatable {
-	List<Columns> columns;
-	String groupby;
+  List<Columns> columns;
+  String groupby;
 
-	Listview({this.columns, this.groupby});
-  
-  factory Listview.fromJson(Map<String, dynamic> json) =>_$ListviewFromJson(json);
+  Listview({this.columns, this.groupby});
+
+  factory Listview.fromJson(Map<String, dynamic> json) =>
+      _$ListviewFromJson(json);
   Map<String, dynamic> toJson() => _$ListviewToJson(this);
 
   @override
@@ -913,12 +1156,13 @@ class Listview extends Equatable {
 
 @JsonSerializable()
 class Columns extends Equatable {
-	String field;
-	String clas;
+  String field;
+  String clas;
 
-	Columns({this.field, this.clas});
+  Columns({this.field, this.clas});
 
-  factory Columns.fromJson(Map<String, dynamic> json) =>_$ColumnsFromJson(json);
+  factory Columns.fromJson(Map<String, dynamic> json) =>
+      _$ColumnsFromJson(json);
   Map<String, dynamic> toJson() => _$ColumnsToJson(this);
 
   @override

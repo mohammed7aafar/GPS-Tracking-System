@@ -77,9 +77,9 @@ Item _$ItemFromJson(Map<String, dynamic> json) {
     detectEngine: json['detectEngine'] as String,
     engineHours: json['engineHours'] as String,
     totalDistance: (json['totalDistance'] as num)?.toDouble(),
-    deviceData: json['deviceData'] == null
+    deviceData: json['device_data'] == null
         ? null
-        : DeviceData.fromJson(json['deviceData'] as Map<String, dynamic>),
+        : DeviceData.fromJson(json['device_data'] as Map<String, dynamic>),
   );
 }
 

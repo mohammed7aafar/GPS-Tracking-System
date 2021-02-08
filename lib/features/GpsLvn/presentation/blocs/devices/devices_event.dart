@@ -20,16 +20,5 @@ const  GetDevicesData(this.token, this.lang);
   List<Object> get props => [token,lang];
 }
 
-// class DevicesUpdated extends DevicesEvent {
-//   final Devices devices;
-
-//   const DevicesUpdated(this.devices);
-
-//   @override
-//   List<Object> get props => [devices];
-
-//   @override
-//   String toString() => 'DevicesUpdated { updatedDevices: $devices }';
-// }
 
 

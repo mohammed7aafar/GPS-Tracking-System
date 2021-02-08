@@ -7,13 +7,13 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../../../core/utils/size_config.dart';
 import '../../../../theme.dart';
-import '../controllers/home_controller.dart';
+
 import '../widgets/notifications/edit_notifications_bottom_sheet.dart';
 
 class NotificationsPage extends HookWidget {
-  const NotificationsPage({Key key, this.homeController}) : super(key: key);
+  const NotificationsPage({Key key,}) : super(key: key);
 
-  final HomeController homeController;
+
 
   @override
   Widget build(BuildContext context) {
@@ -181,7 +181,7 @@ class NotificationsPage extends HookWidget {
   }
 
   void buildSnackbarDeleteItem(index) {
-    homeController.homeList.removeAt(index);
+    // homeController.homeList.removeAt(index);
 
     //    Get.snackbar(
     //       "Unit Item deleted", "click on add button to retrieve it",

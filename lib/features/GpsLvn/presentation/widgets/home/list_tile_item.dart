@@ -5,28 +5,26 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../../../../core/utils/size_config.dart';
 import '../../../../../theme.dart';
-import '../../controllers/home_controller.dart';
 import 'edit_units_bottom_sheet.dart';
 
 class ListTileItems extends StatelessWidget {
   const ListTileItems({
     Key key,
-    @required this.homeController,
   }) : super(key: key);
 
-  final HomeController homeController;
+  
 
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
         constraints: BoxConstraints(
           maxHeight:
-              SizeConfig.screenHeight * homeController.homeList.length / 9,
+              SizeConfig.screenHeight / 9,
         ),
         child: Column(
           children: [
             for (int index = 0;
-                index < homeController.homeList.length;
+                index < 5;
                 index++) ...[
               Material(
                 borderRadius: BorderRadius.circular(8),
@@ -61,14 +59,14 @@ class ListTileItems extends StatelessWidget {
                         //  Image.asset("${homeController.homeList[index].image}", fit: BoxFit.contain,),
                         ),
                     title: Text(
-                      "${homeController.homeList[index].unitName}",
+                      "unit",
                       style: Theme.of(context).textTheme.headline6.copyWith(
                             color: AppTheme2.primaryColor18,
                             fontSize: SizeConfig.screenWidth / 25,
                           ),
                     ),
                     subtitle: Text(
-                      "${homeController.homeList[index].location}",
+                      "sub",
                       style: Theme.of(context).textTheme.headline2.copyWith(
                             color: AppTheme2.primaryColor16,
                             fontSize: SizeConfig.screenWidth / 28,
@@ -129,7 +127,7 @@ class ListTileItems extends StatelessWidget {
 
 
   void buildSnackbarDeleteItem(index) {
-    homeController.homeList.removeAt(index);
+  //  homeController.homeList.removeAt(index);
     // return
     //  Get.snackbar(
     //     "Unit Item deleted", "click on add button to retrieve it",

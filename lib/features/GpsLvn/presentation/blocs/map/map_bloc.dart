@@ -16,13 +16,13 @@ class FlutterMapBloc extends Bloc<MapEvent, MapState> {
 
   FlutterMapBloc({this.devicesBloc}) : super(ItemsLoadInProgress()) {
     devicesSubscription = devicesBloc.listen((state) {
-      print(state);
+      // print(state);
       if (state is DevicesDataLoaded) {
         for (var item
             in (devicesBloc.state as DevicesDataLoaded).devices.groups) {
           items.addAll(item.items);
         }
-       
+
         add(ItemsAdded(items));
       }
     });
@@ -34,12 +34,23 @@ class FlutterMapBloc extends Bloc<MapEvent, MapState> {
   ) async* {
     if (event is ItemsAdded) {
       if (devicesBloc.state is DevicesDataLoaded) {
-        yield ItemsLoadSuccess(items,(devicesBloc.state as DevicesDataLoaded).devices.groups);
-
-        // print(markers.length);
-
-        // yield MarkersLoadSuccess(markers);
+        yield ItemsLoadSuccess(
+            items, (devicesBloc.state as DevicesDataLoaded).devices.groups);
       }
+    } else if (event is ItemsUpdated) {
+      if (devicesBloc.state is DevicesDataLoaded) {
+      yield* _mapItemsUpdatedToState(event);
+      }
+    }
+  }
+
+  Stream<MapState> _mapItemsUpdatedToState(ItemsUpdated event) async* {
+    if (state is ItemsLoadSuccess) {
+      final List<Item> updatedItems = (state as ItemsLoadSuccess).items.map((item) {
+        return item.deviceData.id == event.item.deviceData.id ? event.item : item;
+      }).toList();
+      yield ItemsLoadSuccess(updatedItems,
+          (devicesBloc.state as DevicesDataLoaded).devices.groups);
     }
   }
 

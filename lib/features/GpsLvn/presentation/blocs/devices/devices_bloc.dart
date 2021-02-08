@@ -31,16 +31,7 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
     }
   }
 
-  // Stream<DevicesState> _mapTodoUpdatedToState(DevicesUpdated event) async* {
-  //   if (state is DevicesDataLoaded) {
-  //     final Devices updatedDevices=
-  //         (state as DevicesDataLoaded).devices.groups.map((device) {
-  //       return device.id == event ? event.devices : device;
-  //     }).toList();
-  //     yield DevicesDataLoaded(updatedDevices);
 
-  //   }
-  // }
 
   Stream<DevicesState> _eitherLoadedOrErrorState(
     Either<Failure, Devices> failureOrDevices,
