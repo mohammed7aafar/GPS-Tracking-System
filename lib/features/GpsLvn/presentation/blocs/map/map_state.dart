@@ -20,8 +20,8 @@ class ItemsLoadSuccess extends MapState {
   @override
   List<Object> get props => [items,groups];
 
-  @override
-  String toString() {
-    return 'ItemsLoadSuccess { items: $items }';
-  }
+  // @override
+  // String toString() {
+  //   return 'ItemsLoadSuccess { items: $items }';
+  //}
 }

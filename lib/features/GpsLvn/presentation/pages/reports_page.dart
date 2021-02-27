@@ -94,8 +94,8 @@ class ReportsPage extends HookWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8.0),
                               shape: BoxShape.rectangle,
-                              color: AppTheme2.primaryColor21,
-                              //border: Border.all(color: AppTheme2.primaryColor12),
+                              color: AppTheme2.primaryColor20,
+                              border: Border.all(color: AppTheme2.primaryColor21),
                             ),
                             child: Icon(
                               Ionicons.document_text_outline,

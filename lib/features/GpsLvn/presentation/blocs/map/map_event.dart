@@ -2,6 +2,10 @@ part of 'map_bloc.dart';
 
 abstract class MapEvent extends Equatable {
   const MapEvent();
+    @override
+  
+  List<Object> get props => [];
+
 }
 
 class ItemsAdded extends MapEvent {
@@ -24,7 +28,12 @@ class ItemsUpdated extends MapEvent {
   @override
   List<Object> get props => [item];
 
-  @override
-  String toString() => 'ItemsUpdated { ItemsUpdated: ${item.deviceData.id} }';
+  // @override
+  // String toString() => 'ItemsUpdated { ItemsUpdated: ${item.deviceData.id} }';
 }
+
+class ToggleAll extends MapEvent {}
+
+
+
 

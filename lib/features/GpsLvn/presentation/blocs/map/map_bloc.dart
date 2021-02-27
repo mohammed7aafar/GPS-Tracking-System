@@ -22,7 +22,6 @@ class FlutterMapBloc extends Bloc<MapEvent, MapState> {
             in (devicesBloc.state as DevicesDataLoaded).devices.groups) {
           items.addAll(item.items);
         }
-
         add(ItemsAdded(items));
       }
     });
@@ -39,16 +38,40 @@ class FlutterMapBloc extends Bloc<MapEvent, MapState> {
       }
     } else if (event is ItemsUpdated) {
       if (devicesBloc.state is DevicesDataLoaded) {
-      yield* _mapItemsUpdatedToState(event);
+        yield* _mapItemsUpdatedToState(event);
+      }
+    } else if (event is ToggleAll) {
+      if (devicesBloc.state is DevicesDataLoaded) {
+        yield* _mapToggleAllToState();
       }
     }
   }
 
   Stream<MapState> _mapItemsUpdatedToState(ItemsUpdated event) async* {
     if (state is ItemsLoadSuccess) {
-      final List<Item> updatedItems = (state as ItemsLoadSuccess).items.map((item) {
-        return item.deviceData.id == event.item.deviceData.id ? event.item : item;
+      final List<Item> updatedItems =
+          (state as ItemsLoadSuccess).items.map((item) {
+        return item.deviceData.id == event.item.deviceData.id
+            ? event.item
+            : item;
       }).toList();
+      yield ItemsLoadSuccess(updatedItems,
+          (devicesBloc.state as DevicesDataLoaded).devices.groups);
+    }
+  }
+
+  Stream<MapState> _mapToggleAllToState() async* {
+    if (state is ItemsLoadSuccess) {
+      final allComplete = (state as ItemsLoadSuccess)
+          .items
+          .every((item) => item.deviceData.checked == "0" ? false : true);
+      final List<Item> updatedItems = (state as ItemsLoadSuccess)
+          .items
+          .map((item) => item.copyWith(
+              deviceData:
+                  item.deviceData.copyWith(checked: allComplete ? "0" : "1")))
+          .toList();
+
       yield ItemsLoadSuccess(updatedItems,
           (devicesBloc.state as DevicesDataLoaded).devices.groups);
     }

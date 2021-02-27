@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme2 {
-  static const Color primaryColor = Color(0xFF151925);
+  static const Color primaryColor = Color(0xFF010101);
   static const Color secondaryColor = Color(0xFFE3F6F5);
-  static const Color territoryColor = Color(0xFF3da9fc);
+  static const Color territoryColor = Color(0xFF7f5af0);
   static const Color textColor = Color(0xFF425CD8);
   static const Color whiteColor = Color(0xFFFFFFFF);
-  static const Color primaryColor11 = Color(0xFF272C3A);
+  static const Color primaryColor11 = Color(0xFF242629);
   static const Color primaryColor12 = Color(0xFF2F323D);
   static const Color primaryColor13 = Color(0xFF63656D);
   static const Color primaryColor14 = Color(0xFF7D7F85);
@@ -16,8 +16,8 @@ class AppTheme2 {
   static const Color primaryColor17 = Color(0xFFCBCBCE);
   static const Color primaryColor18 = Color(0xFFE5E5E6);
   static const Color primaryColor19 = Color(0xFF242B40);
-  static const Color primaryColor20 = Color(0xFF1C2131);
-  static const Color primaryColor21 = Color(0xFF262C41);
+  static const Color primaryColor20 = Color(0xFF16161a);
+  static const Color primaryColor21 = Color(0xFF242629);
   static const Color primaryColor22 = Color(0xFF353947);
 
   static const Color errorColor = Color(0xFFFF4539);

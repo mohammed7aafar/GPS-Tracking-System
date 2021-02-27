@@ -8,7 +8,7 @@ part of 'devices.dart';
 
 Group _$GroupFromJson(Map<String, dynamic> json) {
   return Group(
-    id: json['id'] as String,
+    id: json['id'],
     title: json['title'] as String,
     hide: json['hide'] as String,
     checked: json['checked'] as String,
@@ -193,7 +193,7 @@ Map<String, dynamic> _$DriverDataToJson(DriverData instance) =>
 
 Sensor _$SensorFromJson(Map<String, dynamic> json) {
   return Sensor(
-    id: json['id'] as String,
+    id: json['id'],
     type: json['type'] as String,
     name: json['name'] as String,
     showInPopup: json['showInPopup'] as String,
@@ -446,7 +446,7 @@ Map<String, dynamic> _$TraccarToJson(Traccar instance) => <String, dynamic>{
 
 Sensors _$SensorsFromJson(Map<String, dynamic> json) {
   return Sensors(
-    id: json['id'] as String,
+    id: json['id'],
     userId: json['userId'] as String,
     deviceId: json['deviceId'] as String,
     name: json['name'] as String,

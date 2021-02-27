@@ -29,7 +29,7 @@ class Group extends Equatable {
     this.items,
   });
 
-  final String id;
+  final dynamic id;
   final String title;
   final String hide;
   final String checked;
@@ -376,7 +376,7 @@ class Sensor extends Equatable {
     this.scaleValue,
   });
 
-  final String id;
+  final dynamic id;
   final String type;
   final String name;
   final String showInPopup;
@@ -861,7 +861,7 @@ class Traccar extends Equatable {
 
 @JsonSerializable()
 class Sensors extends Equatable {
-  String id;
+  dynamic id;
   String userId;
   String deviceId;
   String name;

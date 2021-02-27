@@ -20,17 +20,17 @@ class BottomNavigationBarWidget extends StatelessWidget {
     return BottomNavigationBar(
         currentIndex: AppTab.values.indexOf(activeTab),
         onTap: (index) {
-        if(index == 2){
-        context.read<ToggletrackCubit>().toggleTrackTab();
-        context.read<TogglegeofenceCubit>().toggleGeofenceFromMapTab();
-        context.read<TogglerouteCubit>().toggleRouteFromMapTab();
-        }
-        if(index ==0){
-        context.read<ToggletrackCubit>().toggleTrackTabFromMapTab();
-        context.read<TogglegeofenceCubit>().toggleGeofenceFromMapTab();
-         context.read<TogglerouteCubit>().toggleRouteFromMapTab();
+        // if(index == 2){
+        // context.read<ToggletrackCubit>().toggleTrackTab();
+        // context.read<TogglegeofenceCubit>().toggleGeofenceFromMapTab();
+        // context.read<TogglerouteCubit>().toggleRouteFromMapTab();
+        // }
+        // if(index ==0){
+        // context.read<ToggletrackCubit>().toggleTrackTabFromMapTab();
+        // context.read<TogglegeofenceCubit>().toggleGeofenceFromMapTab();
+        //  context.read<TogglerouteCubit>().toggleRouteFromMapTab();
 
-        }
+        // }
         //BlocProvider.of<ToggletrackCubit>(context).toggleTrackTab();
         
         onTabSelected(AppTab.values[index]);

@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
-import 'package:gpsLVN/features/login/domain/usecases/has_token.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,10 +13,12 @@ import 'features/GpsLvn/domain/repositories/devices_repository.dart';
 import 'features/GpsLvn/domain/usecases/get_devices.dart';
 import 'features/GpsLvn/presentation/blocs/animatedIconCubit/animatedicon_cubit.dart';
 import 'features/GpsLvn/presentation/blocs/devices/devices_bloc.dart';
+import 'features/GpsLvn/presentation/blocs/expansionToggle/expansiontoggle_cubit.dart';
 import 'features/GpsLvn/presentation/blocs/groupIcon/groupicon_cubit.dart';
 import 'features/GpsLvn/presentation/blocs/showTrack/showtrack_cubit.dart';
 import 'features/GpsLvn/presentation/blocs/tab/tab_bloc.dart';
 import 'features/GpsLvn/presentation/blocs/toggleGeofence/togglegeofence_cubit.dart';
+import 'features/GpsLvn/presentation/blocs/toggleMap/togglemap_cubit.dart';
 import 'features/GpsLvn/presentation/blocs/toggleRoute/toggleroute_cubit.dart';
 import 'features/GpsLvn/presentation/blocs/toggleTrack/toggletrack_cubit.dart';
 import 'features/GpsLvn/presentation/blocs/unitGroups/unitgroups_cubit.dart';
@@ -28,10 +29,10 @@ import 'features/login/domain/repositories/user_repository.dart';
 import 'features/login/domain/usecases/dispose.dart';
 import 'features/login/domain/usecases/get_status.dart';
 import 'features/login/domain/usecases/get_user.dart';
+import 'features/login/domain/usecases/has_token.dart';
 import 'features/login/domain/usecases/log_out.dart';
 import 'features/login/presentation/blocs/authentication/authentication_bloc.dart';
 import 'features/login/presentation/blocs/login/login_bloc.dart';
-import 'features/login/presentation/pages/home_page.dart';
 
 final sl = GetIt.instance;
 
@@ -51,6 +52,9 @@ Future<void> init() async {
   sl.registerFactory(() => ShowtrackCubit());
   sl.registerFactory(() => TogglegeofenceCubit());
   sl.registerFactory(() => TogglerouteCubit());
+  sl.registerFactory(() => ExpansiontoggleCubit());
+  sl.registerFactory(() => TogglemapCubit());
+  
 
 //  sl.registerFactory(() => null)
 
