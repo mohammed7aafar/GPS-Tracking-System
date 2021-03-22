@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gpsLVN/features/GpsLvn/presentation/blocs/expansionToggle/expansiontoggle_cubit.dart';
 import 'package:gpsLVN/features/GpsLvn/presentation/blocs/toggleGeofence/togglegeofence_cubit.dart';
+import 'package:gpsLVN/features/GpsLvn/presentation/blocs/toggleGroupUnits/togglegroupunits_cubit.dart';
 import 'package:gpsLVN/features/GpsLvn/presentation/blocs/toggleMap/togglemap_cubit.dart';
 import 'package:gpsLVN/features/GpsLvn/presentation/blocs/toggleRoute/toggleroute_cubit.dart';
 import 'package:gpsLVN/features/GpsLvn/presentation/blocs/toggleTrack/toggletrack_cubit.dart';
@@ -50,6 +51,8 @@ class HomeScreen extends StatelessWidget {
       BlocProvider(create: (context) => sl<TogglegeofenceCubit>()),
       BlocProvider(create: (context) => sl<TogglerouteCubit>()),
       BlocProvider(create: (context) => sl<TogglemapCubit>()),
+      BlocProvider(create: (context) => sl<TogglegroupunitsCubit>()),
+
     ], child: HomePage(flutterSecureStorage: storage,));
   }
 }

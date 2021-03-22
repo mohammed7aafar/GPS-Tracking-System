@@ -52,4 +52,40 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
         return 'Unexpected error';
     }
   }
+
+   Stream<DevicesState> _mapDeviceUpdatedToState(DevicesUpdated event) async* {
+    if (state is DevicesDataLoaded) {
+      final  updatedDevices =
+          (state as DevicesDataLoaded).devices.groups
+          
+
+          
+          // .map((groups) {
+
+          //      for(var item in groups.items){
+          //        event.item.deviceData.id == item.deviceData.id ? event.item : item;
+
+                 
+          //      }
+          // }).toList();
+
+
+
+
+
+     
+      //     map((item) {
+      //   return item.deviceData.id == event.item.deviceData.id
+      //       ? event.item
+      //       : item;
+      // }).toList();
+      yield DevicesDataLoaded(devices: updatedDevices);
+    }
+  }
+
+
+
+
+
+
 }

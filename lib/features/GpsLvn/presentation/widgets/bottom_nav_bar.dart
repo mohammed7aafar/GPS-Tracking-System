@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gpsLVN/features/GpsLvn/presentation/blocs/toggleGeofence/togglegeofence_cubit.dart';
+import 'package:gpsLVN/features/GpsLvn/presentation/blocs/toggleMap/togglemap_cubit.dart';
 import 'package:gpsLVN/features/GpsLvn/presentation/blocs/toggleRoute/toggleroute_cubit.dart';
 import 'package:gpsLVN/features/GpsLvn/presentation/blocs/toggleTrack/toggletrack_cubit.dart';
 import '../blocs/tab/app_tab.dart';
@@ -20,6 +21,8 @@ class BottomNavigationBarWidget extends StatelessWidget {
     return BottomNavigationBar(
         currentIndex: AppTab.values.indexOf(activeTab),
         onTap: (index) {
+
+           if(index == 0) context.read<TogglemapCubit>().dragOrDrop();
         // if(index == 2){
         // context.read<ToggletrackCubit>().toggleTrackTab();
         // context.read<TogglegeofenceCubit>().toggleGeofenceFromMapTab();

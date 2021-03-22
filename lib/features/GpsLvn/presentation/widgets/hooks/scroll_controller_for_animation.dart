@@ -5,14 +5,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 ScrollController useScrollControllerForAnimation(
   AnimationController animationController,
 ) {
-  return
-  
-   Hook.use(_ScrollControllerForAnimationHook(
+  return Hook.use(_ScrollControllerForAnimationHook(
     animationController: animationController,
-    
-  )
-  
-  );
+  ));
 }
 
 class _ScrollControllerForAnimationHook extends Hook<ScrollController> {

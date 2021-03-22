@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gpsLVN/core/utils/api_refrence.dart';
+import 'package:gpsLVN/features/GpsLvn/presentation/blocs/toggleGroupUnits/togglegroupunits_cubit.dart';
 import 'package:gpsLVN/features/GpsLvn/presentation/blocs/toggleMap/togglemap_cubit.dart';
 import 'package:gpsLVN/features/GpsLvn/presentation/widgets/home/unitsBottomSheet/footer_expanded_unit_children.dart';
 import 'package:gpsLVN/features/GpsLvn/presentation/widgets/home/unitsBottomSheet/header_expanded_units_children.dart';
@@ -109,6 +110,7 @@ class _MapTabPageState extends State<MapTabPage>
                 Set<Polyline>.of(state.items != null ? polylines.values : []),
             myLocationEnabled: false,
             zoomControlsEnabled: false,
+            mapToolbarEnabled: false,
             initialCameraPosition: CameraPosition(
               target: LatLng(33, 33),
               zoom: 5.0,
@@ -244,6 +246,7 @@ class _MapTabPageState extends State<MapTabPage>
       //               controller: scrollController, child: TrackPage());
       //       });
       // }),
+
       BlocBuilder<TogglemapCubit, bool>(builder: (context, state) {
         if (!state)
           return DraggableBottomSheetWidget(
@@ -251,9 +254,6 @@ class _MapTabPageState extends State<MapTabPage>
               moveToLocation(latLng.latitude, latLng.longitude);
             },
           );
-        //  final lat = context.bloc<FocusedunitBloc> ().state.latitude;
-        //    final lng = context.bloc<FocusedunitBloc>().state.longitude;
-        //    moveToLocation(lat,lng);
         else
           return Container();
       }),
@@ -382,7 +382,9 @@ class GroupListWidget extends StatelessWidget {
             padding: const EdgeInsets.all(1.0),
             child: ListTile(
               onTap: () {
-                showModalBottomSheet(
+                context.read<TogglemapCubit>().dragOrDrop();
+
+                showBottomSheet(
                     backgroundColor: AppTheme2.primaryColor20,
                     context: context,
                     builder: (context) {
@@ -414,21 +416,18 @@ class GroupListWidget extends StatelessWidget {
                         const SizedBox(
                           height: 10,
                         ),
-                        group.items.length > 0
-                            ? SizedBox(
-                                height: 4000,
-                                child: ListView.builder(
-                                  
-                                  itemCount: group.items.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return RowUnitsWidget(
+                        SizedBox(
+                            height: SizeConfig.screenHeight / 2,
+                            child: ListView.builder(
+                              itemCount: group.items.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return RowUnitsWidget(
                                         item: group.items[index],
                                         gestureTapCallback: _onChange);
-                                  },
-                                ),
-                              )
-                            : Container()
+                                  
+                                
+                              },
+                            )),
                       ]);
                     });
               },
@@ -708,7 +707,6 @@ class UnitsMenueHeader extends StatelessWidget {
                 onChanged: (bool value) {
                   BlocProvider.of<FlutterMapBloc>(context).add(ToggleAll());
                 },
-               
                 tristate: allComplete ? false : true,
                 activeColor: AppTheme2.primaryColor18,
                 checkColor: AppTheme2.primaryColor20,
@@ -869,8 +867,6 @@ class UnitsMenueHeader extends StatelessWidget {
       ],
     );
   }
-
-
 
   Widget addUnitsToViewBottomSheet(context) {
     return SingleChildScrollView(

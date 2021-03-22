@@ -18,6 +18,7 @@ import 'features/GpsLvn/presentation/blocs/groupIcon/groupicon_cubit.dart';
 import 'features/GpsLvn/presentation/blocs/showTrack/showtrack_cubit.dart';
 import 'features/GpsLvn/presentation/blocs/tab/tab_bloc.dart';
 import 'features/GpsLvn/presentation/blocs/toggleGeofence/togglegeofence_cubit.dart';
+import 'features/GpsLvn/presentation/blocs/toggleGroupUnits/togglegroupunits_cubit.dart';
 import 'features/GpsLvn/presentation/blocs/toggleMap/togglemap_cubit.dart';
 import 'features/GpsLvn/presentation/blocs/toggleRoute/toggleroute_cubit.dart';
 import 'features/GpsLvn/presentation/blocs/toggleTrack/toggletrack_cubit.dart';
@@ -54,6 +55,8 @@ Future<void> init() async {
   sl.registerFactory(() => TogglerouteCubit());
   sl.registerFactory(() => ExpansiontoggleCubit());
   sl.registerFactory(() => TogglemapCubit());
+  sl.registerFactory(() => TogglegroupunitsCubit());
+  
   
 
 //  sl.registerFactory(() => null)
